@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>角色管理</title>
+	<#include "/header.html">
+	<!-- bootstrap -->
+	<link rel="stylesheet" href="${base}/statics/css/bootstrap.min.css">
+	<!-- bootstrap-switch -->
+	<link rel="stylesheet" href="${base}/statics/plugins/bootstrap-switch/css/bootstrap-switch.min.css">
+</head>
+<body>
+<div id="app" v-cloak>
+	<div class="card">
+		<!--<div class="card-header">
+			<h3 class="card-title">Data Table With Full Features</h3>
+		</div>-->
+		<!-- /.card-header -->
+		<div id="my-toolbar" class="grid-btn">
+			<#if shiro.hasPermission("role:create")>
+			<button class="btn btn-primary" @click="create"><i class="fa fa-plus"></i>&nbsp;新增</button>
+			</#if>
+			<#if shiro.hasPermission("role:del")>
+			<button class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</button>
+			</#if>
+			<#if shiro.hasPermission("role:update")>
+			<input value="true" ref="uptPermInput" type="hidden"/>
+			</#if>
+		</div>
+
+		<div class="card-body">
+			<table id="bt-table"></table>
+		</div>
+	</div>
+
+	<div id="winContent" v-show="show" class="layer-form">
+		<form id="roleForm">
+			<div class="form-group row">
+				<div class="col-sm-3 col-form-label text-right">角色名称</div>
+				<div class="col-sm-6">
+					<input type="text" v-model="role.rolename" id="rolename" class="form-control" :disabled="isUpdate" required/>
+				</div>
+			</div>
+			<div class="form-group row">
+				<div class="col-sm-3 col-form-label text-right">角色描述</div>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" v-model="role.roleintro"/>
+				</div>
+			</div>
+			<div class="form-group row">
+				<div class="col-sm-3 col-form-label text-right">授权</div>
+				<div class="col-sm-6">
+					<input id="permToggle" class="form-control" type="checkbox" @click="toggle"
+						   data-on-color="success" data-off-color="warning" data-size="small" checked/>
+				</div>
+			</div>
+
+			<div v-show="state" class="form-group">
+				<div class="col-sm-3 col-form-label text-right">菜单权限</div>
+				<div class="col-sm-10 pl-5">
+					<ul id="menuTree" class="ztree"></ul>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script src="${base}/statics/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<script src="${base}/statics/js/system/role.js?_${.now?long}"></script>
+</body>
+</html>

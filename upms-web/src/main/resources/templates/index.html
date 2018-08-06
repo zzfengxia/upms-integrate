@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<#assign base="${request.contextPath}"/>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>PMS平台管理系统</title>
+    <link rel="stylesheet" href="${base}/statics/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="${base}/statics/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="${base}/statics/css/adminlte.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="${base}/statics/plugins/iCheck/all.css">
+    <!-- jquery 自动补全 -->
+    <link rel="stylesheet" href="${base}/statics/plugins/autocompleter/style.css">
+    <!-- customize style -->
+    <link rel="stylesheet" href="${base}/statics/css/main.css?_${.now?long}">
+</head>
+<body class="hold-transition sidebar-mini">
+<div id="indexApp" class="wrapper" v-cloak>
+    <input id="contextPath" type="hidden" value="${base}" />
+    <!-- 头部导航栏 -->
+    <nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="index" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="#" class="nav-link">Contact</a>
+            </li>
+        </ul>
+        <!-- SEARCH FORM -->
+        <form class="form-inline ml-3">
+            <div class="input-group">
+                <input type="text" class="form-control form-control-navbar" id="searchMenu" placeholder="搜索菜单" >
+                <!--<div class="input-group-append">
+                    <button class="btn btn-navbar" type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>-->
+            </div>
+        </form>
+
+        <!-- Right navbar links -->
+        <ul class="navbar-nav ml-auto">
+            <!-- user Dropdown Menu -->
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    <div class="user-block">
+                        <span class="avatar avatar-online">
+                            <img class="img-circle img-sm" src="${base}/statics/img/portraits/1.png" alt="user icon">
+                            <i></i>
+                        </span>
+                        <span class="font-weight-normal">
+                            {{user.username}}
+                        </span>
+                    </div>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a href="#" @click="userInfo" class="dropdown-item nav-link">
+                        <!-- 账户管理 -->
+                        <div class="media">
+                            <i class="fa fa-user">&nbsp;&nbsp;个人信息</i>
+                        </div>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" @click="updatePwd" class="dropdown-item nav-link">
+                        <!-- 账户管理 -->
+                        <div class="media">
+                            <i class="fa fa-lock">&nbsp;&nbsp;修改密码</i>
+                        </div>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="logout" class="dropdown-item nav-link">
+                        <div class="media">
+                            <i class="fa fa-sign-out">&nbsp;&nbsp;退出</i>
+                        </div>
+                    </a>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#">
+                    <i class="fa fa-th-large"></i></a>
+            </li>
+        </ul>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- 左边菜单栏 -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <!-- Brand Logo -->
+        <a href="#" class="brand-link" target="_blank">
+            <!--<img src="${base}/statics/img/logo.png" alt="Logo" class="brand-image img-circle elevation-3"
+                 style="opacity: .8">-->
+            <span class="brand-text font-weight-light">PMS</span>
+        </a>
+
+        <!-- Sidebar,使用vue自定义组件生成菜单 -->
+        <div class="sidebar">
+            <!-- 导航菜单头 -->
+            <div class="user-panel mt-2 pb-2 mb-2 d-flex">
+                <!--<div class="image">
+                    <img src="${base}/statics/img/logo.png" class="img-circle elevation-2" alt="User Image">
+                </div>-->
+                <div class="info">
+                    <a href="#" class="d-block" style="padding-left: 20px">导航菜单</a>
+                </div>
+            </div>
+
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <!-- vue生成的菜单 -->
+                    <menu-item :item="item" v-for="item in menuList"></menu-item>
+                </ul>
+            </nav>
+        </div>
+        <!-- /.sidebar -->
+    </aside>
+
+    <!-- 填充页面内容 -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-left">
+                            <li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;首页</li>
+                            <li v-if="navTitle != ''" class="breadcrumb-item active">{{navTitle}}</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <iframe scrolling="yes" frameborder="0" style="width:100%;min-height:200px;overflow:visible;background:#fff;" :src="main"></iframe>
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- 脚注 -->
+    <!--<footer class="main-footer">
+    </footer>-->
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+
+    <div id="winContent" v-show="show" class="layer-form">
+        <form id="userForm">
+            <div v-if="isUserInfo" class="form-group row">
+                <div class="col-sm-3 col-form-label text-right">用户名</div>
+                <div class="col-sm-7">
+                    <input type="text" id="username" name="username" v-model="user.username" class="form-control" disabled required/>
+                </div>
+            </div>
+            <div v-if="isUserInfo" class="form-group row">
+                <div class="col-sm-3 col-form-label text-right">姓名</div>
+                <div class="col-sm-7">
+                    <input type="text" v-model="user.realname" id="realname" class="form-control" required/>
+                </div>
+            </div>
+            <div v-if="isUpdatePwd" class="form-group row">
+                <div class="col-sm-3 col-form-label text-right">原密码</div>
+                <div class="col-sm-7">
+                    <input type="password" id="password" v-model="password" class="form-control required"/>
+                </div>
+            </div>
+            <div v-if="isUpdatePwd" class="form-group row">
+                <div class="col-sm-3 col-form-label text-right">新密码</div>
+                <div class="col-sm-7">
+                    <input type="password" id="newPassword" v-model="newPassword" rangelength="[6,20]" class="form-control required"/>
+                </div>
+            </div>
+            <div v-if="isUpdatePwd" class="form-group row">
+                <div class="col-sm-3 col-form-label text-right">确认密码</div>
+                <div class="col-sm-7">
+                    <input type="password" repeatPwd="#newPassword" id="repeatPwd" rangelength="[6,20]" class="form-control required" />
+                </div>
+            </div>
+            <div v-if="isUserInfo" class="form-group row">
+                <div class="col-sm-3 col-form-label text-right">邮箱</div>
+                <div class="col-sm-7">
+                    <input type="text" id="email" name="email" v-model="user.email" class="form-control email"/>
+                </div>
+            </div>
+            <div v-if="isUserInfo" class="form-group row">
+                <div class="col-sm-3 col-form-label text-right">联系电话</div>
+                <div class="col-sm-7">
+                    <input type="text" id="phone" name="phone" v-model="user.phone"
+                           class="form-control number"/>
+                </div>
+            </div>
+            <div v-if="isUserInfo" class="form-group row">
+                <div class="col-sm-3 col-form-label text-right">上线时间</div>
+                <div class="col-sm-7 pt-2">
+                    <span>{{user.lastTime}}</span>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="${base}/statics/lib/jquery-3.3.1.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<!-- Bootstrap 4 -->
+<script src="${base}/statics/lib/bootstrap.bundle.js"></script>
+<!-- AdminLTE App -->
+<script src="${base}/statics/lib/adminlte.min.js"></script>
+<!-- lay ui -->
+<script src="${base}/statics/plugins/layui/layui.js"></script>
+<!-- vue2 -->
+<script src="${base}/statics/lib/vue.js"></script>
+<!-- bootstrap table -->
+<script src="${base}/statics/plugins/bootstarttable/bootstrap-table.min.js"></script>
+<script src="${base}/statics/plugins/bootstarttable/local/bootstrap-table-zh-CN.min.js"></script>
+<!-- iCheck -->
+<script src="${base}/statics/plugins/iCheck/icheck.min.js"></script>
+<!-- jquery-validation -->
+<script src="${base}/statics/plugins/jqueryvalidation/jquery.validate.min.js"></script>
+<script src="${base}/statics/plugins/jqueryvalidation/additional-methods.min.js"></script>
+<script src="${base}/statics/plugins/jqueryvalidation/localization/messages_zh.min.js"></script>
+<!-- jquery 自动补全 -->
+<script src="${base}/statics/plugins/autocompleter/jquery.autocomplete.min.js"></script>
+<!-- common js -->
+<script src="${base}/statics/js/common.js?_${.now?long}"></script>
+<!-- adminLTE control-sidebar demo.js -->
+<script src="${base}/statics/lib/demo.js"></script>
+<!-- layer -->
+<script src="${base}/statics/plugins/layui/layui.js"></script>
+<!-- router.js -->
+<script src="${base}/statics/lib/router.js"></script>
+<!-- index.js -->
+<script src="${base}/statics/js/index.js?_${.now?long}"></script>
+</body>
+</html>

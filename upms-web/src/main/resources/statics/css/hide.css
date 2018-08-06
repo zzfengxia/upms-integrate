@@ -1,0 +1,27 @@
+#fullbg {
+	background-color: gray;
+	left: 0;
+	opacity: 0.5;
+	position: absolute;
+	top: 0;
+	z-index: 9000;
+	filter: alpha(opacity =     50);
+	-moz-opacity: 0.5;
+	-khtml-opacity: 0.5;
+}
+
+#dialog {
+	background-color: #fff;
+	border: 1px solid rgba(0, 0, 0, 0.5);
+	height: 38px;
+	left: 50%;
+	margin: 0px;
+	padding: 1px;
+	position: fixed !important;
+	position: absolute;
+	top: 40%;
+	width: 38px;
+	z-index: 9991;
+	border-radius: 10px;
+	display: none;
+}

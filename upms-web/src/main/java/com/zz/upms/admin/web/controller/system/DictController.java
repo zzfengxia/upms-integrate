@@ -1,0 +1,73 @@
+package com.zz.upms.admin.web.controller.system;
+
+import com.baomidou.mybatisplus.plugins.Page;
+import com.zz.upms.base.common.protocol.PageParam;
+import com.zz.upms.base.common.protocol.PageResponse;
+import com.zz.upms.base.common.protocol.Response;
+import com.zz.upms.base.domain.system.Dict;
+import com.zz.upms.base.service.system.DictService;
+import com.zz.upms.admin.web.controller.base.BaseController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
+
+/**
+ * ************************************
+ * create by Intellij IDEA
+ *
+ * @author Francis.zz
+ * @date 2018-07-31 14:35
+ * @desc DictController
+ * ************************************
+ */
+@RequestMapping("/dict")
+@RestController
+public class DictController extends BaseController {
+    @Autowired
+    private DictService dictService;
+
+    @RequestMapping("/list")
+    public PageResponse<?> list(PageParam param) {
+        Page<Dict> result = dictService.queryPage(param);
+
+        return wrapperPageResult(result);
+    }
+
+    @RequestMapping("/delete")
+    public Response<?> delete(@RequestBody Long[] ids) {
+        dictService.deleteDict(ids);
+
+        return Response.success();
+    }
+
+    @RequestMapping("/info/{id}")
+    public Response<?> info(@PathVariable("id") Long id) {
+        Dict dcit = dictService.selectById(id);
+
+        return Response.success(dcit);
+    }
+
+    @RequestMapping("/save/create")
+    public Response<?> create(@Valid @RequestBody Dict dict) {
+        // 查询是否已存在该字典项
+        Dict old = dictService.checkDict(dict.getDictType(), dict.getDictKey());
+        if(old != null) {
+            return Response.error("字典项已存在,请勿重复添加");
+        }
+
+        dictService.createDict(dict);
+
+        return Response.success();
+    }
+
+    @RequestMapping("/save/update")
+    public Response<?> update(@RequestBody Dict dict) {
+        dictService.updateDict(dict);
+
+        return Response.success();
+    }
+}

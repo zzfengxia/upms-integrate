@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<#assign base="${request.contextPath}"/>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>upms平台管理 | Log in</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="${base}/statics/css/font-awesome.min.css">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="${base}/statics/css/bootstrap.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="${base}/statics/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="${base}/statics/css/adminlte.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="${base}/statics/plugins/iCheck/square/blue.css">
+    <!-- customized -->
+    <link rel="stylesheet" href="${base}/statics/css/main.css">
+</head>
+<body class="hold-transition login-page">
+<div id="app" class="login-box">
+    <div class="login-logo">
+        <b>upms平台管理系统</b>
+    </div>
+    <!-- /.login-logo -->
+    <div class="card">
+        <div class="card-body login-card-body">
+            <p class="login-box-msg">登录</p>
+            <div v-if="error" class="alert alert-danger alert-dismissible">
+                <h4 style="margin-bottom: 0px;"><i class="fa fa-exclamation-triangle"></i>{{errorMsg}}</h4>
+            </div>
+            <form id="loginForm">
+                <div class="form-group has-feedback input-group">
+                    <div class="input-group-prepend">
+                        <span class="fa fa-user input-group-text icon"></span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="输入您的账号" v-model="username">
+                </div>
+
+                <div class="form-group has-feedback input-group">
+                    <div class="input-group-prepend">
+                        <span class="fa fa-lock input-group-text icon"></span>
+                    </div>
+                    <input type="password" class="form-control" placeholder="输入您的密码" v-model="password">
+                </div>
+
+                <!--<div class="form-group has-feedback input-group">
+                  <div class="input-group-prepend">
+                    <span class="fa fa-warning input-group-text icon"></span>
+                  </div>
+                  <input type="text" class="form-control" v-model="captcha" @keyup.enter="login" placeholder="验证码">
+                </div>
+                <div class="form-group has-feedback">
+                  <img alt="单击图片刷新！" class="pointer" :src="src" @click="refreshCode">
+                  <a href="javascript:;" @click="refreshCode">点击刷新</a>
+                </div>-->
+
+                <div class="row">
+                    <div class="col-8">
+                        <!--<div class="checkbox icheck">
+                          <label>
+                            <input type="checkbox"> 记住我
+                          </label>
+                        </div>-->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-4">
+                        <button type="button" class="btn btn-primary btn-block btn-flat" @click="login">登录</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </form>
+
+        </div>
+        <!-- /.login-card-body -->
+    </div>
+</div>
+<!-- /.login-box -->
+
+<!-- jQuery -->
+<script src="${base}/statics/lib/jquery-3.3.1.js"></script>
+<!-- Bootstrap 4 -->
+<script src="${base}/statics/lib/bootstrap.bundle.js"></script>
+<!-- iCheck -->
+<script src="${base}/statics/plugins/iCheck/icheck.min.js"></script>
+<!-- vue -->
+<script src="${base}/statics/lib/vue.js"></script>
+<script>
+    $(function () {
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' // optional
+        });
+    });
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            username: '',
+            password: '',
+            captcha: '',  // 验证码
+            error: false,
+            errorMsg: '',
+            src: 'captcha'
+        },
+        beforeCreate: function () {
+            if (self != top) {
+                top.location.href = self.location.href;
+            }
+        },
+        methods: {
+            refreshCode: function () {
+                this.src = "captcha?t=" + $.now();
+            },
+            login: function (event) {
+                var data = "username=" + vm.username + "&password=" + vm.password + "&captcha=" + vm.captcha;
+                $.ajax({
+                    type: "POST",
+                    url: "sys/login",
+                    data: data,
+                    dataType: "json",
+                    success: function (result) {
+                        if (result.status == 0) {//登录成功
+                            parent.location.href = 'index';
+                        } else {
+                            vm.error = true;
+                            vm.errorMsg = result.message;
+
+                            vm.refreshCode();
+                        }
+                    }
+                });
+            }
+        }
+    });
+</script>
+</body>
+</html>
