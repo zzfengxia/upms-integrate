@@ -31,33 +31,40 @@ CREATE TABLE `pm_menu` (
 
 /*Data for the table `pm_menu` */
 
-insert  into `pm_menu`(`id`,`view_name`,`type`,`url`,`perm`,`parent_id`,`status`,`idx`,`icon_class`,`show_flag`) values (1,'用户',0,NULL,NULL,0,'1',1,'nav-icon fa fa-user',1);
-insert  into `pm_menu`(`id`,`view_name`,`type`,`url`,`perm`,`parent_id`,`status`,`idx`,`icon_class`,`show_flag`) values (2,'管理员账户',1,'views/system/user','user:show',1,'1',1,NULL,1);
-insert  into `pm_menu`(`id`,`view_name`,`type`,`url`,`perm`,`parent_id`,`status`,`idx`,`icon_class`,`show_flag`) values (3,'功能菜单',1,'views/system/menu','menu:show',1,'1',2,NULL,1);
-insert  into `pm_menu`(`id`,`view_name`,`type`,`url`,`perm`,`parent_id`,`status`,`idx`,`icon_class`,`show_flag`) values (4,'角色管理',1,'views/system/role','role:show',1,'1',3,NULL,1);
-insert  into `pm_menu`(`id`,`view_name`,`type`,`url`,`perm`,`parent_id`,`status`,`idx`,`icon_class`,`show_flag`) values (5,'新增',2,NULL,'system:user:create;system:user:save',2,'1',0,NULL,1);
-insert  into `pm_menu`(`id`,`view_name`,`type`,`url`,`perm`,`parent_id`,`status`,`idx`,`icon_class`,`show_flag`) values (6,'修改',2,NULL,'system:user:update;system:user:save',2,'1',0,NULL,1);
-insert  into `pm_menu`(`id`,`view_name`,`type`,`url`,`perm`,`parent_id`,`status`,`idx`,`icon_class`,`show_flag`) values (7,'保存',2,'/admin/user/save/','system:user:save',2,'1',0,NULL,0);
-insert  into `pm_menu`(`id`,`view_name`,`type`,`url`,`perm`,`parent_id`,`status`,`idx`,`icon_class`,`show_flag`) values (8,'删除',2,NULL,'system:user:del',2,'1',0,NULL,1);
-insert  into `pm_menu`(`id`,`view_name`,`type`,`url`,`perm`,`parent_id`,`status`,`idx`,`icon_class`,`show_flag`) values (9,'新增',2,NULL,'menu:create;menu:save',3,'1',0,NULL,1);
-insert  into `pm_menu`(`id`,`view_name`,`type`,`url`,`perm`,`parent_id`,`status`,`idx`,`icon_class`,`show_flag`) values (10,'修改',2,NULL,'menu:update;menu:save',3,'1',0,NULL,1);
-insert  into `pm_menu`(`id`,`view_name`,`type`,`url`,`perm`,`parent_id`,`status`,`idx`,`icon_class`,`show_flag`) values (11,'删除',2,NULL,'menu:del',3,'1',0,NULL,1);
-insert  into `pm_menu`(`id`,`view_name`,`type`,`url`,`perm`,`parent_id`,`status`,`idx`,`icon_class`,`show_flag`) values (12,'保存',2,'/menu/save/','menu:save',3,'1',0,NULL,0);
-insert  into `pm_menu`(`id`,`view_name`,`type`,`url`,`perm`,`parent_id`,`status`,`idx`,`icon_class`,`show_flag`) values (13,'新增',2,NULL,'role:create;role:save',4,'1',0,NULL,1);
-insert  into `pm_menu`(`id`,`view_name`,`type`,`url`,`perm`,`parent_id`,`status`,`idx`,`icon_class`,`show_flag`) values (14,'修改',2,NULL,'role:update;role:save',4,'1',0,NULL,1);
-insert  into `pm_menu`(`id`,`view_name`,`type`,`url`,`perm`,`parent_id`,`status`,`idx`,`icon_class`,`show_flag`) values (15,'删除',2,NULL,'role:del',4,'1',0,NULL,1);
-insert  into `pm_menu`(`id`,`view_name`,`type`,`url`,`perm`,`parent_id`,`status`,`idx`,`icon_class`,`show_flag`) values (16,'保存',2,'/role/save/','role:save',4,'1',0,NULL,0);
-insert  into `pm_menu`(`id`,`view_name`,`type`,`url`,`perm`,`parent_id`,`status`,`idx`,`icon_class`,`show_flag`) values (17,'系统',0,NULL,NULL,0,'1',2,'nav-icon fa fa-cog',1);
-insert  into `pm_menu`(`id`,`view_name`,`type`,`url`,`perm`,`parent_id`,`status`,`idx`,`icon_class`,`show_flag`) values (18,'数据字典',1,'views/system/dict','dict:show',17,'1',1,NULL,1);
-insert  into `pm_menu`(`id`,`view_name`,`type`,`url`,`perm`,`parent_id`,`status`,`idx`,`icon_class`,`show_flag`) values (19,'查询',2,'/admin/user/list','user:list',2,'1',0,NULL,1);
-insert  into `pm_menu`(`id`,`view_name`,`type`,`url`,`perm`,`parent_id`,`status`,`idx`,`icon_class`,`show_flag`) values (20,'查询',2,'/menu/list','menu:list',3,'1',0,NULL,1);
-insert  into `pm_menu`(`id`,`view_name`,`type`,`url`,`perm`,`parent_id`,`status`,`idx`,`icon_class`,`show_flag`) values (21,'查询',2,'/role/list','role:list',4,'1',0,NULL,1);
-insert  into `pm_menu`(`id`,`view_name`,`type`,`url`,`perm`,`parent_id`,`status`,`idx`,`icon_class`,`show_flag`) values (22,'查询',2,'/dict/list','dict:list',18,'1',0,NULL,1);
-insert  into `pm_menu`(`id`,`view_name`,`type`,`url`,`perm`,`parent_id`,`status`,`idx`,`icon_class`,`show_flag`) values (23,'新增',2,NULL,'dict:create;dict:save',18,'1',0,NULL,1);
-insert  into `pm_menu`(`id`,`view_name`,`type`,`url`,`perm`,`parent_id`,`status`,`idx`,`icon_class`,`show_flag`) values (24,'修改',2,NULL,'dict:update;dict:save',18,'1',0,NULL,1);
-insert  into `pm_menu`(`id`,`view_name`,`type`,`url`,`perm`,`parent_id`,`status`,`idx`,`icon_class`,`show_flag`) values (25,'删除',2,NULL,'dict:del',18,'1',0,NULL,1);
-insert  into `pm_menu`(`id`,`view_name`,`type`,`url`,`perm`,`parent_id`,`status`,`idx`,`icon_class`,`show_flag`) values (26,'保存',2,'/dict/save','dict:save',18,'1',0,NULL,0);
-insert  into `pm_menu`(`id`,`view_name`,`type`,`url`,`perm`,`parent_id`,`status`,`idx`,`icon_class`,`show_flag`) values (27,'重置密码',2,NULL,'user:reset:pwd',2,'1',0,NULL,0);
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('1','用户','0',NULL,NULL,'0','1','1','nav-icon fa fa-user','1');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('2','管理员账户','1','views/system/user','user:show','1','1','1',NULL,'1');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('3','功能菜单','1','views/system/menu','menu:show','1','1','2',NULL,'1');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('4','角色管理','1','views/system/role','role:show','1','1','3',NULL,'1');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('5','新增','2',NULL,'system:user:create;system:user:save','2','1','0',NULL,'1');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('6','修改','2',NULL,'system:user:update;system:user:save','2','1','0',NULL,'1');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('7','保存','2','/admin/user/save/','system:user:save','2','1','0',NULL,'0');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('8','删除','2',NULL,'system:user:del','2','1','0',NULL,'1');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('9','新增','2',NULL,'menu:create;menu:save','3','1','0',NULL,'1');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('10','修改','2',NULL,'menu:update;menu:save','3','1','0',NULL,'1');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('11','删除','2',NULL,'menu:del','3','1','0',NULL,'1');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('12','保存','2','/menu/save/','menu:save','3','1','0',NULL,'0');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('13','新增','2',NULL,'role:create;role:save','4','1','0',NULL,'1');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('14','修改','2',NULL,'role:update;role:save','4','1','0',NULL,'1');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('15','删除','2',NULL,'role:del','4','1','0',NULL,'1');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('16','保存','2','/role/save/','role:save','4','1','0',NULL,'0');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('17','系统','0',NULL,NULL,'0','1','2','nav-icon fa fa-cog','1');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('18','数据字典','1','views/system/dict','dict:show','17','1','1',NULL,'1');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('19','查询','2','/admin/user/list','user:list','2','1','0',NULL,'1');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('20','查询','2','/menu/list','menu:list','3','1','0',NULL,'1');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('21','查询','2','/role/list','role:list','4','1','0',NULL,'1');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('22','查询','2','/dict/list','dict:list','18','1','0',NULL,'1');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('23','新增','2',NULL,'dict:create;dict:save','18','1','0',NULL,'1');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('24','修改','2',NULL,'dict:update;dict:save','18','1','0',NULL,'1');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('25','删除','2',NULL,'dict:del','18','1','0',NULL,'1');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('26','保存','2','/dict/save','dict:save','18','1','0',NULL,'0');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('27','重置密码','2',NULL,'user:reset:pwd','2','1','0',NULL,'0');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('28','SQL监控','1','druid/sql.html','druid:state','17','1','2',NULL,'1');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('29','系统参数','1','views/system/params','config:list','17','1','3',NULL,'1');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('30','新增','2',NULL,'config:create;config:save','29','1','0',NULL,'1');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('31','修改','2',NULL,'config:update;config:save','29','1','0',NULL,'1');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('32','删除','2',NULL,'config:del','29','1','0',NULL,'1');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('33','查询','2','/system/config/list','config:list','29','1','0',NULL,'1');
+insert into `pm_menu` (`id`, `view_name`, `type`, `url`, `perm`, `parent_id`, `status`, `idx`, `icon_class`, `show_flag`) values('34','保存','2','/system/config/save/','config:save','29','1','0',NULL,'0');
 
 /*Table structure for table `pm_role` */
 
@@ -121,3 +128,15 @@ CREATE TABLE `pm_user_role` (
   KEY `FK_Reference_1` (`user_id`),
   KEY `FK_Reference_2` (`role_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `pm_config_params` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `param_key` varchar(125) NOT NULL COMMENT '参数KEY',
+  `param_value` text COMMENT '参数值',
+  `status` tinyint(1) DEFAULT '1' COMMENT '1:正常;0:禁用',
+  `remark` varchar(512) DEFAULT NULL COMMENT '备注',
+  `c_time` datetime DEFAULT NULL,
+  `m_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_key` (`param_key`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8

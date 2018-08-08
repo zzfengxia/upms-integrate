@@ -10,6 +10,9 @@ package com.zz.upms.base.common.constans;
  * ************************************
  */
 public class RedisKey {
+    public static String redisKey(String key, String... params) {
+        return String.format(key, params);
+    }
     /**
      * 系统配置KEY
      */
@@ -19,4 +22,6 @@ public class RedisKey {
      * 数据字典缓存时间hash key
      */
     public static final String H_CACHE_TIME = "sys:cacheTime";
+
+    public static final String KEY_SYSTEM_PARAMS = "system:params:%s";
 }

@@ -36,9 +36,12 @@ var vm = new Vue({
             // 表格渲染完成回调
             onPostBody: function () {
                 // 判断是否有修改权限
-                if(!_this.permCheck()) {
+                /*if(!_this.permCheck()) {
                     $("button[name='updateBtn']").remove();
                 }
+                if(!_this.resetPermCheck()) {
+                    $("button[name='resetBtn']").remove();
+                }*/
 
                 bindCheckBoxForTable();
             },
@@ -83,8 +86,14 @@ var vm = new Vue({
                     field: 'id',
                     align: 'center',
                     formatter: function (value, row, index) {
-                        // vue已经渲染，无法再解析vue指令
-                        return '<button class="btn btn-success btn-mini" name="updateBtn" onclick="update(' + value + ')"><i class="fa fa-pencil-square-o"></i>&nbsp;编辑</button>';
+                        let updateBtn = '', resetBtn = '';
+                        if(_this.permCheck()) {
+                            updateBtn = '<button class="btn btn-success btn-mini" name="updateBtn" onclick="update(' + value + ')"><i class="fa fa-pencil-square-o"></i>&nbsp;编辑</button>';
+                        }
+                        if(_this.resetPermCheck()) {
+                            resetBtn = '&nbsp;&nbsp;<button class="btn btn-success btn-mini" name="resetBtn" onclick="resetPwd(\'' + row.username + '\')"><i class="fa fa-pencil-square-o"></i>&nbsp;重置密码</button>';
+                        }
+                        return value === "1" ? updateBtn : updateBtn + resetBtn;
                     }
                 }
             ]
@@ -132,6 +141,12 @@ var vm = new Vue({
         permCheck: function() {
             // 更新权限检查
             let flag = this.$refs.uptPermInput && this.$refs.uptPermInput.value;
+
+            return !!flag;
+        },
+        resetPermCheck: function() {
+            // 重置密码权限检查
+            let flag = this.$refs.resetPwdInput && this.$refs.resetPwdInput.value;
 
             return !!flag;
         },
@@ -242,6 +257,22 @@ function update(uid) {
     vm.getRoleList();
 
     vm.openWin();
+
+    stopBubble();
+}
+
+function resetPwd(username) {
+    layer.confirm('确定要重置用户' + username + '的密码', function (index) {
+        layer.close(index);
+
+        $.get(baseURL + "/admin/user/resetPwd/" + username, function(r) {
+            if(r.status === "0") {
+                layer.alert('重置成功,新密码为' + r.data);
+            } else {
+                layer.alert(r.message);
+            }
+        });
+    });
 
     stopBubble();
 }

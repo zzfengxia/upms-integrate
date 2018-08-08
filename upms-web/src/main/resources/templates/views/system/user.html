@@ -23,6 +23,9 @@
 			<#if shiro.hasPermission("system:user:update")>
 			<input value="true" ref="uptPermInput" type="hidden"/>
 			</#if>
+            <#if shiro.hasPermission("user:reset:pwd")>
+            <input value="true" ref="resetPwdInput" type="hidden"/>
+            </#if>
 		</div>
 
 		<div class="card-body">

@@ -13,6 +13,7 @@ import com.zz.upms.base.service.base.BaseService;
 import com.zz.upms.base.service.shiro.AccountService;
 import com.zz.upms.base.utils.CommonUtils;
 import com.zz.upms.base.utils.DigestsUtis;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -126,5 +127,33 @@ public class AdminUserService extends BaseService<PmUserDao, PmUser> {
         curUser.setmTime(new Date());
 
         super.updateById(curUser);
+    }
+
+    /**
+     * 重置用户密码(随机生成密码)
+     *
+     * @param username
+     * @return 新密码
+     */
+    @Transactional
+    public String resetPwd(String username) {
+        PmUser user = selectOne(new EntityWrapper<PmUser>().eq("username", username));
+
+        if(user == null) {
+            throw new BizException("用户不存在,请刷新重试");
+        }
+
+        // 随机生成10位密码
+        String newPwd = RandomStringUtils.randomAlphabetic(10);
+        // 设置密码
+        user.setPassword(newPwd);
+        accountService.encryptUser(user);
+
+        user.setmTime(new Date());
+
+        super.updateById(user);
+
+        log.info("用户[{}]于 {} 成功重置密码,新密码为[{}]", user.getUsername(), CommonUtils.getFormatDateStr(), newPwd);
+        return newPwd;
     }
 }

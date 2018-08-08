@@ -2,6 +2,9 @@ package com.zz.upms.admin.web.controller.system
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper
 import com.baomidou.mybatisplus.plugins.Page
+import com.zz.upms.admin.web.controller.base.BaseController
+import com.zz.upms.admin.web.dto.UserDTO
+import com.zz.upms.base.common.constans.Constants
 import com.zz.upms.base.common.protocol.PageParam
 import com.zz.upms.base.common.protocol.PageResponse
 import com.zz.upms.base.common.protocol.Response
@@ -10,9 +13,8 @@ import com.zz.upms.base.service.system.AdminUserService
 import com.zz.upms.base.service.system.DictService
 import com.zz.upms.base.service.system.RoleService
 import com.zz.upms.base.service.system.UserroleService
-import com.zz.upms.admin.web.controller.base.BaseController
-import com.zz.upms.admin.web.dto.UserDTO
 import org.apache.commons.lang3.StringUtils
+import org.apache.shiro.authz.annotation.RequiresPermissions
 import org.springframework.beans.BeanUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.PathVariable
@@ -119,5 +121,25 @@ class UserController extends BaseController {
         userService.updatePwd(pwd, newPwd)
 
         return Response.success()
+    }
+
+    /**
+     * 充值密码，仅对超级管理员开放权限
+     *
+     * @param pwd
+     * @param newPwd
+     * @return
+     */
+    @RequestMapping("/resetPwd/{username}")
+    @RequiresPermissions("user:reset:pwd")
+    Response<?> resetPwd(@PathVariable("username") String username) {
+        if(Constants.SUPER_ADMIN != getCurUser().id) {
+            log.warn("warning ====== user [{}] not super admin try to reset password", getCurUser().username)
+            return Response.error("权限不足,无法操作")
+        }
+
+        String newPwd = userService.resetPwd(username)
+
+        return Response.success(newPwd)
     }
 }

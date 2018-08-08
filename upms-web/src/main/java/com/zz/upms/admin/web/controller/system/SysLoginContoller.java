@@ -66,14 +66,14 @@ public class SysLoginContoller extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/sys/login", method = RequestMethod.POST)
     public Response login(String username, String password, String captcha) {
-        /*Object kaptcha = getSessionAttr(Constants.KAPTCHA_SESSION_KEY);
+        Object kaptcha = getSessionAttr(Constants.KAPTCHA_SESSION_KEY);
 
         if(kaptcha == null) {
             return Response.error("验证码已过期");
         }
         if(!captcha.equalsIgnoreCase((String) kaptcha)){
             return Response.error("验证码不正确");
-        }*/
+        }
 
         try{
             Subject subject = SecurityUtils.getSubject();

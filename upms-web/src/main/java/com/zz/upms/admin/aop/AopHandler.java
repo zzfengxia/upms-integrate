@@ -36,7 +36,13 @@ public class AopHandler {
         Object[] args = pjp.getArgs();
         MethodSignature methodSignature = (MethodSignature) pjp.getSignature();
         Class<?> returnType = methodSignature.getReturnType();
-        logger.info("controller method {} invoked, ====>request:\n{}", method, JSON.toJSONString(args));
+        String requestStr = "";
+        try {
+            requestStr = JSON.toJSONString(args);
+        } catch (Exception ignored) {
+
+        }
+        logger.info("controller method {} invoked, ====>request:\n{}", method, requestStr);
         try {
             return pjp.proceed();
         } catch (Throwable throwable) {
