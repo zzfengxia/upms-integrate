@@ -1,7 +1,7 @@
 package com.zz.upms.base.service.shiro;
 
 import com.zz.upms.base.dao.system.*;
-import com.zz.upms.base.domain.system.*;
+import com.zz.upms.base.entity.system.*;
 import com.zz.upms.base.utils.DigestsUtis;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

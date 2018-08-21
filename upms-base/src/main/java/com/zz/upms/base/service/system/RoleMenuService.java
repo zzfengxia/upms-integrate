@@ -3,8 +3,8 @@ package com.zz.upms.base.service.system;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import com.zz.upms.base.dao.system.PmRoleMenuDao;
-import com.zz.upms.base.domain.system.PmRole;
-import com.zz.upms.base.domain.system.PmRoleMenu;
+import com.zz.upms.base.entity.system.PmRole;
+import com.zz.upms.base.entity.system.PmRoleMenu;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

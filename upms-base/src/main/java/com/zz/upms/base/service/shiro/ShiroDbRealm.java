@@ -2,7 +2,7 @@ package com.zz.upms.base.service.shiro;
 
 import com.zz.upms.base.common.constans.Constants;
 import com.zz.upms.base.common.constans.SessionConstants;
-import com.zz.upms.base.domain.system.PmUser;
+import com.zz.upms.base.entity.system.PmUser;
 import com.zz.upms.base.utils.DigestsUtis;
 import com.zz.upms.base.utils.HexUtil;
 import org.apache.commons.lang3.StringUtils;

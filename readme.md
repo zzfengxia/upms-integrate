@@ -11,10 +11,20 @@
 
 ### 前端
 - Vue2.0
+https://cn.vuejs.org/v2/guide/
+
 - jquery3.3.1
+
 - 弹窗插件-layer
+http://www.layui.com/doc/modules/layer.html
+
 - bootstrap4.1
+https://getbootstrap.com/docs/4.1/components/forms/
+
 - 后台控制面板-adminLTE3.0
+
 - 树插件-zTree
-- 树形表格-treegrid
+http://www.treejs.cn/v3/api.php
+
 - 表格-bootstrap-table
+http://bootstrap-table.wenzhixin.net.cn/documentation/

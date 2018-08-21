@@ -1,8 +1,8 @@
 package com.zz.upms.base.dao.system;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.zz.upms.base.domain.system.PmRole;
-import com.zz.upms.base.domain.system.PmUser;
+import com.zz.upms.base.entity.system.PmRole;
+import com.zz.upms.base.entity.system.PmUser;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

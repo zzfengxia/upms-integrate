@@ -3,7 +3,7 @@ package com.zz.upms.admin.web.controller.system;
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
 import com.zz.upms.base.common.protocol.Response;
-import com.zz.upms.base.domain.system.PmUser;
+import com.zz.upms.base.entity.system.PmUser;
 import com.zz.upms.base.service.system.AdminUserService;
 import com.zz.upms.admin.web.controller.base.BaseController;
 import org.apache.shiro.SecurityUtils;

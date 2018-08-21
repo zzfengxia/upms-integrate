@@ -8,7 +8,7 @@ import com.zz.upms.base.common.constans.Constants
 import com.zz.upms.base.common.protocol.PageParam
 import com.zz.upms.base.common.protocol.PageResponse
 import com.zz.upms.base.common.protocol.Response
-import com.zz.upms.base.domain.system.PmUser
+import com.zz.upms.base.entity.system.PmUser
 import com.zz.upms.base.service.system.AdminUserService
 import com.zz.upms.base.service.system.DictService
 import com.zz.upms.base.service.system.RoleService

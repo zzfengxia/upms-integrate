@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.zz.upms.base.common.protocol.PageParam;
 import com.zz.upms.base.common.protocol.PageResponse;
 import com.zz.upms.base.common.protocol.Response;
-import com.zz.upms.base.domain.system.Dict;
+import com.zz.upms.base.entity.system.Dict;
 import com.zz.upms.base.service.system.DictService;
 import com.zz.upms.admin.web.controller.base.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;

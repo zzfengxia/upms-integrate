@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.zz.upms.base.common.protocol.PageParam;
 import com.zz.upms.base.common.protocol.PageResponse;
 import com.zz.upms.base.common.protocol.Response;
-import com.zz.upms.base.domain.system.PmRole;
+import com.zz.upms.base.entity.system.PmRole;
 import com.zz.upms.base.service.system.RoleMenuService;
 import com.zz.upms.base.service.system.RoleService;
 import com.zz.upms.admin.web.controller.base.BaseController;

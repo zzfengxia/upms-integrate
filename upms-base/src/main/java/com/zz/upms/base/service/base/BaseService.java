@@ -8,6 +8,8 @@ import com.zz.upms.base.common.protocol.PageParam;
 import com.zz.upms.base.common.protocol.PageResponse;
 import com.zz.upms.base.service.shiro.ShiroDbRealm;
 import org.apache.shiro.SecurityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -15,6 +17,7 @@ import java.util.List;
  * Created by Francis.zz on 2017/5/2.
  */
 public class BaseService<M extends BaseMapper<T>, T> extends ServiceImpl<M, T> {
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * 获取当前登录的用户

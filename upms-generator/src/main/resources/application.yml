@@ -1,0 +1,48 @@
+# db配置
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost/pm_temp?useUnicode=true&characterEncoding=utf-8
+    username: root
+    # 生成的加密后的密码(原密码 123456)
+    password: 123456
+    # 使用druid连接池
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 1
+
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  resources:
+    static-locations: classpath:/statics/,classpath:/templates/,classpath:/filetemplates/
+  application:
+    name: upms
+
+# 数据库密码生成的公钥
+#druid-public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAI9rpN+pvgXRhxzZmd4bzzQMTstgNf6HvINo2ZEK2vgkGBW/TZJIHNQIK3RmF4kYnGk+LJxhcbPTumN8hnaB3UECAwEAAQ==
+
+# mybatis-plus
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
+  # 实体扫描，多个package用逗号或者分号分隔
+  type-aliases-package: com.zz.generator.entity
+  configuration:
+    # 驼峰命名转换
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    call-setters-on-nulls: true
+
+# 开启mybatis的日志输出，logging.level + mapper包名
+logging:
+  level:
+    com.zz.generator: debug
+
+server:
+  tomcat:
+     uri-encoding: UTF-8
+     max-threads: 1000
+     min-spare-threads: 30
+  port: 8085
+  servlet:
+    context-path: /upms-generator

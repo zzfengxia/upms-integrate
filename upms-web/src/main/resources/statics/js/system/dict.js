@@ -134,7 +134,6 @@ var vm = new Vue({
             }
         },
         getDict: function(id) {
-            //加载菜单树
             $.get(baseURL + "/dict/info/" + id, function(r) {
                 vm.dict = r.data;
             })

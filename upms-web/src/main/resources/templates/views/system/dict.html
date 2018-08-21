@@ -42,13 +42,13 @@
 				<div class="col-sm-3 col-form-label text-right">字典类型</div>
 				<div class="col-sm-6">
 					<!-- 使用表单校验必须要写id -->
-					<input type="text" class="form-control required" id="dictType" v-model="dict.dictType" :disabled="isUpdate"/>
+					<input type="text" class="form-control required" id="dictType" name="dictType" v-model="dict.dictType" :disabled="isUpdate"/>
 				</div>
 			</div>
 			<div class="form-group row">
 				<div class="col-sm-3 col-form-label text-right">字典健</div>
 				<div class="col-sm-6">
-					<input type="text" v-model="dict.dictKey" id="dictKey" class="form-control required" :disabled="isUpdate" />
+					<input type="text" v-model="dict.dictKey" id="dictKey" name="dictKey" class="form-control required" :disabled="isUpdate" />
 				</div>
 			</div>
 			<div class="form-group row">

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.zz.upms.base.common.protocol.PageParam;
 import com.zz.upms.base.common.protocol.PageResponse;
 import com.zz.upms.base.common.protocol.Response;
-import com.zz.upms.base.domain.system.PmMenu;
+import com.zz.upms.base.entity.system.PmMenu;
 import com.zz.upms.base.service.system.MenuService;
 import com.zz.upms.base.service.system.ShiroFilterChainManager;
 import com.zz.upms.admin.web.controller.base.BaseController;

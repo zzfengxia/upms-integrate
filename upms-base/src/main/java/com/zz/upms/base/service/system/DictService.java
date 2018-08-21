@@ -9,7 +9,7 @@ import com.zz.upms.base.common.constans.Constants;
 import com.zz.upms.base.common.constans.RedisKey;
 import com.zz.upms.base.common.protocol.PageParam;
 import com.zz.upms.base.dao.system.DictDao;
-import com.zz.upms.base.domain.system.Dict;
+import com.zz.upms.base.entity.system.Dict;
 import com.zz.upms.base.service.base.BaseService;
 import com.zz.upms.base.service.base.RedisHelper;
 import com.zz.upms.base.utils.CommonUtils;

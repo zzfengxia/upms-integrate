@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zz.upms.base.dao.system.MenuDao">
-    <select id="findAllNormalMenu" resultType="com.zz.upms.base.domain.system.PmMenu">
+    <select id="findAllNormalMenu" resultType="com.zz.upms.base.entity.system.PmMenu">
         SELECT *
         from pm_menu t where t.status = '1'
     </select>
 
-    <select id="findByUserId" resultType="com.zz.upms.base.domain.system.PmMenu">
+    <select id="findByUserId" resultType="com.zz.upms.base.entity.system.PmMenu">
         SELECT m.id
         FROM pm_menu m
         LEFT JOIN pm_role_menu rm ON m.id = rm.menu_id
@@ -14,7 +14,7 @@
         WHERE ur.user_id = #{uid}
     </select>
 
-    <select id="getListByParentIDAndWithIn" resultType="com.zz.upms.base.domain.system.PmMenu">
+    <select id="getListByParentIDAndWithIn" resultType="com.zz.upms.base.entity.system.PmMenu">
         select f.* from pm_menu f where f.parent_id = #{parentID}
         <if test="menuID != null">
             and f.id in
@@ -31,7 +31,7 @@
         select m.perm from pm_menu m where m.status = '1' and m.perm is not null
     </select>
 
-    <select id="findByRoleId" resultType="com.zz.upms.base.domain.system.PmMenu">
+    <select id="findByRoleId" resultType="com.zz.upms.base.entity.system.PmMenu">
       SELECT
       tp.*
       FROM pm_role_menu trm, pm_menu tm
@@ -46,7 +46,7 @@
         WHERE ur.user_id = #{uid} AND m.perm IS NOT NULL
     </select>
 
-    <select id="findNotButtonList" resultType="com.zz.upms.base.domain.system.PmMenu">
+    <select id="findNotButtonList" resultType="com.zz.upms.base.entity.system.PmMenu">
         select * from pm_menu where type != 2 order by idx asc
     </select>
 </mapper>

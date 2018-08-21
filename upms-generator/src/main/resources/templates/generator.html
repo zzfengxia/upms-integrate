@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>代码生成器</title>
+	<!-- bootstrap -->
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<!-- Ionicons -->
+	<link rel="stylesheet" href="css/ionicons.min.css">
+	<!-- Theme style -->
+	<!--<link rel="stylesheet" href="css/adminlte.min.css">-->
+	<!-- iCheck -->
+	<link rel="stylesheet" href="plugins/iCheck/all.css">
+	<!-- bootstrap table -->
+	<link rel="stylesheet" href="plugins/bootstarttable/bootstrap-table.min.css">
+	<!-- bootstrap -->
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<!-- lay ui -->
+	<link rel="stylesheet" href="plugins/layui/css/layui.css">
+	<!-- customize style -->
+	<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<div id="app" v-cloak>
+	<div class="card">
+		<div id="my-toolbar" class="grid-btn">
+			<button class="btn btn-primary" @click="generate"><i class="fa fa-file-code-o"></i>&nbsp;生成代码</button>
+		</div>
+
+		<div class="card-body">
+			<table id="bt-table"></table>
+		</div>
+	</div>
+</div>
+
+<!-- jQuery -->
+<script src="lib/jquery-3.3.1.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<!-- Bootstrap 4 -->
+<script src="lib/bootstrap.bundle.js"></script>
+<!-- AdminLTE App -->
+<!--<script src="lib/adminlte.min.js"></script>-->
+<!-- layer -->
+<script src="plugins/layui/layui.js"></script>
+<!-- vue2 -->
+<script src="lib/vue.js"></script>
+<!-- bootstrap table -->
+<script src="plugins/bootstarttable/bootstrap-table.min.js"></script>
+<script src="plugins/bootstarttable/local/bootstrap-table-zh-CN.min.js"></script>
+<!-- jquery-validation -->
+<script src="plugins/jqueryvalidation/jquery.validate.min.js"></script>
+<script src="plugins/jqueryvalidation/additional-methods.min.js"></script>
+<script src="plugins/jqueryvalidation/localization/messages_zh.min.js"></script>
+<!-- iCheck -->
+<script src="plugins/iCheck/icheck.min.js"></script>
+<!-- axios.js -->
+<script src="lib/axios.min.js"></script>
+<!-- common js -->
+<script src="js/common.js"></script>
+<script src="js/generator.js"></script>
+</body>
+</html>

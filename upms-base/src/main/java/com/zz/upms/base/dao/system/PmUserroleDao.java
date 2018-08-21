@@ -1,7 +1,7 @@
 package com.zz.upms.base.dao.system;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.zz.upms.base.domain.system.PmUserrole;
+import com.zz.upms.base.entity.system.PmUserrole;
 
 import java.util.List;
 

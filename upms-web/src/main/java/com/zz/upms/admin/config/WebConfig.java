@@ -24,6 +24,7 @@ import java.util.List;
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // 静态文件过滤，不会被dispatcher拦截
         registry.addResourceHandler("/statics/**").addResourceLocations("classpath:/statics/");
     }
 

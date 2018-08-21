@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zz.upms.base.dao.system.PmRoleDao">
-    <select id="findByRoleName" resultType="com.zz.upms.base.domain.system.PmRole" parameterType="java.lang.String">
+    <select id="findByRoleName" resultType="com.zz.upms.base.entity.system.PmRole" parameterType="java.lang.String">
         select * from pm_role where rolename = #{rolename}
     </select>
 
-    <insert id="saveOrUpdate" useGeneratedKeys="true" keyProperty="id" parameterType="com.zz.upms.base.domain.system.PmRole">
+    <insert id="saveOrUpdate" useGeneratedKeys="true" keyProperty="id" parameterType="com.zz.upms.base.entity.system.PmRole">
         <if test="id !=null">
             UPDATE pm_role set
             <if test="rolename != null">rolename = #{rolename}</if>

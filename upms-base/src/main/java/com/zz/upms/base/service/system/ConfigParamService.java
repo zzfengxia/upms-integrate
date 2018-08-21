@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.zz.upms.base.common.constans.RedisKey;
 import com.zz.upms.base.common.protocol.PageParam;
 import com.zz.upms.base.dao.system.ConfigParamDao;
-import com.zz.upms.base.domain.system.ConfigParam;
+import com.zz.upms.base.entity.system.ConfigParam;
 import com.zz.upms.base.service.base.BaseService;
 import com.zz.upms.base.service.base.RedisHelper;
 import org.apache.commons.lang3.StringUtils;

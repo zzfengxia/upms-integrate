@@ -6,7 +6,7 @@ import com.zz.upms.admin.web.controller.base.BaseController;
 import com.zz.upms.base.common.protocol.PageParam;
 import com.zz.upms.base.common.protocol.PageResponse;
 import com.zz.upms.base.common.protocol.Response;
-import com.zz.upms.base.domain.system.ConfigParam;
+import com.zz.upms.base.entity.system.ConfigParam;
 import com.zz.upms.base.service.system.ConfigParamService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

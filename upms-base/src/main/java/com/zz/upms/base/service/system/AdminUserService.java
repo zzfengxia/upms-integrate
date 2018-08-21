@@ -7,16 +7,14 @@ import com.zz.upms.base.common.constans.Constants;
 import com.zz.upms.base.common.exception.BizException;
 import com.zz.upms.base.common.protocol.PageParam;
 import com.zz.upms.base.dao.system.PmUserDao;
-import com.zz.upms.base.domain.system.PmUser;
-import com.zz.upms.base.domain.system.PmUserrole;
+import com.zz.upms.base.entity.system.PmUser;
+import com.zz.upms.base.entity.system.PmUserrole;
 import com.zz.upms.base.service.base.BaseService;
 import com.zz.upms.base.service.shiro.AccountService;
 import com.zz.upms.base.utils.CommonUtils;
 import com.zz.upms.base.utils.DigestsUtis;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,8 +34,6 @@ import java.util.List;
  */
 @Service
 public class AdminUserService extends BaseService<PmUserDao, PmUser> {
-    private final Logger log = LoggerFactory.getLogger(getClass());
-
     @Autowired
     private AccountService accountService;
     @Autowired
@@ -75,7 +71,7 @@ public class AdminUserService extends BaseService<PmUserDao, PmUser> {
         // 插入用户角色关联信息
         urService.insertRelate(user);
 
-        log.info("{} 于{}创建了用户{}", getCurrentUser().username, CommonUtils.getFormatDateStr(), user.getUsername());
+        logger.info("{} 于{}创建了用户{}", getCurrentUser().username, CommonUtils.getFormatDateStr(), user.getUsername());
     }
 
     @Transactional
@@ -87,7 +83,7 @@ public class AdminUserService extends BaseService<PmUserDao, PmUser> {
         urService.delete(new EntityWrapper<PmUserrole>().eq("user_id", user.getId()));
         urService.insertRelate(user);
 
-        log.info("{} 于{}更新了用户{}", getCurrentUser().username, CommonUtils.getFormatDateStr(), user.getUsername());
+        logger.info("{} 于{}更新了用户{}", getCurrentUser().username, CommonUtils.getFormatDateStr(), user.getUsername());
     }
 
     @Transactional
@@ -101,7 +97,7 @@ public class AdminUserService extends BaseService<PmUserDao, PmUser> {
             user.setStatus("0");
             user.setmTime(new Date());
 
-            log.info("{} 于{}禁用了用户{}", getCurrentUser().username, CommonUtils.getFormatDateStr(), user.getUsername());
+            logger.info("{} 于{}禁用了用户{}", getCurrentUser().username, CommonUtils.getFormatDateStr(), user.getUsername());
         }
 
         super.updateBatchById(users);
@@ -153,7 +149,7 @@ public class AdminUserService extends BaseService<PmUserDao, PmUser> {
 
         super.updateById(user);
 
-        log.info("用户[{}]于 {} 成功重置密码,新密码为[{}]", user.getUsername(), CommonUtils.getFormatDateStr(), newPwd);
+        logger.info("用户[{}]于 {} 成功重置密码,新密码为[{}]", user.getUsername(), CommonUtils.getFormatDateStr(), newPwd);
         return newPwd;
     }
 }

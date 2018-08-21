@@ -1,7 +1,7 @@
 package com.zz.upms.base.dao.system;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.zz.upms.base.domain.system.Dict;
+import com.zz.upms.base.entity.system.Dict;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

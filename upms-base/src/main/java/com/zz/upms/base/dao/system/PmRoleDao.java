@@ -1,8 +1,8 @@
 package com.zz.upms.base.dao.system;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.zz.upms.base.domain.system.PmMenu;
-import com.zz.upms.base.domain.system.PmRole;
+import com.zz.upms.base.entity.system.PmMenu;
+import com.zz.upms.base.entity.system.PmRole;
 
 public interface PmRoleDao extends BaseMapper<PmRole> {
 

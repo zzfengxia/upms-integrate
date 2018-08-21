@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>参数配置</title>
+	<!-- bootstrap -->
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="css/ionicons.min.css">
+    <!-- Theme style -->
+    <!--<link rel="stylesheet" href="css/adminlte.min.css">-->
+    <!-- iCheck -->
+    <link rel="stylesheet" href="plugins/iCheck/all.css">
+    <!-- bootstrap table -->
+    <link rel="stylesheet" href="plugins/bootstarttable/bootstrap-table.min.css">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- lay ui -->
+    <link rel="stylesheet" href="plugins/layui/css/layui.css">
+    <!-- customize style -->
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<div id="app" v-cloak>
+    <div class="card">
+        <div class="card-body">
+            <div>
+                <form id="dsForm">
+                    <div class="form-group row">
+                        <div class="col-sm-3 col-form-label text-right">驱动类名</div>
+                        <div class="col-sm-6">
+                            <input type="text" id="driverName" name="driverName" v-model="config.dataSource.driverName"
+                                   class="form-control" required disabled/>
+                        </div>
+                        <div class="text-danger col-form-label">*</div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-3 col-form-label text-right">数据源URL</div>
+                        <div class="col-sm-6">
+                            <input type="text" v-model="config.dataSource.dataSourceUrl" id="dataSourceUrl" name="dataSourceUrl"
+                                   class="form-control required"
+                                   placeholder="jdbc:mysql://hostname/database?useUnicode=true&characterEncoding=utf-8"/>
+                        </div>
+                        <div class="text-danger col-form-label">*</div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-3 col-form-label text-right">用户名</div>
+                        <div class="col-sm-6">
+                            <input type="text" v-model="config.dataSource.username" id="username" name="username"
+                                   class="form-control" required/>
+                        </div>
+                        <div class="text-danger col-form-label">*</div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-3 col-form-label text-right">密码</div>
+                        <div class="col-sm-6">
+                            <input type="password" id="password" name="password" v-model="config.dataSource.password" class="form-control" required/>
+                            <div class="valid-feedback text-right" style="display: block">
+                                <a href="javascript:;" @click="test">测试连接</a>
+                            </div>
+                        </div>
+                        <div class="text-danger col-form-label">*</div>
+                    </div>
+                </form>
+                <form id="configForm">
+                    <div class="form-group row">
+                        <div class="col-sm-3 col-form-label text-right">包名</div>
+                        <div class="col-sm-6">
+                            <input type="text" v-model="config.packageName" id="packageName" name="packageName"
+                                   class="form-control" placeholder="eg: com.xxx.org" required/>
+                        </div>
+                        <div class="text-danger col-form-label">*</div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-3 col-form-label text-right">作者名</div>
+                        <div class="col-sm-6">
+                            <input type="text" v-model="config.author" id="author" name="author" class="form-control"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-3 col-form-label text-right">email</div>
+                        <div class="col-sm-6">
+                            <input type="text" v-model="config.email" id="email" name="email" class="form-control" email/>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-3 col-form-label text-right pt-0">使用lombok</div>
+                        <div class="col-sm-6">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="flagRadio" id="flagRadio1" value="true" v-model="config.enableLombok">
+                                <label class="form-check-label" for="flagRadio1">是</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="flagRadio" id="flagRadio2" value="false" v-model="config.enableLombok">
+                                <label class="form-check-label" for="flagRadio2">否</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-3 col-form-label text-right">命名转换</div>
+                        <div class="col-sm-6">
+                            <select name="namingConversion" class="form-control" v-model="config.namingConversion" disabled>
+                                <option value="camelCase" :selected="config.namingConversion == 'camelCase'">驼峰式</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-3 col-form-label text-right pt-0">去除表名前缀</div>
+                        <div class="col-sm-6">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="fRadio" id="flagRadio3" value="true" v-model="config.removePrefix">
+                                <label class="form-check-label" for="flagRadio3">是</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="fRadio" id="flagRadio4" value="false" v-model="config.removePrefix">
+                                <label class="form-check-label" for="flagRadio4">否</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-3 col-form-label"></div>
+                        <div class="col-sm-6 text-right">
+                            <button class="btn btn-primary" @click.prevent="save"><i class="fa fa-floppy-o"></i>&nbsp;保存</button>
+                            <button class="btn btn-primary" @click.prevent="reset"><i class="fa fa-undo"></i>&nbsp;重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery -->
+<script src="lib/jquery-3.3.1.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<!-- Bootstrap 4 -->
+<script src="lib/bootstrap.bundle.js"></script>
+<!-- AdminLTE App -->
+<!--<script src="lib/adminlte.min.js"></script>-->
+<!-- layer -->
+<script src="plugins/layui/layui.js"></script>
+<!-- vue2 -->
+<script src="lib/vue.js"></script>
+<!-- bootstrap table -->
+<script src="plugins/bootstarttable/bootstrap-table.min.js"></script>
+<script src="plugins/bootstarttable/local/bootstrap-table-zh-CN.min.js"></script>
+<!-- jquery-validation -->
+<script src="plugins/jqueryvalidation/jquery.validate.js"></script>
+<script src="plugins/jqueryvalidation/additional-methods.min.js"></script>
+<script src="plugins/jqueryvalidation/localization/messages_zh.min.js"></script>
+<!-- iCheck -->
+<script src="plugins/iCheck/icheck.min.js"></script>
+<!-- common js -->
+<script src="js/common.js"></script>
+<script src="js/config.js"></script>
+</body>
+</html>

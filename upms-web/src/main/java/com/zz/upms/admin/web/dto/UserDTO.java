@@ -1,6 +1,6 @@
 package com.zz.upms.admin.web.dto;
 
-import com.zz.upms.base.domain.system.PmUser;
+import com.zz.upms.base.entity.system.PmUser;
 import lombok.Data;
 
 import java.util.ArrayList;
