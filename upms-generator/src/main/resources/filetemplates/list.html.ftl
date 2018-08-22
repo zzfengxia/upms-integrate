@@ -30,28 +30,20 @@
 
 	<div id="winContent" v-show="show" class="layer-form">
 		<form id="${classInfo.className?uncap_first}Form">
-            <#list fields as col>
-            <div class="form-group row">
-                <div class="col-sm-3 col-form-label text-right">
-                <#if (col.fieldDesc)??>
-                    <#if col.fieldDesc?length gt 0>
-                        ${col.fieldDesc}
-                    <#else>
-                        ${col.fieldName}
-                    </#if>
-                <#else>
-                    ${col.fieldName}
-                </#if>
-                </div>
-                <div class="col-sm-6">
-                    <input type="text" v-model="${classInfo.className?uncap_first}.${col.fieldName}" name="${col.fieldName}" id="${col.fieldName}" class="form-control" <#if col.notNull>required</#if>/>
-                </div>
-            </div>
-            </#list>
+		<#list fields as col>
+			<#if !col.priFalg>
+			 <div class="form-group row">
+                 <div class="col-sm-3 col-form-label text-right"><#if (col.fieldDesc)??><#if col.fieldDesc?length gt 0>${col.fieldDesc}<#else>${col.fieldName}</#if><#else>${col.fieldName}</#if></div>
+                 <div class="col-sm-6">
+                     <input type="text" v-model="${classInfo.className?uncap_first}.${col.fieldName}" name="${col.fieldName}" id="${col.fieldName}" class="form-control" <#if col.notNull>required</#if>/>
+                 </div>
+             </div>
+			</#if>
+		</#list>
 		</form>
 	</div>
 </div>
 
-<script src="${r'${base}/statics/js/system/' + clientFileName + '.js?_${.now?long}'}"></script>
+<script src="${r'${base}/statics/js/' + moduleName + '/' + clientFileName + r'.js?_${.now?long}'}"></script>
 </body>
 </html>

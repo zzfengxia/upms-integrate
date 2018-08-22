@@ -16,6 +16,12 @@ var vm = new Vue({
         // vue对象
         let _this = this;
 
+        if(!this.checkConfig()) {
+            alert('请先配置并保存数据源');
+            top.window.location.hash = "#config.html";
+            return;
+        }
+
         this.tab = $("#bt-table").customBootstrapTable({
             url: 'generator/tableList',
             toolbar: '#my-toolbar', // 自定义工具栏，jquery选择器
@@ -78,15 +84,30 @@ var vm = new Vue({
 
             layer.confirm('确定要为所选表生成代码', {icon: 3}, function (index) {
                 layer.close(index);
-                $.get("generator/checkConfig", function(r) {
-                    if(!r || r.data !== true) {
-                        layer.alert('请先设置并保存相关参数');
-                    } else {
-                        downloadWithPost("generator/generate", JSON.stringify(tables));
-                        vm.reload();
-                    }
-                });
+
+                if(vm.checkConfig()) {
+                    downloadWithPost("generator/generate", JSON.stringify(tables));
+                    vm.reload();
+                } else {
+                    layer.alert('请先设置并保存相关参数');
+                }
             });
+        },
+        checkConfig: function() {
+            let flag = false;
+
+            // 设置为同步操作
+            $.ajaxSetup({
+                async : false
+            });
+
+            $.get("generator/checkConfig", function(r) {
+                if(!!r && r.data === true) {
+                    flag = true;
+                }
+            });
+
+            return flag;
         },
         reload: function (index) {
             layer.msg('操作成功');

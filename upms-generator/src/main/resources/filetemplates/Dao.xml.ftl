@@ -7,9 +7,9 @@
     <resultMap id="BaseResultMap" type="${packageName}.base.entity.${moduleName}.${classInfo.className}">
     <#list fields as col>
         <#if col.priFalg>
-        <id column="${col.columnName}" property="${col.fieldName}" jdbcType="${col.jdbcType}"/>
+        <id column="${col.columnName}" property="${col.fieldName}"/>
         <#else>
-        <result column="${col.columnName}" property="${col.fieldName}" jdbcType="${col.jdbcType}"/>
+        <result column="${col.columnName}" property="${col.fieldName}"/>
         </#if>
     </#list>
     </resultMap>

@@ -48,12 +48,12 @@ class GeneratorUtils {
         }
 
         return [
-                "Entity.java.ftl" : "${packagePath}entity${File.separator + moduleName + File.separator + className}.java",
-                "Dto.java.ftl" : "${packagePath}web${File.separator}dto${File.separator + moduleName + File.separator + className}Dto.java",
-                "Dao.java.ftl" : "${packagePath}dao${File.separator + moduleName + File.separator + className}Dao.java",
-                "Dao.xml.ftl" : "${packagePath}mapper${File.separator + moduleName + File.separator + className}Dao.xml",
-                "Service.java.ftl" : "${packagePath}service${File.separator + moduleName + File.separator + className}Service.java",
-                "Controller.java.ftl" : "${packagePath}web${File.separator}controller${File.separator + moduleName + File.separator + className}Controller.java",
+                "Entity.java.ftl" : "${packagePath}base${File.separator}entity${File.separator + moduleName + File.separator + className}.java",
+                "Dto.java.ftl" : "${packagePath}admin${File.separator}web${File.separator}dto${File.separator + moduleName + File.separator + className}Dto.java",
+                "Dao.java.ftl" : "${packagePath}base${File.separator}dao${File.separator + moduleName + File.separator + className}Dao.java",
+                "Dao.xml.ftl" : "${packagePath}base${File.separator}mapper${File.separator + moduleName + File.separator + className}Dao.xml",
+                "Service.java.ftl" : "${packagePath}base${File.separator}service${File.separator + moduleName + File.separator + className}Service.java",
+                "Controller.java.ftl" : "${packagePath}admin${File.separator}web${File.separator}controller${File.separator + moduleName + File.separator + className}Controller.java",
 
                 "list.html.ftl" : "main${File.separator}resources${File.separator}templates${File.separator}" +
                         "views${File.separator + moduleName + File.separator + getClientFileName(className)}.html",
@@ -151,7 +151,7 @@ class GeneratorUtils {
         dataModel.put("author", config.getAuthor())
         dataModel.put("email", config.getEmail())
         dataModel.put("packageName", config.getPackageName())
-        dataModel.put("moduleName", "test")
+        dataModel.put("moduleName", config.getModuleName())
 
         return dataModel
     }

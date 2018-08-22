@@ -33,7 +33,7 @@ public class FieldModel {
         this.fieldType = cm.getDataType();
         this.jdbcType = cm.getDataType();
         this.fieldDesc = cm.getColumnComment();
-        this.notNull = !"YES".equalsIgnoreCase(cm.getIsNullable());
+        this.notNull = cm.getIsNullable() != null && !"YES".equalsIgnoreCase(cm.getIsNullable());
         this.priFalg = "PRI".equalsIgnoreCase(cm.getColumnKey());
     }
 }

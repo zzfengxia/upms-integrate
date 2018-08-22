@@ -32,7 +32,7 @@ public class GeneratorApplication {
     }
 
     @Bean("defaultSource")
-    @ConfigurationProperties(prefix = "spring.datasource")
+    //@ConfigurationProperties(prefix = "spring.datasource")
     DataSource defaultSource() {
         return DruidDataSourceBuilder.create().build();
     }

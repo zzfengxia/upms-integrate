@@ -28,6 +28,4 @@ public class ColumnModel {
 
     public ColumnModel() {
     }
-
-
 }

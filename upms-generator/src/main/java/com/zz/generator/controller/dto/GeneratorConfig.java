@@ -19,6 +19,8 @@ public class GeneratorConfig {
     private DataSourceDto dataSource;
     // 包名
     private String packageName;
+    // 模块名
+    private String moduleName;
     // 作者名
     private String author;
     // email

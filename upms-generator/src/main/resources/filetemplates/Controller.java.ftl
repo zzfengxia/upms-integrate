@@ -68,7 +68,7 @@ public class ${classInfo.className}Controller extends BaseController {
     @RequestMapping("/save/update")
     public Response<?> update(@RequestBody ${classInfo.className} ${classInfo.className?uncap_first}) {
         // TODO 增量更新操作
-        ${classInfo.className?uncap_first}Service.update(dict);
+        ${classInfo.className?uncap_first}Service.updateById(${classInfo.className?uncap_first});
 
         return Response.success();
     }
@@ -77,11 +77,11 @@ public class ${classInfo.className}Controller extends BaseController {
      * 删除
      */
     @RequestMapping("/delete")
-    public R delete(@RequestBody ${pkField.fieldType}[] ${pkField.fieldName}s){
+    public Response<?> delete(@RequestBody ${pkField.fieldType}[] ${pkField.fieldName}s){
         // TODO 自定义删除操作
         ${classInfo.className?uncap_first}Service.deleteBatchIds(Arrays.asList(${pkField.fieldName}s));
 
-        return Response.success(dcit);
+        return Response.success();
     }
 
 }

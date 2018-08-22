@@ -26,7 +26,7 @@ import com.baomidou.mybatisplus.annotations.TableName;
 @Setter
 </#if>
 @TableName("${classInfo.tableName}")
-public class ${classInfo.className} {
+public class ${classInfo.className} implements Serializable {
 <#list fields as col>
 	<#if (col.fieldDesc)??>
     <#if col.fieldDesc?length gt 0>

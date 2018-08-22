@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import org.springframework.stereotype.Service;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * ************************************
@@ -32,7 +33,7 @@ public class ${classInfo.className}Service extends BaseService<${classInfo.class
         Wrapper<${classInfo.className}> wrapper = new EntityWrapper<${classInfo.className}>();
         // 排序
         String sortCol = param.getSort();
-        sortCol = StringUtils.isEmpty(sortCol) ? ${pkField.fieldName} : sortCol;
+        sortCol = StringUtils.isEmpty(sortCol) ? "${pkField.fieldName}" : sortCol;
         param.setSort(sortCol);
 
         return queryWithPage(param, wrapper);

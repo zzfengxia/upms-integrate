@@ -11,6 +11,6 @@ import ${packageName}.base.entity.${moduleName}.${classInfo.className};
  * @desc   ${classInfo.className}
  * ************************************
  */
-public class ${classInfo.className}Dao extends BaseMapper<${classInfo.className}> {
+public interface ${classInfo.className}Dao extends BaseMapper<${classInfo.className}> {
     // TODO 自定义crud之外的持久化接口
 }
