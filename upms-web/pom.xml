@@ -65,6 +65,7 @@
     </dependencies>
 
     <build>
+        <finalName>upms</finalName>
         <resources>
             <resource>
                 <!-- 解决字体下载失败的问题 -->

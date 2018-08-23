@@ -7,10 +7,9 @@ const vm = new Vue({
     data: {
         config: {
             dataSource: {
-                driverName: 'com.mysql.jdbc.Driver',
-                dataSourceUrl: 'jdbc:mysql://192.168.1.208/sptsm-pms?useUnicode=true&characterEncoding=utf-8',
-                username: 'answer',
-                password: 'answer'
+                driverName: 'com.mysql.jdbc.Driver'
+                // dataSourceUrl: 'jdbc:mysql://192.168.1.208/sptsm-pms?useUnicode=true&characterEncoding=utf-8',
+                // username: 'answer'
             },
             enableLombok: true,
             namingConversion: 'camelCase',           // 命名转换，默认驼峰式

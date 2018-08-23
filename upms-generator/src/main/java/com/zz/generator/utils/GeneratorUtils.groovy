@@ -2,6 +2,8 @@ package com.zz.generator.utils
 
 import com.google.common.base.CaseFormat
 import com.google.common.base.Strings
+import com.google.common.collect.Streams
+import com.google.common.io.Files
 import com.zz.generator.controller.dto.GeneratorConfig
 import com.zz.generator.model.ClassModel
 import com.zz.generator.entity.ColumnModel
@@ -12,6 +14,7 @@ import com.zz.generator.exception.ErrorCode
 import freemarker.template.Configuration
 import freemarker.template.Template
 import freemarker.template.TemplateExceptionHandler
+import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -159,9 +162,11 @@ class GeneratorUtils {
     static void gen(TableModel tableInfo, List<ColumnModel> columnInfos, GeneratorConfig config, ZipOutputStream zip) {
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_28)
         // 获取模板文件所在目录
-        Resource resource = new ClassPathResource("filetemplates")
-        // freemarker加载目录文件
-        cfg.setDirectoryForTemplateLoading(resource.getFile())
+        //Resource resource = new ClassPathResource("filetemplates")
+        // freemarker加载目录文件,这里如果使用resource.getFile会导致打包成jar文件后无法读取文件的错误。
+        /*File tempFile = new File("temp/templatesFile")
+        FileUtils.copyInputStreamToFile(resource.getInputStream(), tempFile)*/
+        cfg.setClassForTemplateLoading(GeneratorUtils.class, "/filetemplates/")
 
         cfg.setDefaultEncoding("UTF-8")
         cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER)
