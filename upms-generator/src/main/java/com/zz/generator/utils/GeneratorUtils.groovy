@@ -139,7 +139,11 @@ class GeneratorUtils {
         }
 
         // 组装模板数据
-
+        if(pkModel == null) {
+            // todo 先随便找个字段作为主键
+            pkModel = fieldModels.get(0)
+            logger.warn("Table[{}] missing primary key,please check", tableInfo.getTableName())
+        }
         // 实体类信息
         dataModel.put("classInfo", cm)
         // 实体域信息

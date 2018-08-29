@@ -25,7 +25,7 @@ const vm = new Vue({
                 $.ajax({
                     type: "POST",
                     url: "generator/connectTest",
-                    timeout: 5000,
+                    timeout: 15000,
                     contentType: "application/json",
                     data: JSON.stringify(vm.config.dataSource),
                     success: function (r) {

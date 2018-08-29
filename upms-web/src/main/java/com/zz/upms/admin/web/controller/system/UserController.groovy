@@ -142,4 +142,19 @@ class UserController extends BaseController {
 
         return Response.success(newPwd)
     }
+
+    @RequestMapping("/saveBgStyle")
+    public Response<?> saveBgStyle(@RequestBody UserDTO param) {
+        PmUser history  = userService.selectById(param.getId())
+
+        if(history  == null) {
+            return Response.error("用户不存在,请刷新重试")
+        }
+        history.setmTime(new Date())
+        history.setBgStyle(param.getBgStyle())
+
+        userService.updateById(history)
+
+        return Response.success()
+    }
 }

@@ -89,3 +89,16 @@ tbody > tr > th {font-weight: normal; }
 .avatar-away i {
     background-color:#f96868
 }
+
+.dropdown-menu.navbar-dark .nav-link:hover {
+    color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.nav-sidebar > .nav-item .sub-icon {
+    text-align: right;
+    width: 1.4rem;
+    font-size: 1.1rem;
+    margin-right: .2rem;
+}
+
+

@@ -20,7 +20,7 @@
 <div id="indexApp" class="wrapper" v-cloak>
     <input id="contextPath" type="hidden" value="${base}" />
     <!-- 头部导航栏 -->
-    <nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
+    <nav :class="[bgStyle.navbar ? bgStyle.navbar : 'bg-info navbar-dark','main-header navbar navbar-expand',{'border-bottom': bgStyle.borderBottom}]">
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
@@ -59,12 +59,10 @@
                         </span>
                     </div>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right">
+                <div :class="[bgStyle.navbar ? bgStyle.navbar : 'bg-info navbar-dark', 'dropdown-menu dropdown-menu-right']">
                     <a href="#" @click="userInfo" class="dropdown-item nav-link">
                         <!-- 账户管理 -->
-                        <div class="media">
-                            <i class="fa fa-user">&nbsp;&nbsp;个人信息</i>
-                        </div>
+                        <i class="fa fa-user">&nbsp;&nbsp;个人信息</i>
                     </a>
                     <div class="dropdown-divider"></div>
                     <a href="#" @click="updatePwd" class="dropdown-item nav-link">
@@ -91,23 +89,23 @@
     <!-- /.navbar -->
 
     <!-- 左边菜单栏 -->
-    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <aside :class="[bgStyle.sidebar ? bgStyle.sidebar : 'sidebar-dark-primary', 'main-sidebar elevation-4']">
         <!-- Brand Logo -->
-        <a href="#" class="brand-link" target="_blank">
-            <!--<img src="${base}/statics/img/logo.png" alt="Logo" class="brand-image img-circle elevation-3"
-                 style="opacity: .8">-->
-            <span class="brand-text font-weight-light">PMS</span>
+        <a href="#" :class="[bgStyle.logo ? bgStyle.logo : 'bg-info', 'brand-link']" target="_blank">
+            <img src="${base}/statics/img/logo.jpg" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+            <span class="brand-text font-weight-light">综合Admin</span>
         </a>
 
         <!-- Sidebar,使用vue自定义组件生成菜单 -->
         <div class="sidebar">
             <!-- 导航菜单头 -->
-            <div class="user-panel mt-2 pb-2 mb-2 d-flex">
-                <!--<div class="image">
-                    <img src="${base}/statics/img/logo.png" class="img-circle elevation-2" alt="User Image">
-                </div>-->
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <div class="image">
+                    <img src="${base}/statics/img/avatar5.png" class="img-circle elevation-2" alt="User Image">
+                </div>
                 <div class="info">
-                    <a href="#" class="d-block" style="padding-left: 20px">导航菜单</a>
+                    <a href="#" class="d-block" @click="userInfo">{{user.username}}</a>
+                    <!--<i class="fa fa-circle text-success"></i> Online-->
                 </div>
             </div>
 
@@ -147,13 +145,20 @@
         <!-- /.content -->
     </div>
     <!-- 脚注 -->
-    <!--<footer class="main-footer">
-    </footer>-->
+    <footer class="main-footer">
+        @author <strong>Francis.zz</strong>
+        <a href="https://gitee.com/zzfengxia" target="_blank">码云</a>
+        <div class="float-right d-none d-sm-inline-block">
+            <b>Version</b> 0.0.1
+        </div>
+    </footer>
 
     <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-    </aside>
+    <div id="style-sidebar">
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+    </div>
 
     <div id="winContent" v-show="show" class="layer-form">
         <form id="userForm">
@@ -236,13 +241,13 @@
 <script src="${base}/statics/plugins/autocompleter/jquery.autocomplete.min.js"></script>
 <!-- common js -->
 <script src="${base}/statics/js/common.js?_${.now?long}"></script>
-<!-- adminLTE control-sidebar demo.js -->
-<script src="${base}/statics/lib/demo.js"></script>
 <!-- layer -->
 <script src="${base}/statics/plugins/layui/layui.js"></script>
 <!-- router.js -->
 <script src="${base}/statics/lib/router.js"></script>
 <!-- index.js -->
 <script src="${base}/statics/js/index.js?_${.now?long}"></script>
+<!-- 自定义界面背景，一定要最后倒入 -->
+<script src="${base}/statics/lib/demo.js?_${.now?long}"></script>
 </body>
 </html>

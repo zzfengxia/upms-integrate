@@ -43,7 +43,7 @@ public class BaseService<M extends BaseMapper<T>, T> extends ServiceImpl<M, T> {
         boolean isAsc = "asc".equalsIgnoreCase(params.getOrder());
 
         if(sortCols == null) {
-            return new Page<>(curPage, params.getLimit(), "id", isAsc);
+            return new Page<>(curPage, params.getLimit(), "", isAsc);
         } else {
             Page<T> page = new Page<>(curPage, params.getLimit());
             if(isAsc) {

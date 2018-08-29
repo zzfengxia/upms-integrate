@@ -41,10 +41,14 @@ function routerList(router, menuList) {
 
             vm.navTitle = $("a[href='" + url + "']").text();
 
-            // 菜单添加active样式
+            // 移除上个元素样式
             $("a.active.nav-link").removeClass("active");
+
+            // 为新选择元素添加样式
             $("a[href='" + url + "']").addClass("active");
-            $("a[href='" + url + "']").parent().parents('li').addClass('menu-open');
+            let $parent_li = $("a[href='" + url + "']").parent().parents('li');
+            $parent_li.children('a.nav-link').addClass("active");
+            $parent_li.addClass('menu-open');
         });
     }
 }

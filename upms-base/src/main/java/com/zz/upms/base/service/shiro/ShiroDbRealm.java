@@ -98,7 +98,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 				e.printStackTrace();
 			}
 
-            ShiroUser shiroUser = new ShiroUser(user.getId(), user.getUsername(), user.getRealname(), user.getJobuuid(), user.getHomePage());
+            ShiroUser shiroUser = new ShiroUser(user.getId(), user.getUsername(), user.getRealname(), user.getJobuuid(), user.getHomePage(), user.getBgStyle());
 
             AuthenticationInfo info = new SimpleAuthenticationInfo(shiroUser, user.getPassword(), ByteSource.Util.bytes(salt), getName());
 
@@ -128,6 +128,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
         public String realname;
         public String jobuuid;
         public String homePage;
+        public String bgStyle;
 
         /**
          *
@@ -136,12 +137,13 @@ public class ShiroDbRealm extends AuthorizingRealm {
          * @param realname 用户真实姓名
          * @param jobuuid  uuid
          */
-        public ShiroUser(Long id, String username, String realname, String jobuuid, String homePage) {
+        public ShiroUser(Long id, String username, String realname, String jobuuid, String homePage, String bgStyle) {
             this.id = id;
             this.username = username;
             this.realname = realname;
             this.jobuuid = jobuuid;
             this.homePage = homePage;
+            this.bgStyle = bgStyle;
         }
 
         /**

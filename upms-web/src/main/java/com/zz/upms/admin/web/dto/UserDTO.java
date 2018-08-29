@@ -26,8 +26,13 @@ public class UserDTO {
 
     private String status;		// 1:正常;0:删除
     private String homePage;	// 首页
+    private String bgStyle;
 
     private List<Long> roles;	// role id
+
+    public UserDTO() {
+
+    }
 
     public UserDTO(PmUser user) {
         this.id = user.getId();
@@ -38,6 +43,8 @@ public class UserDTO {
         this.jobuuid = user.getJobuuid();
         this.status = user.getStatus();
         this.homePage = user.getHomePage();
+        this.bgStyle = getBgStyle();
+
         if(user.getRoles() != null) {
             this.roles = new ArrayList<>();
             this.roles.addAll(user.getRoles());

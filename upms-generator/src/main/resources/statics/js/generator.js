@@ -1,4 +1,4 @@
-// 导入layer
+// 导入layer，这里是异步加载的。如需同步可使用all.js，直接声明layer = layui.layer;
 let layer = null;
 layui.use('layer', function() {
     layer = layui.layer;
@@ -25,6 +25,13 @@ var vm = new Vue({
         this.tab = $("#bt-table").customBootstrapTable({
             url: 'generator/tableList',
             toolbar: '#my-toolbar', // 自定义工具栏，jquery选择器
+            ajaxOptions: {
+                async: true,
+                timeout: 12000
+            },
+            onLoadError: function(status, res) {
+                layer.msg("网络错误：" + res.statusText);
+            },
             formatSearch: function () {
                 // 搜索输入框提示语
                 return '表名搜索';
@@ -121,50 +128,10 @@ var vm = new Vue({
                 this.tab.bootstrapTable("refresh");
             }
         },
-        openWin: function() {
-            // 渲染弹窗
-            vm.show = true;
-            // 绑定表单校验
-            $('#userForm').validate();
-
-            layer.open({
-                type: 1,
-                offset: '20px',
-                //skin: 'layui-layer-molv',
-                title: vm.isUpdate ? "编辑用户" : "新增用户",
-                area: ['500px', '650px'],
-                shade: 0,
-                shadeClose: false,
-                content: $('#winContent'),
-                btn: ['保存', '取消'],
-                btn1: function (index) {
-                    // 保存
-                    if($('#userForm').valid()) {
-                        let opType = vm.isUpdate ? "update" : "create";
-                        $.ajax({
-                            type: "POST",
-                            url: baseURL + "/admin/user/save/" + opType,
-                            contentType: "application/json",
-                            data: JSON.stringify(vm.user),
-                            success: function(r) {
-                                if(r.status === "0") {
-                                    vm.reload(index);
-                                } else {
-                                    if(r.status === undefined) {
-                                        layer.alert("网络异常或权限不足");
-                                    } else {
-                                        layer.alert(r.message);
-                                    }
-                                }
-                            }
-                        });
-                    }
-                },
-                end: function() {
-                    // 隐藏表单
-                    vm.show = false;
-                }
-            });
+        closeLoad: function(idx) {
+            if(!!idx) {
+                layer.close(idx);
+            }
         }
     }
 });

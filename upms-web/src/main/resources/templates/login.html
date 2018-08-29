@@ -21,8 +21,8 @@
     <!-- customized -->
     <link rel="stylesheet" href="${base}/statics/css/main.css">
 </head>
-<body class="hold-transition login-page">
-<div id="app" class="login-box">
+<body class="hold-transition login-page bg-info">
+<div id="app" class="login-box" v-cloak>
     <div class="login-logo">
         <b>upms平台管理系统</b>
     </div>
@@ -30,8 +30,8 @@
     <div class="card">
         <div class="card-body login-card-body">
             <p class="login-box-msg">登录</p>
-            <div v-if="error" class="alert alert-danger alert-dismissible">
-                <h4 style="margin-bottom: 0px;"><i class="fa fa-exclamation-triangle"></i>{{errorMsg}}</h4>
+            <div v-show="error" class="alert alert-danger alert-dismissible">
+                <h4 style="margin-bottom: 0;"><i class="fa fa-exclamation-triangle"></i>{{errorMsg}}</h4>
             </div>
             <form id="loginForm">
                 <div class="form-group has-feedback input-group">

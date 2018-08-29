@@ -1,5 +1,9 @@
-// 导入layer
-let layer = null;
+/**
+ * AdminLTE3模板
+ * @type {null}
+ */
+// 导入layer，这里是异步加载的。如需同步可使用all.js，直接声明layer = layui.layer;
+var layer = null;
 layui.use('layer', function() {
     layer = layui.layer;
 });
@@ -12,7 +16,7 @@ const menuItem = Vue.extend({
     name: 'menu-item',
     props: {item: {}},
     template: [
-        '<li :class="item.type === 0 ? \'nav-item\' : \'nav-item has-treeview\' ">',
+        '<li :class="item.type === 0 ? \'nav-item has-treeview\' : \'nav-item\' ">',
         '	<a v-if="item.type === 0" href="javascript:;" class="nav-link">',
         '		<i v-if="item.iconClass != null" :class="item.iconClass"></i>',
         '	  <i v-else class="nav-icon fa fa-dashboard"></i>',
@@ -25,14 +29,9 @@ const menuItem = Vue.extend({
         '		<menu-item :item="item" v-for="item in item.childMenu"></menu-item>',
         '	</ul>',
 
-        '	<a v-if="item.type === 1 && item.parentId === 0 && item.url != null" :href="\'#\' + item.url" class="nav-link">',
-        '		<i v-if="item.iconClass != null" :class="item.iconClass"></i>',
-        '		<p>{{item.viewName}}</p>',
-        '	</a>',
-
-        '	<a v-if="item.type === 1 && item.parentId != 0 && item.url != null" :href="\'#\' + item.url" class="nav-link">',
-        '		<i v-if="item.iconClass != null" :class="item.iconClass"></i>',
-        '		<i v-else class="fa fa-circle-o nav-icon"></i>',
+        '	<a v-if="item.type === 1 && item.url != null" :href="\'#\' + item.url" class="nav-link">',
+        '		<i v-if="item.iconClass != null" :class="[item.iconClass, \'sub-icon\']"></i>',
+        '		<i v-else class="fa fa-circle-o sub-icon"></i>',
         '       <p>{{item.viewName}}</p>',
         '</a>',
         '</li>'
@@ -50,7 +49,8 @@ $(window).on('resize', function () {
 //注册菜单组件
 Vue.component('menuItem', menuItem);
 
-const vm = new Vue({
+// 将vn设为全局变量
+var vm = new Vue({
     el: '#indexApp',
     data: {
         show: false, // 显示弹窗
@@ -62,7 +62,13 @@ const vm = new Vue({
         navTitle: "控制台",
         isUpdatePwd: false,  // 修改密码
         isUserInfo: false,   // 个人信息
-        completeData: []     // 自动补全输入框数据
+        completeData: [],    // 自动补全输入框数据
+        bgStyle: {
+            navbar: '',                     // 导航栏
+            logo: '',                       // Logo栏
+            sidebar: '',                    // 菜单栏
+            borderBottom: true,             // 下边框
+        }
     },
     methods: {
         getMenuList: function (event) {
@@ -75,7 +81,9 @@ const vm = new Vue({
         getUser: function () {
             $.getJSON("admin/user/cur?_" + $.now(), function (r) {
                 vm.user = r.data;
-                //vm.main = r.data.homePage
+                if(!!r.data.bgStyle) {
+                    vm.bgStyle = JSON.parse(vm.user.bgStyle);
+                }
             });
         },
         userInfo: function() {
@@ -206,10 +214,16 @@ function routerList(router, menuList) {
 
                 vm.navTitle = $("a[href='" + url + "']").text();
 
-                // 菜单添加active样式
+                // 移除上个元素样式
                 $("a.active.nav-link").removeClass("active");
+                //let $old_parent_li = $("li.has-treeview.menu-open");
+                //$old_parent_li.removeClass("menu-open");
+
+                // 为新选择元素添加样式
                 $("a[href='" + url + "']").addClass("active");
-                $("a[href='" + url + "']").parent().parents('li').addClass('menu-open');
+                let $parent_li = $("a[href='" + url + "']").parent().parents('li');
+                $parent_li.children('a.nav-link').addClass("active");
+                $parent_li.addClass('menu-open');
             });
         }
     }
