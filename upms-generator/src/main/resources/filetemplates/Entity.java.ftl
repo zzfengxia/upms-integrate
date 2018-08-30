@@ -12,6 +12,7 @@ import java.util.Date;
 import java.math.BigDecimal;
 </#if>
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.annotations.TableId;
 
 /**
  * ************************************
@@ -35,6 +36,9 @@ public class ${classInfo.className} implements Serializable {
      */
     </#if>
 	</#if>
+    <#if col.priFalg>
+    @TableId
+    </#if>
     private ${col.fieldType} ${col.fieldName};
 </#list>
 

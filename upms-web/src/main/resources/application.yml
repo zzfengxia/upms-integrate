@@ -15,6 +15,8 @@ spring:
       filter:
         config:
           enabled: true
+      stat-view-servlet:
+        enabled: false # 关闭监控
 
   # redis配置
   redis:
