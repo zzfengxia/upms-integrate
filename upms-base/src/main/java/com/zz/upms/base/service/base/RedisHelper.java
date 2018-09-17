@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -63,5 +65,29 @@ public class RedisHelper {
 
     public void expire(String key, Long time, TimeUnit timeUnit) {
         redisTemplate.expire(key, time, timeUnit);
+    }
+
+    /**
+     * 获取sort set中指定key的所有数据
+     *
+     * @param key
+     * @param reverse 是否倒序
+     * @return
+     */
+    public Set<String> zrangeAll(String key, boolean reverse) {
+        ZSetOperations<String, String> operations = redisTemplate.opsForZSet();
+        return reverse ? operations.reverseRange(key, 0, -1) : operations.range(key, 0, -1);
+    }
+
+    /**
+     * 获取sort set中指定key的所有数据
+     *
+     * @param key
+     * @param reverse 是否倒序
+     * @return
+     */
+    public Set<ZSetOperations.TypedTuple<String>> zrangeAllWithScore(String key, boolean reverse) {
+        ZSetOperations<String, String> operations = redisTemplate.opsForZSet();
+        return reverse ? operations.reverseRangeWithScores(key, 0, -1) : operations.rangeWithScores(key, 0, -1);
     }
 }

@@ -18,7 +18,7 @@ const menuItem = Vue.extend({
     template: [
         '<li :class="item.type === 0 ? \'nav-item has-treeview\' : \'nav-item\' ">',
         '	<a v-if="item.type === 0" href="javascript:;" class="nav-link">',
-        '		<i v-if="item.iconClass != null" :class="item.iconClass"></i>',
+        '		<i v-if="item.iconClass" :class="item.iconClass"></i>',
         '	  <i v-else class="nav-icon fa fa-dashboard"></i>',
         '		<p>',
         '   {{item.viewName}}',
@@ -30,7 +30,7 @@ const menuItem = Vue.extend({
         '	</ul>',
 
         '	<a v-if="item.type === 1 && item.url != null" :href="\'#\' + item.url" class="nav-link">',
-        '		<i v-if="item.iconClass != null" :class="[item.iconClass, \'sub-icon\']"></i>',
+        '		<i v-if="item.iconClass" :class="[item.iconClass, \'sub-icon\']"></i>',
         '		<i v-else class="fa fa-circle-o sub-icon"></i>',
         '       <p>{{item.viewName}}</p>',
         '</a>',
@@ -49,7 +49,7 @@ $(window).on('resize', function () {
 //注册菜单组件
 Vue.component('menuItem', menuItem);
 
-// 将vn设为全局变量
+// 将vm设为全局变量
 var vm = new Vue({
     el: '#indexApp',
     data: {

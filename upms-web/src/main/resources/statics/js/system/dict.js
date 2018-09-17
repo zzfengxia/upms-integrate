@@ -138,11 +138,27 @@ var vm = new Vue({
                 vm.dict = r.data;
             })
         },
+        loadDictTypes: function() {
+            $.get(baseURL + "/dict/allType", function(r) {
+                if(!!r.data) {
+                    let typeObj = [];
+                    $.map(r.data, function(key, index) {
+                        typeObj.push({value: key, data: ""});
+                    });
+                    // 自动补全插件
+                    $('#dictType').autocomplete({
+                        lookup: typeObj
+                    });
+                }
+            });
+        },
         openWin: function() {
             // 渲染弹窗
             vm.show = true;
             // 绑定表单校验
             $('#dictForm').validate();
+            // 字典类型自动补全数据加载
+            this.loadDictTypes();
 
             layer.open({
                 type: 1,

@@ -5,6 +5,8 @@
 	<#include "/header.html">
 	<!-- bootstrap -->
 	<link rel="stylesheet" href="${base}/statics/css/bootstrap.min.css">
+	<!-- jquery 自动补全 -->
+	<link rel="stylesheet" href="${base}/statics/plugins/autocompleter/style.css">
 </head>
 <body>
 <div id="app" v-cloak>
@@ -73,6 +75,8 @@
 	</div>
 </div>
 
+<!-- jquery 自动补全 -->
+<script src="${base}/statics/plugins/autocompleter/jquery.autocomplete.min.js"></script>
 <script src="${base}/statics/js/system/dict.js?_${.now?long}"></script>
 </body>
 </html>

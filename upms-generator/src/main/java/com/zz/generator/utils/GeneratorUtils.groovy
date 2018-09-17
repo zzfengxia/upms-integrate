@@ -2,24 +2,19 @@ package com.zz.generator.utils
 
 import com.google.common.base.CaseFormat
 import com.google.common.base.Strings
-import com.google.common.collect.Streams
-import com.google.common.io.Files
 import com.zz.generator.controller.dto.GeneratorConfig
-import com.zz.generator.model.ClassModel
 import com.zz.generator.entity.ColumnModel
-import com.zz.generator.model.FieldModel
 import com.zz.generator.entity.TableModel
 import com.zz.generator.exception.BizException
 import com.zz.generator.exception.ErrorCode
+import com.zz.generator.model.ClassModel
+import com.zz.generator.model.FieldModel
 import freemarker.template.Configuration
 import freemarker.template.Template
 import freemarker.template.TemplateExceptionHandler
-import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.core.io.ClassPathResource
-import org.springframework.core.io.Resource
 
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream

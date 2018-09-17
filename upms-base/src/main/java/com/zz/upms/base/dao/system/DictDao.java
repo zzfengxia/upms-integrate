@@ -13,4 +13,5 @@ public interface DictDao extends BaseMapper<Dict> {
     Dict findDictItem(@Param("dictType") String dictHash, @Param("dictKey") String dictKey);
 
     List<Dict> findDictItems(@Param("dictType") String dictType);
+    List<String> findAllType();
 }

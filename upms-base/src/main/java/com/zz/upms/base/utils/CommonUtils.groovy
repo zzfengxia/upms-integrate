@@ -1,5 +1,7 @@
 package com.zz.upms.base.utils
 
+import com.google.common.base.CaseFormat
+
 import java.text.SimpleDateFormat
 
 /**
@@ -15,5 +17,16 @@ class CommonUtils {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format)
 
         return simpleDateFormat.format(date)
+    }
+
+    /**
+     * 驼峰命名转换
+     *
+     * @param oriStr
+     * @param capitalizeFirstLetter 第一个字符是否大写，默认false
+     * @return
+     */
+    static String camelCaseNameConversion(String oriStr, boolean capitalizeFirstLetter = false) {
+        return CaseFormat.LOWER_UNDERSCORE.to(capitalizeFirstLetter ? CaseFormat.UPPER_CAMEL : CaseFormat.LOWER_CAMEL, oriStr)
     }
 }

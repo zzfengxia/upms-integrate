@@ -8,4 +8,7 @@
     <select id="findDictItems" parameterType="java.lang.String" resultType="com.zz.upms.base.entity.system.Dict">
         select * from tm_dict where dict_hash = #{dictType} order by dict_ord
     </select>
+    <select id="findAllType" resultType="java.lang.String">
+        SELECT dict_type FROM pm_dict GROUP BY dict_type
+    </select>
 </mapper>

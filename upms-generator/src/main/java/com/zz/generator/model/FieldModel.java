@@ -23,6 +23,8 @@ public class FieldModel {
     private boolean notNull;
     // 主键标识
     private boolean priFalg;
+    // 备注(主键是否自增长等)
+    private String extra;
 
     public FieldModel() {
     }
@@ -35,5 +37,6 @@ public class FieldModel {
         this.fieldDesc = cm.getColumnComment();
         this.notNull = cm.getIsNullable() != null && !"YES".equalsIgnoreCase(cm.getIsNullable());
         this.priFalg = "PRI".equalsIgnoreCase(cm.getColumnKey());
+        this.extra = cm.getExtra();
     }
 }

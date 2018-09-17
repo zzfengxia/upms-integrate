@@ -184,4 +184,8 @@ public class DictService extends BaseService<DictDao, Dict> {
 
         logger.info("{} 于 {} 更新了数据字典 {} ", getCurrentUser().username,  CommonUtils.getFormatDateStr(), dict.toKeyString());
     }
+
+    public List<String> findAllType() {
+        return baseMapper.findAllType();
+    }
 }

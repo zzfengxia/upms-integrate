@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * ************************************
@@ -69,5 +70,17 @@ public class DictController extends BaseController {
         dictService.updateDict(dict);
 
         return Response.success();
+    }
+
+    /**
+     * 获取所有字典类型
+     *
+     * @return
+     */
+    @RequestMapping("/allType")
+    public Response<?> allType() {
+        List<String> dictTypes = dictService.findAllType();
+
+        return Response.success(dictTypes);
     }
 }
