@@ -37,6 +37,9 @@
 				<div class="col-sm-6">
 					<input type="text" v-model="${classInfo.className?uncap_first}.${col.fieldName}" name="${col.fieldName}" id="${col.fieldName}" class="form-control" <#if col.notNull>required</#if>/>
 			    </div>
+				<#if col.notNull>
+                <div class="text-danger col-form-label">*</div>
+				</#if>
 			</div>
 			</#if>
 		</#list>
