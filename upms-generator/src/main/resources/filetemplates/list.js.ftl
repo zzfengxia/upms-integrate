@@ -4,7 +4,7 @@ layui.use('layer', function() {
     layer = layui.layer;
 });
 
-var vm = new Vue({
+let vm = new Vue({
     el: '#app',
     data: {
         show: false,   // 是否渲染弹窗

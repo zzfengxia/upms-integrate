@@ -27,10 +27,6 @@
         select m.perm from pm_menu m where m.status = '1' and m.perm is not null
     </select>
 
-    <select id="findPermsByUserId" resultType="java.lang.String">
-        select m.perm from pm_menu m where m.status = '1' and m.perm is not null
-    </select>
-
     <select id="findByRoleId" resultType="com.zz.upms.base.entity.system.PmMenu">
       SELECT
       tp.*
