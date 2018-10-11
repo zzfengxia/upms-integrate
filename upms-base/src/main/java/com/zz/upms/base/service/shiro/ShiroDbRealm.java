@@ -49,7 +49,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 
         List<String> permsList;
 
-        // 管理员账户
+        // 管理员账户 todo 此处可接入缓存，将权限缓存一定时间
         if(Constants.SUPER_ADMIN.equals(shiroUser.id)) {
             permsList = accountService.findAllPerm();
         } else {

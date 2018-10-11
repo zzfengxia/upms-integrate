@@ -6,7 +6,7 @@
         from pm_menu t where t.status = '1'
     </select>
 
-    <select id="findByUserId" resultType="com.zz.upms.base.entity.system.PmMenu">
+    <select id="findByUserId" resultType="java.lang.Long">
         SELECT m.id
         FROM pm_menu m
         LEFT JOIN pm_role_menu rm ON m.id = rm.menu_id
@@ -22,16 +22,9 @@
         </if>
         order by idx
     </select>
-    
+
     <select id="findAllNormalPerm" resultType="java.lang.String">
         select m.perm from pm_menu m where m.status = '1' and m.perm is not null
-    </select>
-
-    <select id="findByRoleId" resultType="com.zz.upms.base.entity.system.PmMenu">
-      SELECT
-      tp.*
-      FROM pm_role_menu trm, pm_menu tm
-        where trm.menu_id = tm.id and trm.role_id = #{id}
     </select>
 
     <select id="findPermsByUserId" parameterType="java.lang.Long" resultType="java.lang.String">
@@ -44,5 +37,15 @@
 
     <select id="findNotButtonList" resultType="com.zz.upms.base.entity.system.PmMenu">
         select * from pm_menu where type != 2 order by idx asc
+    </select>
+
+    <select id="getListByParentIDAndUrlNotNull" resultType="com.zz.upms.base.entity.system.PmMenu">
+        select f.* from pm_menu f where f.parent_id = #{parentID} and url is not null and show_flag = 1
+        select f.* from pm_menu f where f.parent_id = #{parentID} and url is not null and show_flag = 1
+        <if test="menuID != null">
+            and f.id in
+            <foreach item="mid" index="index" collection="menuID" open="(" separator="," close=")">#{mid.id}</foreach>
+        </if>
+        order by idx
     </select>
 </mapper>

@@ -49,7 +49,7 @@ $(window).on('resize', function () {
 //注册菜单组件
 Vue.component('menuItem', menuItem);
 
-// 将vm设为全局变量
+// 将vm设为全局变量,可以供iframe使用
 var vm = new Vue({
     el: '#indexApp',
     data: {
@@ -59,7 +59,7 @@ var vm = new Vue({
         main: "main",
         password: '',   // 原密码
         newPassword: '', // 新密码
-        navTitle: "控制台",
+        navContent: [{'title': '控制台', 'url': 'main'}],
         isUpdatePwd: false,  // 修改密码
         isUserInfo: false,   // 个人信息
         completeData: [],    // 自动补全输入框数据
@@ -68,7 +68,14 @@ var vm = new Vue({
             logo: '',                       // Logo栏
             sidebar: '',                    // 菜单栏
             borderBottom: true,             // 下边框
-        }
+        },
+        // 数据字典
+        dict: {
+            cardCodeDict: {
+
+            }
+        },
+        dictTID: null
     },
     methods: {
         getMenuList: function (event) {
@@ -76,6 +83,12 @@ var vm = new Vue({
                 vm.menuList = r.data;
                 // 初始化自动补全搜索框
                 vm.loadAutoComplete();
+                // 添加路由
+                let router = new Router(function() {
+                    vm.main = "404"
+                });
+                routerList(router, vm.menuList);
+                router.start();
             });
         },
         getUser: function () {
@@ -183,36 +196,59 @@ var vm = new Vue({
                     vm.completeData.push({value: menu.viewName, data: menu.url});
                 }
             });
+        },
+        pullDataDict: function() {
+            // 更新数据字典
+            $.getJSON("spbiz/cardCodeDict/getCodeDict?_" + $.now(), function (r) {
+                let cardCodeDict = r.data;
+                if(!!cardCodeDict) {
+                    vm.dict.cardCodeDict = cardCodeDict;
+                }
+            });
+            this.dictTID = setTimeout(function () {
+                vm.pullDataDict();
+            }, 30000)
+        },
+        stopPull: function(tid) {
+            tid = !!tid ? tid : this.dictTID;
+            if(!!tid) {
+                clearTimeout(tid);
+            }
+        },
+        startPull: function() {
+            setTimeout(function () {
+                vm.pullDataDict();
+            }, 500)
         }
     },
     created: function () {
         this.getMenuList();
         this.getUser();
-    },
 
+        // 延迟加载各种数据字典
+        //this.stopPull();
+        //this.startPull();
+    },
     updated: function () {
-        //路由
-        let router = new Router(function () {
-            vm.main = "404"
-        });
-        routerList(router, vm.menuList);
-        router.start();
+        // 在DOM渲染有更新时调用(比如双向绑定的属性值有变化时就会调用)
     }
 });
 
+let count = 0;
+
 function routerList(router, menuList) {
     for (let key in menuList) {
+        count += 1;
         let menu = menuList[key];
         if (menu.type === 0) {
             routerList(router, menu.childMenu);
         } else if (menu.type === 1) {
-            router.add('#' + menu.url, function () {
-                let url = window.location.hash;
-
+            router.add('#' + menu.url, function(url) {
+                let hash = window.location.hash;
                 //替换iframe的url
-                vm.main = url.replace('#', '');
-
-                vm.navTitle = $("a[href='" + url + "']").text();
+                vm.main = hash.replace('#', '');
+                let title = menu.viewName;
+                vm.navContent = [{'title': title, 'url': hash}];
 
                 // 移除上个元素样式
                 $("a.active.nav-link").removeClass("active");
@@ -224,6 +260,16 @@ function routerList(router, menuList) {
                 let $parent_li = $("a[href='" + url + "']").parent().parents('li');
                 $parent_li.children('a.nav-link').addClass("active");
                 $parent_li.addClass('menu-open');
+            });
+
+            if(!!menu.childMenu && menu.childMenu.length > 0) {
+                routerList(router, menu.childMenu);
+            }
+        } else if (menu.type === 2) {
+            router.add('#' + menu.url, function(url) {
+                let hash = window.location.hash;
+                //替换iframe的url
+                vm.main = hash.replace('#', '');
             });
         }
     }

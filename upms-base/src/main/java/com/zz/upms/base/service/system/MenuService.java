@@ -75,6 +75,17 @@ public class MenuService extends BaseService<MenuDao, PmMenu> {
     }
 
     /**
+     * 查询所有父菜单的子菜单(且子菜单url不为空，并且show_flag为1)
+     *
+     * @param parentID
+     * @param menuID
+     * @return
+     */
+    public List<PmMenu> getListByParentIDAndUrlNotNull(Long parentID, List<Long> menuID) {
+        return baseMapper.getListByParentIDAndUrlNotNull(parentID, menuID);
+    }
+
+    /**
      * 递归父子关联菜单
      */
     private List<PmMenu> getMenuTreeList(List<PmMenu> menuList, List<Long> menuIdList) {
@@ -84,6 +95,9 @@ public class MenuService extends BaseService<MenuDao, PmMenu> {
             // 目录
             if (entity.getType() == MenuType.CATALOG.getValue()) {
                 entity.setChildMenu(getMenuTreeList(getListByParentIDAndWithIn(entity.getId(), menuIdList), menuIdList));
+            } else if(entity.getType() == MenuType.MENU.getValue()) {
+                // 父菜单是MenuType.MENU类型且url不为空，show_flag为1的菜单
+                entity.setChildMenu(getMenuTreeList(getListByParentIDAndUrlNotNull(entity.getId(), menuIdList), menuIdList));
             }
             subMenuList.add(entity);
         }

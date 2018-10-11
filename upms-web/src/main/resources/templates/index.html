@@ -128,7 +128,10 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-left">
                             <li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;首页</li>
-                            <li v-if="navTitle != ''" class="breadcrumb-item active">{{navTitle}}</li>
+                            <li v-for="(navInfo, idx) in navContent" :class="idx == (navContent.length - 1) ? 'breadcrumb-item active' : 'breadcrumb-item'">
+                                <template v-if="idx < (navContent.length - 1)"><a :href="navInfo.url">{{navInfo.title}}</a></template>
+                                <template v-else>{{navInfo.title}}</template>
+                            </li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->

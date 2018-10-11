@@ -18,4 +18,6 @@ public interface MenuDao extends BaseMapper<PmMenu> {
     List<String> findPermsByUserId(Long uid);
 
     List<PmMenu> findNotButtonList();
+
+    List<PmMenu> getListByParentIDAndUrlNotNull(@Param("parentID") Long parentID, @Param("menuID") List<Long> menuID);
 }

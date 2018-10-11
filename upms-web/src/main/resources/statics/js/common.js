@@ -31,6 +31,35 @@ function each(obj, callback) {
 
 var baseURL = window !== top ? $('#contextPath', parent.document).val() : $('#contextPath').val();
 
+/**
+ * url跳转
+ *
+ * @param url 跳转url请求
+ * @param navTitle 导航文本
+ */
+function toUrl(url, navTitle) {
+    top.window.location.hash = '#' + url;
+    if(!!top.vm.navContent) {
+        let navContent = {'title': navTitle, 'url': '#' + url};
+        top.vm.navContent.push(navContent);
+    }
+}
+
+/**
+ * 获取query串中指定的key信息
+ *
+ * @param name
+ * @returns {*}
+ */
+function getQueryString(name) {
+    let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) {
+        return decodeURIComponent(r[2]);
+    }
+    return null;
+}
+
 /*
  * 为表格绑定iCheck样式
  */
