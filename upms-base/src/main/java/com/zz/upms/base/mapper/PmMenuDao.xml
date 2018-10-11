@@ -41,7 +41,6 @@
 
     <select id="getListByParentIDAndUrlNotNull" resultType="com.zz.upms.base.entity.system.PmMenu">
         select f.* from pm_menu f where f.parent_id = #{parentID} and url is not null and show_flag = 1
-        select f.* from pm_menu f where f.parent_id = #{parentID} and url is not null and show_flag = 1
         <if test="menuID != null">
             and f.id in
             <foreach item="mid" index="index" collection="menuID" open="(" separator="," close=")">#{mid.id}</foreach>
