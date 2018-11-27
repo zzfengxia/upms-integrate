@@ -141,3 +141,20 @@ CREATE TABLE `pm_config_params` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_key` (`param_key`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8
+
+CREATE TABLE `cai_piao_history` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) DEFAULT NULL,
+  `code` varchar(10) NOT NULL COMMENT '期数代码',
+  `date` varchar(10) DEFAULT NULL COMMENT '日期',
+  `poolmoney` decimal(15,0) DEFAULT NULL COMMENT '奖池金额(元)',
+  `sales` int(11) DEFAULT NULL COMMENT '销售注数',
+  `content` varchar(600) DEFAULT NULL,
+  `red` varchar(32) DEFAULT NULL COMMENT '红球',
+  `blue` varchar(4) DEFAULT NULL COMMENT '篮球',
+  `blue2` varchar(4) DEFAULT NULL,
+  `prizegrades` text COMMENT '中奖信息',
+  `remark` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uniq_name_code` (`name`,`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
