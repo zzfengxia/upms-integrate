@@ -64,18 +64,53 @@
         </dependency>
     </dependencies>
 
+    <!-- 使用profile实现动态打包配置文件，使用 mvn clean install -P dev指令激活 -->
+    <profiles>
+        <!-- 本地环境 -->
+        <profile>
+            <id>local</id>
+            <properties>
+                <profileActive>local</profileActive>
+            </properties>
+            <!-- 默认激活 -->
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+
+        <!-- 测试环境 -->
+        <profile>
+            <id>uat</id>
+            <properties>
+                <profileActive>uat</profileActive>
+            </properties>
+        </profile>
+
+        <!-- 生产环境 -->
+        <profile>
+            <id>prod</id>
+            <properties>
+                <profileActive>prod</profileActive>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
         <finalName>upms</finalName>
         <resources>
             <resource>
-                <!-- 解决字体下载失败的问题 -->
                 <directory>src/main/resources</directory>
-                <filtering>false</filtering>
                 <excludes>
-                    <exclude>static/**</exclude>
+                    <exclude>application*.yml</exclude>
                 </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <!-- 是否替换@xx@表示的maven properties属性值 -->
+                <filtering>true</filtering>
                 <includes>
-                    <include>**</include>
+                    <include>application.yml</include>
+                    <include>application-${profileActive}.yml</include>
                 </includes>
             </resource>
         </resources>

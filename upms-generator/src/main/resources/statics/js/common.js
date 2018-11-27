@@ -226,3 +226,16 @@ function downloadWithPost(url, data) {
             })
     }
 }
+
+/**
+ * 监听Esc按键，关闭弹窗
+ */
+window.addEventListener("keydown", function (event) {
+    if (event.defaultPrevented) {
+        return;
+    }
+
+    if (event.key === 'Escape') {
+        layer.closeAll('page');
+    }
+});

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<#include "/header.html">
+	<!-- bootstrap -->
+	<link rel="stylesheet" href="${base}/statics/css/bootstrap.min.css">
+</head>
+<body>
+<div id="app" v-cloak>
+	<div class="card">
+		<div id="my-toolbar" class="grid-btn">
+			<#if shiro.hasPermission("caipiao:piaoHistory:create")>
+			<button class="btn btn-primary" @click="create"><i class="fa fa-plus"></i>&nbsp;新增</button>
+            </#if>
+            <#if shiro.hasPermission("caipiao:piaoHistory:del")>
+			<button class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</button>
+            </#if>
+            <#if shiro.hasPermission("caipiao:piaoHistory:update")>
+			<input value="true" ref="uptPermInput" type="hidden"/>
+            </#if>
+		</div>
+
+		<div class="card-body">
+			<table id="bt-table"></table>
+		</div>
+	</div>
+
+	<div id="winContent" v-show="show" class="layer-form">
+		<form id="piaoHistoryForm">
+			<div class="form-group row">
+				<div class="col-sm-3 col-form-label text-right">name</div>
+				<div class="col-sm-6">
+					<input type="text" v-model="piaoHistory.name" name="name" id="name" class="form-control" />
+			    </div>
+			</div>
+			<div class="form-group row">
+				<div class="col-sm-3 col-form-label text-right">期数代码</div>
+				<div class="col-sm-6">
+					<input type="text" v-model="piaoHistory.code" name="code" id="code" class="form-control" required/>
+			    </div>
+                <div class="text-danger col-form-label">*</div>
+			</div>
+			<div class="form-group row">
+				<div class="col-sm-3 col-form-label text-right">日期</div>
+				<div class="col-sm-6">
+					<input type="text" v-model="piaoHistory.date" name="date" id="date" class="form-control" />
+			    </div>
+			</div>
+			<div class="form-group row">
+				<div class="col-sm-3 col-form-label text-right">奖池金额(元)</div>
+				<div class="col-sm-6">
+					<input type="text" v-model="piaoHistory.poolmoney" name="poolmoney" id="poolmoney" class="form-control" />
+			    </div>
+			</div>
+			<div class="form-group row">
+				<div class="col-sm-3 col-form-label text-right">销售注数</div>
+				<div class="col-sm-6">
+					<input type="text" v-model="piaoHistory.sales" name="sales" id="sales" class="form-control" />
+			    </div>
+			</div>
+			<div class="form-group row">
+				<div class="col-sm-3 col-form-label text-right">content</div>
+				<div class="col-sm-6">
+					<input type="text" v-model="piaoHistory.content" name="content" id="content" class="form-control" />
+			    </div>
+			</div>
+			<div class="form-group row">
+				<div class="col-sm-3 col-form-label text-right">红球</div>
+				<div class="col-sm-6">
+					<input type="text" v-model="piaoHistory.red" name="red" id="red" class="form-control" />
+			    </div>
+			</div>
+			<div class="form-group row">
+				<div class="col-sm-3 col-form-label text-right">篮球</div>
+				<div class="col-sm-6">
+					<input type="text" v-model="piaoHistory.blue" name="blue" id="blue" class="form-control" />
+			    </div>
+			</div>
+			<div class="form-group row">
+				<div class="col-sm-3 col-form-label text-right">blue2</div>
+				<div class="col-sm-6">
+					<input type="text" v-model="piaoHistory.blue2" name="blue2" id="blue2" class="form-control" />
+			    </div>
+			</div>
+			<div class="form-group row">
+				<div class="col-sm-3 col-form-label text-right">中奖信息</div>
+				<div class="col-sm-6">
+					<input type="text" v-model="piaoHistory.prizegrades" name="prizegrades" id="prizegrades" class="form-control" />
+			    </div>
+			</div>
+			<div class="form-group row">
+				<div class="col-sm-3 col-form-label text-right">remark</div>
+				<div class="col-sm-6">
+					<input type="text" v-model="piaoHistory.remark" name="remark" id="remark" class="form-control" />
+			    </div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script src="${base}/statics/js/caipiao/piao_history.js?_${.now?long}"></script>
+</body>
+</html>

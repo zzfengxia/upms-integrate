@@ -110,6 +110,7 @@ CREATE TABLE `pm_user` (
   `status` varchar(32) DEFAULT NULL COMMENT '状态 1:正常;0:删除',
   `phone` varchar(25) DEFAULT NULL COMMENT '联系方式',
   `home_page` varchar(128) DEFAULT NULL COMMENT '首页显示',
+  `bg_style` varchar(500) DEFAULT NULL COMMENT '主题',
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;

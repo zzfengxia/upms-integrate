@@ -1,0 +1,37 @@
+# db配置
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost/upms?useUnicode=true&characterEncoding=utf-8
+    username: root
+    # 生成的加密后的密码
+    password: 123456
+    # 使用druid连接池
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 1
+      # 启用数据库密码加密
+      connection-properties: config.decrypt=true;config.decrypt.key=${druid-public-key}
+      filter:
+        config:
+          enabled: false
+      stat-view-servlet:
+        enabled: false # 关闭监控
+      # druid监控配置
+      # stat-view-servlet:
+        # urlPattern: /druid2/*
+        # allow: 192.168.1.1
+        # deny: 127.0.0.1
+
+  # redis配置
+  redis:
+    password: root
+
+# 数据库密码生成的公钥
+#druid-public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIrxV/7MjMHL5cSl4kygTqMJkMhL7gav02jrivwhIrlclInpBInVel4Xj28S/ZBc1LfjG1AV5jbuy+AzcUyR+k8CAwEAAQ==
+
+# 开启mybatis的日志输出，logging.level + mapper包名
+logging:
+  level:
+    com.vfuchong.sptsm: debug
+    com.baomidou.mybatisplus: debug

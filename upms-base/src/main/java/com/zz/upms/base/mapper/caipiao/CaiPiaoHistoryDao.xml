@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zz.upms.base.dao.caipiao.CaiPiaoHistoryDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseResultMap" type="com.zz.upms.base.entity.caipiao.CaiPiaoHistory">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="date" property="date"/>
+        <result column="poolmoney" property="poolmoney"/>
+        <result column="sales" property="sales"/>
+        <result column="content" property="content"/>
+        <result column="red" property="red"/>
+        <result column="blue" property="blue"/>
+        <result column="blue2" property="blue2"/>
+        <result column="prizegrades" property="prizegrades"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+</mapper>

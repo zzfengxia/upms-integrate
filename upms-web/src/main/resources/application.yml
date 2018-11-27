@@ -1,27 +1,4 @@
-# db配置
 spring:
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost/pm_temp?useUnicode=true&characterEncoding=utf-8
-    username: root
-    # 生成的加密后的密码(原密码 123456)
-    password: HTwYv4VibHXfh1QpJljZhVffxZz0OhQViz/2jv0qjHVz3eKJIF7P38nNwKO24zuQbHPT5HI4jBRitgpBncK8sA==
-    # 使用druid连接池
-    type: com.alibaba.druid.pool.DruidDataSource
-    druid:
-      initial-size: 1
-      # 启用数据库密码加密
-      connection-properties: config.decrypt=true;config.decrypt.key=${druid-public-key}
-      filter:
-        config:
-          enabled: true
-      stat-view-servlet:
-        enabled: false # 关闭监控
-
-  # redis配置
-  redis:
-    password: root
-
   application:
     name: upms
 
@@ -30,9 +7,22 @@ spring:
     suffix: .html
     # views上下文别名
     request-context-attribute: request
+  servlet:
+    # upload
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 500MB
+      enabled: true
+      resolve-lazily: false
+  profiles:
+    # maven变量，打包时会被替换成相应的profile。如果需要本地启动，则需要修改为对应的profile
+    active: local # @profileActive@
 
-# 数据库密码生成的公钥
-druid-public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAI9rpN+pvgXRhxzZmd4bzzQMTstgNf6HvINo2ZEK2vgkGBW/TZJIHNQIK3RmF4kYnGk+LJxhcbPTumN8hnaB3UECAwEAAQ==
+  http:
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
 
 # mybatis-plus
 mybatis-plus:
@@ -64,12 +54,6 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     cache-enabled: false
     call-setters-on-nulls: true
-
-# 开启mybatis的日志输出，logging.level + mapper包名
-logging:
-  level:
-    com.zz.upms: debug
-    com.baomidou.mybatisplus: debug
 
 server:
   tomcat:

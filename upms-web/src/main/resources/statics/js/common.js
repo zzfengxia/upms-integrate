@@ -219,7 +219,20 @@ $.prototype.customBootstrapTable = function(option) {
     let finalOpt = $.extend({}, cusOpt, option);
 
     return this.bootstrapTable(finalOpt);
-}
+};
+
+/**
+ * 监听Esc按键，关闭弹窗
+ */
+window.addEventListener("keydown", function (event) {
+    if (event.defaultPrevented) {
+        return;
+    }
+
+    if (event.key === 'Escape') {
+        layer.closeAll('page');
+    }
+});
 
 // ************ 自定义jquery-validate检验规则 **************
 jQuery.validator.addMethod("repeatPwd", function(value, element, params) {
