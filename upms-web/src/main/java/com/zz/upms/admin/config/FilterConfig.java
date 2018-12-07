@@ -1,7 +1,5 @@
 package com.zz.upms.admin.config;
 
-import com.zz.upms.admin.filter.KickoutSessionControlFilter;
-import org.apache.shiro.session.mgt.SessionManager;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,20 +13,11 @@ import javax.servlet.DispatcherType;
  *
  * @author Francis.zz
  * @date 2018-06-22 17:26
- * @desc 过滤器
+ * @desc 过滤器配置
  * ************************************
  */
 @Configuration
 public class FilterConfig {
-    @Bean
-    public KickoutSessionControlFilter kickoutSessionControlFilter(SessionManager sessionManager) {
-        KickoutSessionControlFilter kickoutFilter = new KickoutSessionControlFilter();
-        kickoutFilter.setKickoutUrl("/login?kickout=1");
-        kickoutFilter.setSessionManager(sessionManager);
-
-        return kickoutFilter;
-    }
-
     /**
      * shiro拦截器
      */

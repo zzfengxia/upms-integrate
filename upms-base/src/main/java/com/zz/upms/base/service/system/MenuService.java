@@ -48,6 +48,9 @@ public class MenuService extends BaseService<MenuDao, PmMenu> {
 
         // 用户菜单列表
         List<Long> menuIdList = findAllByUid(userId);
+        if(menuIdList == null || menuIdList.size() == 0) {
+            return new ArrayList<>();
+        }
         return getAllMenuList(menuIdList);
     }
 
@@ -245,7 +248,7 @@ public class MenuService extends BaseService<MenuDao, PmMenu> {
         filterMap.put("/logout", "logout");
 
         // 必须在末尾。使用user来启用rememberme功能而不是authc
-        filterMap.put("/**", "authc");
+        filterMap.put("/**", "kickout,authc");
 
         return filterMap;
     }

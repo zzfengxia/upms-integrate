@@ -1,10 +1,12 @@
 package com.zz.upms.admin.config;
 
 import com.google.common.collect.Lists;
-import com.zz.upms.base.service.shiro.ShiroDbRealm;
-import com.zz.upms.base.service.system.MenuService;
 import com.zz.upms.admin.filter.KickoutSessionControlFilter;
 import com.zz.upms.admin.listener.KickOutSessionListener;
+import com.zz.upms.base.service.shiro.ShiroDbRealm;
+import com.zz.upms.base.service.system.MenuService;
+import org.apache.shiro.cache.CacheManager;
+import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -14,6 +16,7 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -32,15 +35,26 @@ import java.util.Map;
  */
 @Configuration
 public class ShiroConfig {
+    /**
+     * 这里要命名Bean，否则会与redis配置的CacheManager冲突
+     * @return
+     */
+    @Bean("shiroCacheManager")
+    public CacheManager cacheManager() {
+        return new MemoryConstrainedCacheManager();
+    }
+
     @Bean("shiroFilter")
+    @Autowired
     public ShiroFilterFactoryBean shiroFilter(KickoutSessionControlFilter kickoutSessionControlFilter, MenuService menuService,
                                               SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
         shiroFilter.setSecurityManager(securityManager);
+        // 登录页面
         shiroFilter.setLoginUrl("/login");
         // 无权限跳转页面
         shiroFilter.setUnauthorizedUrl("/403");
-        // 添加拦截器
+        // 添加拦截器，可在url拦截中指定这里配置的拦截器key
         Map<String, Filter> filters = new HashMap<>();
         filters.put("kickout", kickoutSessionControlFilter);
         shiroFilter.setFilters(filters);
@@ -129,10 +143,12 @@ public class ShiroConfig {
     }
 
     @Bean("securityManager")
-    public SecurityManager securityManager(ShiroDbRealm realm, SessionManager sessionManager) {
+    public SecurityManager securityManager(ShiroDbRealm realm, SessionManager sessionManager, @Qualifier("shiroCacheManager") CacheManager memoryCacheManager) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(realm);
         securityManager.setSessionManager(sessionManager);
+        // 这里使用内存缓存，只做单机使用。集群部署使用redis,实现CacheManager接口
+        securityManager.setCacheManager(memoryCacheManager);
 
         //securityManager.setRememberMeManager();
         return securityManager;

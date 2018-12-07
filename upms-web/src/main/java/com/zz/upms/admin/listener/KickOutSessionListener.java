@@ -7,6 +7,8 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.session.SessionListenerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -21,6 +23,8 @@ public class KickOutSessionListener extends SessionListenerAdapter {
 	private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 	private Cache<String, Deque<Serializable>> cache;
 
+	@Autowired
+	@Qualifier("shiroCacheManager")
 	public void setCacheManager(CacheManager cacheManager) {
 		this.cache = cacheManager.getCache(SessionConstants.KICK_OUT_SESSION_KEY);
 	}
@@ -47,5 +51,4 @@ public class KickOutSessionListener extends SessionListenerAdapter {
 	public void onExpiration(Session session) {
 		this.removeSessionFromCache(session);
 	}
-
 }

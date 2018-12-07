@@ -136,8 +136,24 @@
                     }
                 });
             }
+        },
+        created: function() {
+            let kickoutFlag = getQueryString("kickout");
+            if(!!kickoutFlag && kickoutFlag === '1') {
+                this.error = true;
+                this.errorMsg = '您的账号已在别处登录';
+            }
         }
     });
+
+    function getQueryString(name) {
+        let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) {
+            return decodeURIComponent(r[2]);
+        }
+        return null;
+    }
 </script>
 </body>
 </html>
