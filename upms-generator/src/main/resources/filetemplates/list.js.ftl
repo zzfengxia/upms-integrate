@@ -27,7 +27,8 @@ let vm = new Vue({
                 // TODO 自定义搜索输入框提示语
                 return '搜索';
             },
-
+            // 使用post请求方式拉取数据
+            method: 'post',
             // 表格渲染完成回调
             onPostBody: function () {
                 // 绑定ICheck

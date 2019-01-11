@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import javax.validation.Valid;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import java.util.Arrays;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * ************************************
@@ -33,12 +36,11 @@ public class ${classInfo.className}Controller extends BaseController {
      * 分页列表
      */
     @RequestMapping("/list")
-    public PageResponse<?> list(PageParam param) {
+    public PageResponse<?> list(@RequestBody PageParam<JSONObject> param) {
         Page<${classInfo.className}> result = ${classInfo.className?uncap_first}Service.queryPage(param);
 
         return wrapperPageResult(result);
     }
-
 
     /**
      * 信息
@@ -54,7 +56,12 @@ public class ${classInfo.className}Controller extends BaseController {
      * 新增
      */
     @RequestMapping("/save/create")
-    public Response<?> create(@Valid @RequestBody ${classInfo.className} ${classInfo.className?uncap_first}) {
+    public Response<?> create(@Validated @RequestBody ${classInfo.className} ${classInfo.className?uncap_first}, BindingResult validResult) {
+        if(validResult.hasErrors()){
+            for (FieldError fieldError : validResult.getFieldErrors()) {
+                return Response.error(fieldError.getDefaultMessage());
+            }
+        }
         // TODO 校验数据是否冲突
 
         ${classInfo.className?uncap_first}Service.insert(${classInfo.className?uncap_first});

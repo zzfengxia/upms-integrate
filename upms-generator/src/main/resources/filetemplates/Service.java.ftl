@@ -27,7 +27,7 @@ public class ${classInfo.className}Service extends BaseService<${classInfo.class
      * @param param
      * @return
      */
-    public Page<${classInfo.className}> queryPage(PageParam param) {
+    public Page<${classInfo.className}> queryPage(PageParam<JSONObject> param) {
         // TODO 自定义关键字搜索
         String searchText = param.getSearch();
         Wrapper<${classInfo.className}> wrapper = new EntityWrapper<${classInfo.className}>();
