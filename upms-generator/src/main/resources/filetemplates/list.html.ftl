@@ -34,7 +34,7 @@
 			<#if !col.priFalg>
 			<div class="form-group row">
 				<div class="col-sm-3 col-form-label text-right"><#if (col.fieldDesc)??><#if col.fieldDesc?length gt 0>${col.fieldDesc}<#else>${col.fieldName}</#if><#else>${col.fieldName}</#if></div>
-				<div class="col-sm-6">
+				<div class="col-sm-8">
 					<input type="text" v-model="${classInfo.className?uncap_first}.${col.fieldName}" name="${col.fieldName}" id="${col.fieldName}" class="form-control" <#if col.notNull>required</#if>/>
 			    </div>
 				<#if col.notNull>
