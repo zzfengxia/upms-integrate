@@ -3,6 +3,7 @@ package com.zz.upms.base.service.system;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.zz.upms.base.annotation.EnableExecTimeLog;
 import com.zz.upms.base.common.constans.Constants;
 import com.zz.upms.base.common.exception.BizException;
 import com.zz.upms.base.common.protocol.PageParam;
@@ -45,6 +46,7 @@ public class AdminUserService extends BaseService<PmUserDao, PmUser> {
      * @param param
      * @return
      */
+    @EnableExecTimeLog(argIndex = 1)
     public Page<PmUser> queryPage(PageParam param) {
         String searchText = param.getSearch();
         Wrapper<PmUser> wrapper = new EntityWrapper<PmUser>()

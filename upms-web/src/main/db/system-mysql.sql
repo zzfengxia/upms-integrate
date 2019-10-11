@@ -158,3 +158,45 @@ CREATE TABLE `cai_piao_history` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uniq_name_code` (`name`,`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+CREATE TABLE `sequence` (
+  `seq_name` varchar(50) NOT NULL DEFAULT '',
+  `current_val` int(11) DEFAULT NULL,
+  `increment_val` int(11) DEFAULT NULL,
+  `min_val` int(11) DEFAULT NULL COMMENT '最小值',
+  `max_val` int(11) DEFAULT NULL COMMENT '最大值',
+  PRIMARY KEY (`seq_name`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT
+
+-- currval函数
+DELIMITER $$
+
+DROP FUNCTION IF EXISTS `currval`$$
+
+CREATE FUNCTION `currval`(v_seq_name VARCHAR(50)) RETURNS INT(11)
+BEGIN
+    DECLARE VALUE INT;
+    SET VALUE = 0;
+    SELECT current_val INTO VALUE  FROM sequence WHERE seq_name = v_seq_name;
+   RETURN VALUE;
+END$$
+
+DELIMITER ;
+
+-- getSequenceValue函数
+DELIMITER $$
+
+CREATE FUNCTION `getSequenceValue`(v_seq_name VARCHAR(50)) RETURNS INT(11)
+BEGIN
+DECLARE maxVal,minVal,currentVal,incrementVal INT;
+SELECT max_val,min_val,current_val,increment_val INTO maxVal,minVal,currentVal,incrementVal FROM sequence WHERE seq_name = v_seq_name FOR UPDATE;
+
+SET currentVal = currentVal + incrementVal;
+
+IF currentVal > maxVal THEN SET currentVal = minVal;
+END IF;
+UPDATE sequence SET current_val = currentVal
+WHERE seq_name = v_seq_name;
+RETURN currval(v_seq_name);
+END$$
+DELIMITER ;

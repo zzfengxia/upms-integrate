@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.zz.upms.base.common.protocol.CustomPage;
 import com.zz.upms.base.common.protocol.PageParam;
 import com.zz.upms.base.common.protocol.PageResponse;
 import com.zz.upms.base.service.shiro.ShiroDbRealm;
@@ -48,13 +49,13 @@ public class BaseService<M extends BaseMapper<T>, T> extends ServiceImpl<M, T> {
         boolean isAsc = "asc".equalsIgnoreCase(params.getOrder());
 
         if(sortCols == null) {
-            return new Page<>(curPage, params.getLimit(), params.getSort(), isAsc);
+            return new CustomPage<>(curPage, params.getLimit(), params.getSort(), isAsc);
         } else {
             if(StringUtils.isNotEmpty(params.getSort()) && !sortCols.contains(params.getSort())) {
                 sortCols.add(params.getSort());
             }
 
-            Page<T> page = new Page<>(curPage, params.getLimit());
+            Page<T> page = new CustomPage<>(curPage, params.getLimit());
             if(isAsc) {
                 page.setAscs(sortCols);
             } else {

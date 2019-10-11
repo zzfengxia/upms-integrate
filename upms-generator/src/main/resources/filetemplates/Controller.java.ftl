@@ -46,7 +46,7 @@ public class ${classInfo.className}Controller extends BaseController {
      * 信息
      */
     @RequestMapping("/info/{${pkField.fieldName}}")
-    public Response<?> info(@PathVariable("${pkField.fieldName}") Long ${pkField.fieldName}) {
+    public Response<?> info(@PathVariable("${pkField.fieldName}") ${pkField.fieldType} ${pkField.fieldName}) {
         ${classInfo.className} ${classInfo.className?uncap_first} = ${classInfo.className?uncap_first}Service.selectById(${pkField.fieldName});
 
         return Response.success(${classInfo.className?uncap_first});

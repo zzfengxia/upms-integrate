@@ -1,6 +1,7 @@
 package com.zz.upms.admin.web.controller.system;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.zz.upms.base.annotation.EnableExecTimeLog;
 import com.zz.upms.base.common.protocol.PageParam;
 import com.zz.upms.base.common.protocol.PageResponse;
 import com.zz.upms.base.common.protocol.Response;
@@ -123,6 +124,7 @@ public class MenuController extends BaseController {
     }
 
     @RequestMapping("/info/{id}")
+    @EnableExecTimeLog(argIndex = 1)
     public Response<?> info(@PathVariable("id") Long id) {
         PmMenu menu = menuService.selectById(id);
 
