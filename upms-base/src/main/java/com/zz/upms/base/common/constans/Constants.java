@@ -27,4 +27,13 @@ public final class Constants {
      * 禁用，无效状态
      */
     public final static String STATUS_INVALID = "0";
+
+    /**
+     * 主数据源
+     */
+    public static final String MASTE_SOURCE = "masterDB";
+    /**
+     * 从数据源
+     */
+    public static final String SLAVE_SOURCE = "slaveDB";
 }

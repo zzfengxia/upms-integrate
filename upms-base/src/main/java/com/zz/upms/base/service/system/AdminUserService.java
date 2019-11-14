@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.zz.upms.base.annotation.EnableExecTimeLog;
+import com.zz.upms.base.annotation.RoutingWith;
 import com.zz.upms.base.common.constans.Constants;
 import com.zz.upms.base.common.exception.BizException;
 import com.zz.upms.base.common.protocol.PageParam;
@@ -153,5 +154,33 @@ public class AdminUserService extends BaseService<PmUserDao, PmUser> {
 
         logger.info("用户[{}]于 {} 成功重置密码,新密码为[{}]", user.getUsername(), CommonUtils.getFormatDateStr(), newPwd);
         return newPwd;
+    }
+
+    @RoutingWith(Constants.SLAVE_SOURCE)
+    public boolean insertSlave(PmUser user) {
+        return insert(user);
+    }
+
+    @RoutingWith(Constants.MASTE_SOURCE)
+    public boolean insertMaster(PmUser user) {
+        return insert(user);
+    }
+
+    @RoutingWith(Constants.SLAVE_SOURCE)
+    @Transactional
+    public boolean insertSlaveWithTransaction(PmUser user) {
+        boolean res = insert(user);
+
+        int i = 1 / 0;
+        return res;
+    }
+
+    @RoutingWith(Constants.MASTE_SOURCE)
+    @Transactional
+    public boolean insertMasterWithTransaction(PmUser user) {
+        boolean res = insert(user);
+
+        int i = 1 / 0;
+        return res;
     }
 }

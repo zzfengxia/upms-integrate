@@ -1,0 +1,36 @@
+# Spring Boot 2.X 版本不再支持配置继承，多数据源的话每个数据源的所有配置都需要单独配置，否则配置不会生效
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    # 使用druid连接池
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      one:  # 多数据源
+        url: jdbc:mysql://localhost/upms?useUnicode=true&characterEncoding=utf-8
+        username: root
+        password: 123456
+        initial-size: 5
+        filter:
+          config:
+            enabled: false
+        stat-view-servlet:
+          enabled: false # 关闭监控
+      two:  # 多数据源
+        url: jdbc:mysql://192.168.1.208:3306/upms?useUnicode=true&characterEncoding=utf-8
+        username: answer
+        password: answer
+        initial-size: 4
+        filter:
+          config:
+            enabled: false
+        stat-view-servlet:
+          enabled: false # 关闭监控
+  # redis配置
+  redis:
+    password: root
+
+# 开启mybatis的日志输出，logging.level + mapper包名
+logging:
+  level:
+    com.vfuchong.sptsm: debug
+    com.baomidou.mybatisplus: debug
