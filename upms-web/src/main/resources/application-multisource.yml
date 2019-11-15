@@ -5,26 +5,38 @@ spring:
     # 使用druid连接池
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
+      stat-view-servlet:
+        enabled: false # 关闭监控
+      web-stat-filter:
+        enabled: false
+        session-stat-enable: false
+      filter:
+        stat:
+          enabled: false
+        wall:
+          enabled: false
+        slf4j:
+          enabled: false
+        log4j2:
+          enabled: false
+        log4j:
+          enabled: false
+        commons-log:
+          enabled: false
       one:  # 多数据源
-        url: jdbc:mysql://localhost/upms?useUnicode=true&characterEncoding=utf-8
+        url: jdbc:mysql://localhost/sptsm-pms?useUnicode=true&characterEncoding=utf-8
         username: root
         password: 123456
         initial-size: 5
-        filter:
-          config:
-            enabled: false
-        stat-view-servlet:
-          enabled: false # 关闭监控
+        min-idle: 2
+        max-active: 10
       two:  # 多数据源
-        url: jdbc:mysql://192.168.1.208:3306/upms?useUnicode=true&characterEncoding=utf-8
+        url: jdbc:mysql://192.168.1.208:3306/sptsm-pms?useUnicode=true&characterEncoding=utf-8
         username: answer
         password: answer
         initial-size: 4
-        filter:
-          config:
-            enabled: false
-        stat-view-servlet:
-          enabled: false # 关闭监控
+        min-idle: 2
+        max-active: 10
   # redis配置
   redis:
     password: root
