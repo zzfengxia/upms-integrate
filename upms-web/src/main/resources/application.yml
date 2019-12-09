@@ -1,7 +1,15 @@
+server:
+  tomcat:
+     uri-encoding: UTF-8
+     max-threads: 1000
+     min-spare-threads: 30
+  port: 8081
+  servlet:
+    context-path: /upms
+
 spring:
   application:
     name: upms
-
   # freemarker配置,默认utf-8
   freemarker:
     suffix: .html
@@ -16,7 +24,7 @@ spring:
       resolve-lazily: false
   profiles:
     # maven变量，打包时会被替换成相应的profile。如果需要本地启动，则需要修改为对应的profile
-    active: multisource # @profileActive@
+    active: local #@profileActive@
 
   http:
     encoding:
@@ -55,11 +63,4 @@ mybatis-plus:
     cache-enabled: false
     call-setters-on-nulls: true
 
-server:
-  tomcat:
-     uri-encoding: UTF-8
-     max-threads: 1000
-     min-spare-threads: 30
-  port: 8081
-  servlet:
-    context-path: /upms
+

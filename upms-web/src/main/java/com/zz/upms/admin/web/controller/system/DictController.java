@@ -1,5 +1,6 @@
 package com.zz.upms.admin.web.controller.system;
 
+import com.alibaba.nacos.api.config.annotation.NacosValue;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.zz.upms.base.common.protocol.PageParam;
 import com.zz.upms.base.common.protocol.PageResponse;
@@ -8,6 +9,7 @@ import com.zz.upms.base.entity.system.Dict;
 import com.zz.upms.base.service.system.DictService;
 import com.zz.upms.admin.web.controller.base.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,10 +32,23 @@ import java.util.List;
 public class DictController extends BaseController {
     @Autowired
     private DictService dictService;
+    @Value("${my.host}")
+    private String myHost;
+    @NacosValue(value = "${my.rabbit}", autoRefreshed = true)
+    private String rabbitUser;      // 使用@Value引用配置中心的参数不会自动刷新
+    @Value("${RABBIT_MQ_PASSWORD}")
+    private String rabbitPass;      // 使用@Value引用配置中心的参数不会自动刷新
+    @NacosValue(value = "${DATASOURCE_HOST}", autoRefreshed = true)
+    private String dbHost;
 
     @RequestMapping("/list")
     public PageResponse<?> list(PageParam param) {
         Page<Dict> result = dictService.queryPage(param);
+
+        System.out.println("myHost:" + myHost);
+        System.out.println("rabbitUser:" + rabbitUser);
+        System.out.println("rabbitPass:" + rabbitPass);
+        System.out.println("dbHost:" + dbHost);
 
         return wrapperPageResult(result);
     }

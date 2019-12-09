@@ -1,0 +1,13 @@
+version: '3'
+services:
+  upms-web:
+    image: registry.cn-hangzhou.aliyuncs.com/vfuchong/upms-web
+    container_name: upms-web
+    #restart: always
+    volumes:
+      - /app/logs:/app/logs
+      # 时间与宿主机同步
+      - /etc/localtime:/etc/localtime
+    ports:
+      - 18081:8081
+    env_file: .env

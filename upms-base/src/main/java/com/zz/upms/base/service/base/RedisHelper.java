@@ -90,4 +90,16 @@ public class RedisHelper {
         ZSetOperations<String, String> operations = redisTemplate.opsForZSet();
         return reverse ? operations.reverseRangeWithScores(key, 0, -1) : operations.rangeWithScores(key, 0, -1);
     }
+
+    public Boolean setNX(String key, String value) {
+        ValueOperations<String, String> operations = redisTemplate.opsForValue();
+
+        return operations.setIfAbsent(key, value);
+    }
+
+    public String getSet(String key, String value) {
+        ValueOperations<String, String> operations = redisTemplate.opsForValue();
+
+        return operations.getAndSet(key, value);
+    }
 }

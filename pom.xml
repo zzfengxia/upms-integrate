@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.3.RELEASE</version>
+        <version>2.2.1.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -134,6 +134,13 @@
                 <artifactId>httpclient</artifactId>
                 <version>4.5.2</version>
             </dependency>
+
+            <!-- nacos 配置中心 -->
+            <dependency>
+                <groupId>com.alibaba.boot</groupId>
+                <artifactId>nacos-config-spring-boot-starter</artifactId>
+                <version>0.2.3</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -152,46 +159,49 @@
     </pluginRepositories>-->
 
     <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.0</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <encoding>UTF-8</encoding>
-                    <compilerId>groovy-eclipse-compiler</compilerId>
-                    <verbose>true</verbose>
-                    <compilerArguments>
-                        <!-- consult Lombok docs to confirm agent class name for your version -->
-                        <javaAgentClass>lombok.launch.Agent</javaAgentClass>
-                    </compilerArguments>
-                    <fork>true</fork>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.codehaus.groovy</groupId>
-                        <artifactId>groovy-eclipse-compiler</artifactId>
-                        <version>${groovy.eclipse.compiler.version}</version>
-                    </dependency>
-                    <!-- for 2.8.0-01 and later you must have an explicit dependency on groovy-eclipse-batch -->
-                    <dependency>
-                        <groupId>org.codehaus.groovy</groupId>
-                        <artifactId>groovy-eclipse-batch</artifactId>
-                        <version>${groovy.eclipse.batch.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.codehaus.plexus</groupId>
-                        <artifactId>plexus-compiler-api</artifactId>
-                        <version>2.8.1</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.projectlombok</groupId>
-                        <artifactId>lombok</artifactId>
-                        <version>${lombok.version}</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-        </plugins>
+        <!-- pom父模块声明插件版本等信息，需要插件的子pom文件直接引入 -->
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.6.0</version>
+                    <configuration>
+                        <source>1.8</source>
+                        <target>1.8</target>
+                        <encoding>UTF-8</encoding>
+                        <compilerId>groovy-eclipse-compiler</compilerId>
+                        <verbose>true</verbose>
+                        <compilerArguments>
+                            <!-- consult Lombok docs to confirm agent class name for your version -->
+                            <javaAgentClass>lombok.launch.Agent</javaAgentClass>
+                        </compilerArguments>
+                        <fork>true</fork>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.codehaus.groovy</groupId>
+                            <artifactId>groovy-eclipse-compiler</artifactId>
+                            <version>${groovy.eclipse.compiler.version}</version>
+                        </dependency>
+                        <!-- for 2.8.0-01 and later you must have an explicit dependency on groovy-eclipse-batch -->
+                        <dependency>
+                            <groupId>org.codehaus.groovy</groupId>
+                            <artifactId>groovy-eclipse-batch</artifactId>
+                            <version>${groovy.eclipse.batch.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.codehaus.plexus</groupId>
+                            <artifactId>plexus-compiler-api</artifactId>
+                            <version>2.8.1</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 </project>

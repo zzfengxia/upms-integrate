@@ -1,8 +1,12 @@
+nacos:
+  config:
+    server-addr: 172.16.80.132:8848
+    auto-refresh: true
 # db配置
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost/upms?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://192.168.1.50/sptsm-pms?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT
     username: root
     # 生成的加密后的密码
     password: 123456
@@ -11,7 +15,7 @@ spring:
     druid:
       initial-size: 1
       # 启用数据库密码加密
-      connection-properties: config.decrypt=true;config.decrypt.key=${druid-public-key}
+      connection-properties: config.decrypt=false;config.decrypt.key=${druid-public-key}
       filter:
         config:
           enabled: false
@@ -26,6 +30,12 @@ spring:
   # redis配置
   redis:
     password: root
+    host: 192.168.1.50
+  rabbitmq:
+    host: 172.16.80.132
+    port: 5672
+    username: guest
+    password: mq2019!
 
 # 数据库密码生成的公钥
 #druid-public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIrxV/7MjMHL5cSl4kygTqMJkMhL7gav02jrivwhIrlclInpBInVel4Xj28S/ZBc1LfjG1AV5jbuy+AzcUyR+k8CAwEAAQ==
@@ -35,3 +45,8 @@ logging:
   level:
     com.vfuchong.sptsm: debug
     com.baomidou.mybatisplus: debug
+
+my:
+ host: ${REGISTER_HOST:172.0.0.1}
+ rabbit: ${RABBIT_MQ_USERNAME:admin}
+

@@ -61,7 +61,6 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
 		ShiroDbRealm.ShiroUser user = (ShiroDbRealm.ShiroUser) subject.getPrincipal();
 		Serializable sessionId = session.getId();
 
-		log.info("--sessionId:{}", sessionId);
 		// 允许管理员在多处登录
 		if (SessionConstants.ADMIN.equals(user.username)) {
 			return true;

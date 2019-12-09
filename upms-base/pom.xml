@@ -89,6 +89,11 @@
     </dependencies>
 
     <build>
+        <!--<plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+        </plugins>-->
         <resources>
             <!-- 此处可以将mapper包下的.xml文件打到jar包中 -->
             <resource>
