@@ -1,6 +1,7 @@
 package com.zz.upms.base.utils;
 
 import com.zz.upms.base.common.exception.BizException;
+import com.zz.upms.base.common.exception.ErrorCode;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -28,9 +29,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLContext;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.security.KeyStore;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -49,8 +47,7 @@ public class CustomApacheHttpClient {
     private final static Logger logger = LoggerFactory.getLogger(CustomApacheHttpClient.class);
 
     private final static String KEY = "5E986AA875BD34F12E1098DEAC97CA515E986AA875BD34F1";
-    private final static String KEY_STORE_TYPE_JKS = "jks";         // keystore，jks证书
-    private static final String KEY_STORE_TYPE_P12 = "PKCS12";        // .p12后缀的证书
+
     // 超时重试次数
     private static final int TIMEOUT_RETRY_COUNT = 3;
 
@@ -177,21 +174,11 @@ public class CustomApacheHttpClient {
      * https双向认证忽略服务器证书
      */
     private void createSSLClientWithBothNoTrustCert() {
-        FileInputStream keyStoreFile = null;
-        try {
-            // 密钥库
-            keyStoreFile = new FileInputStream(new File(keyPath));
-        } catch (FileNotFoundException e1) {
-            logger.error("Error:", e1);
-        }
-
         // 服务端支持的安全协议
         String[] supportedProtocols = {"TLSv1.2"};
         SSLConnectionSocketFactory socketFactory = null;
         try {
-            KeyStore keyStore = KeyStore.getInstance(getKstype(keyPath));
-
-            keyStore.load(keyStoreFile, keyStorePassword.toCharArray());
+            KeyStore keyStore = CertUtil.getKeyStoreByCert(keyPath, keyStorePassword);
 
             SSLContext sslContext = SSLContexts.custom()
                     .loadTrustMaterial(new org.apache.http.conn.ssl.TrustStrategy() {
@@ -227,27 +214,12 @@ public class CustomApacheHttpClient {
      * https双向认证带证书
      */
     private void createSSLClientWithBothCert() {
-        FileInputStream trustStoreFile = null;
-        FileInputStream keyStoreFile = null;
-        try {
-            // 信任库
-            trustStoreFile = new FileInputStream(new File(trustPath));
-            // 密钥库
-            keyStoreFile = new FileInputStream(new File(keyPath));
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
-            logger.error("Error:", e1);
-        }
-
         // 服务端支持的安全协议
         String[] supportedProtocols = {"TLSv1.2"};
         SSLConnectionSocketFactory socketFactory = null;
         try {
-            KeyStore truststore = KeyStore.getInstance(getKstype(trustPath));
-            KeyStore keyStore = KeyStore.getInstance(getKstype(keyPath));
-
-            truststore.load(trustStoreFile, trustStorePassword.toCharArray());
-            keyStore.load(keyStoreFile, keyStorePassword.toCharArray());
+            KeyStore truststore = CertUtil.getKeyStoreByCert(trustPath, trustStorePassword);
+            KeyStore keyStore = CertUtil.getKeyStoreByCert(keyPath, keyStorePassword);
 
             SSLContext sslContext = SSLContexts.custom().loadTrustMaterial(truststore, null)
                     .loadKeyMaterial(keyStore, keyPassword.toCharArray()).build();
@@ -272,13 +244,6 @@ public class CustomApacheHttpClient {
             e.printStackTrace();
             logger.error("Error:", e);
         }
-    }
-
-    private String getKstype(String certName) {
-        if (certName.endsWith(".p12")) {
-            return KEY_STORE_TYPE_P12;
-        }
-        return KEY_STORE_TYPE_JKS;
     }
 
     /**
@@ -344,13 +309,27 @@ public class CustomApacheHttpClient {
      * @throws Exception
      */
     public String doPost(String url, String jsonReq, String charset) throws Exception {
-        if (url.substring(0, 5).equalsIgnoreCase("https")) {
+        return doPost(url, jsonReq, charset, null);
+    }
+
+    /**
+     * POST，application/json请求，HTTP、HTTPS均可；SSL需要证书，暂只实现双向认证
+     * @param url 请求地址
+     * @param jsonReq 请求body中的内容。json格式的字符串
+     * @param charset 字符编码。例如utf-8
+     * @param headers 请求头。key是请求头的名称，value是请求头的值
+     * @return 请求成功后body中的内容
+     */
+    public String doPost(String url, String jsonReq, String charset, Map<String, String> headers) throws Exception {
+        logger.info("POST url={} body={} header={}", url, jsonReq, headers == null ? null :headers.toString());
+
+        if(url.substring(0, 5).equalsIgnoreCase("https")) {
             createSSLClient();
-        } else {
+        }else {
             createClient();
         }
-        if (this.client == null) {
-            throw new BizException("Failed to create Http client");
+        if(this.client == null) {
+            throw new BizException(ErrorCode.BIZ_ERROR);
         }
 
         HttpPost httpPost = new HttpPost(url);
@@ -360,15 +339,22 @@ public class CustomApacheHttpClient {
         reqEntity.setContentType("application/json");
         httpPost.setEntity(reqEntity);
 
+        // 添加请求头
+        if (headers != null && headers.size() > 0) {
+            for (String key : headers.keySet()) {
+                httpPost.addHeader(key, headers.get(key));
+            }
+        }
+
         String recvData = null;
         CloseableHttpResponse response = null;
         try {
             httpPost.setConfig(config);
-            response = client.execute(httpPost);
+            response = client.execute(httpPost) ;
             HttpEntity entity = response.getEntity();
             int respCode = response.getStatusLine().getStatusCode();
             if (respCode != HttpStatus.SC_OK) {
-                throw new BizException("Failed to execute Http request: " + respCode);
+                throw new BizException(ErrorCode.BIZ_ERROR);
             }
 
             if (entity != null) {
@@ -376,8 +362,8 @@ public class CustomApacheHttpClient {
                 logger.debug("Response content: " + recvData);
             }
             EntityUtils.consume(entity);
-        } finally {
-            if (response != null) {
+        }finally {
+            if(response != null) {
                 response.close();
             }
             this.client.close();
