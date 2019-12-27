@@ -4,4 +4,4 @@ MAINTAINER Francis.zz 674390846@qq.com
 ARG JAR_FILE
 
 COPY ${JAR_FILE} /app/app.jar
-ENTRYPOINT ["java","-jar","/app/app.jar"]
+ENTRYPOINT ["/bin/sh", "-c",  "java -jar ${JAVA_OPTS} /app/app.jar"]

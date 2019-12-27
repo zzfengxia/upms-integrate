@@ -3,11 +3,32 @@ services:
   upms-web:
     image: registry.cn-hangzhou.aliyuncs.com/vfuchong/upms-web
     container_name: upms-web
+    restart: always
     #restart: always
     volumes:
       - /app/logs:/app/logs
       # 时间与宿主机同步
       - /etc/localtime:/etc/localtime
     ports:
-      - 18081:8081
-    env_file: .env
+      - 8081:8081
+    environment:
+      JAVA_OPTS: "-server -Xms1024M -Xmx1024M -XX:MaxMetaspaceSize=256M -Xmn350M \
+                     -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled \
+                     -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=70 \
+                     -XX:+ScavengeBeforeFullGC -XX:+CMSScavengeBeforeRemark \
+                     -XX:+PrintGCDateStamps -verbose:gc -XX:+PrintGCDetails -Xloggc:/app/biz_logs/sptsm-server/gclogs/gc_%t.log \
+                     -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/app/biz_logs/sptsm-server/gclogs/heapDump_%t.hprof"
+      # 使容器内可以使用jmap等jvm指令
+      cap_add:
+        - SYS_PTRACE
+
+      # 仅对docker swarm mode生效
+      deploy:
+        resources:
+          limits:
+            cpus: '0.50'
+            memory: 2g
+          reservations:
+            cpus: '0.25'
+            memory: 500M
+      #env_file: .env
