@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <property name="appName" value="upms-generator"/>
+    <property name="appName" value="upms-rabbitmq"/>
     <property name="logDir" value="/app/biz_logs/${appName}"/>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">

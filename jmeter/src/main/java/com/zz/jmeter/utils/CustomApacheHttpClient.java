@@ -1,9 +1,7 @@
-package com.zz.upms.base.utils;
+package com.zz.jmeter.utils;
 
 import com.google.common.collect.Lists;
-import com.zz.upms.base.common.exception.BizException;
-import com.zz.upms.base.utils.CertUtil;
-import com.zz.upms.base.utils.DesUtil;
+import com.zz.jmeter.exception.BizException;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
@@ -348,76 +346,6 @@ public class CustomApacheHttpClient {
             this.client.close();
         }
         return recvData;
-    }
-
-    /**
-     * get请求
-     *
-     * @param url
-     * @param cookies
-     * @param headers
-     * @param charset
-     * @return
-     * @throws Exception
-     */
-    public String doGet(String url, Map<String, String> cookies, Map<String, String> headers, String charset) throws Exception {
-        createClient(url);
-        checkClient();
-
-        HttpGet httpGet = new HttpGet(url);
-        httpGet.setConfig(config);
-
-        // 添加cookies
-        if(cookies != null) {
-            String cookiesStr = mapToString(cookies);
-            httpGet.addHeader("Cookie", cookiesStr);
-        }
-        // 添加http headers
-        if (headers != null && headers.size() > 0) {
-            for (String key : headers.keySet()) {
-                httpGet.addHeader(key, headers.get(key));
-            }
-        }
-
-        String recvData = null;
-        CloseableHttpResponse response = null;
-        try {
-
-            response = this.client.execute(httpGet);
-            int respCode = response.getStatusLine().getStatusCode();
-
-            if (respCode != HttpStatus.SC_OK) {
-                throw new BizException("Failed to execute Http request,error code: " + respCode);
-            }
-            HttpEntity resEntity = response.getEntity();
-            if (resEntity != null) {
-                recvData = EntityUtils.toString(resEntity, charset);
-            }
-        } finally {
-            if (response != null) {
-                response.close();
-            }
-            this.client.close();
-        }
-        return recvData;
-    }
-
-    private static String mapToString(Map<String, String> params) {
-        StringBuilder sb = new StringBuilder();
-        Set<String> keys = params.keySet();
-        boolean isFirst = true;
-        for (String key : keys) {
-            if(isFirst) {
-                isFirst = false;
-            } else {
-                sb.append(";");
-            }
-            sb.append(key);
-            sb.append("=");
-            sb.append(params.get(key));
-        }
-
-        return sb.toString();
     }
 
     private void checkClient() {

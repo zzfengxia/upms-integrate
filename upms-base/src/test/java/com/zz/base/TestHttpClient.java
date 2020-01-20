@@ -1,7 +1,7 @@
 package com.zz.base;
 
 import com.zz.upms.base.utils.CustomApacheHttpClient;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * ************************************

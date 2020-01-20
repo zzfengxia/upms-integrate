@@ -1,0 +1,26 @@
+server:
+  tomcat:
+     uri-encoding: UTF-8
+     max-threads: 100
+     min-spare-threads: 10
+  port: 8083
+  servlet:
+    context-path: /mq
+
+spring:
+  application:
+    name: mq-test
+
+  rabbitmq:
+    addresses: 172.16.80.132
+    password: mq2019!
+    username: guest
+    port: 5672
+    listener:
+      type: simple
+      simple:
+        default-requeue-rejected: false # 拒绝的消息是否重新投递，设置为false会将消息投入死信队列(绑定了死信Exchange的情况)
+        acknowledge-mode: manual    # manual:手动确认消息
+    template:
+      reply-timeout: 1000 # 消息投递后等待结果的时间
+    publisher-confirm-type: correlated # 使用消费者确认模式
