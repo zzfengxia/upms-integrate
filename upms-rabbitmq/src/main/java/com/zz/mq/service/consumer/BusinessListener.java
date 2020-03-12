@@ -1,6 +1,7 @@
 package com.zz.mq.service.consumer;
 
 import com.rabbitmq.client.Channel;
+import com.zz.mq.annotation.IdempotentConsumeDB;
 import com.zz.mq.config.DeadLetterRabbitMqConfig;
 import com.zz.mq.config.DelayRabbitMqConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -9,8 +10,6 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-
-import static com.zz.mq.config.DeadLetterRabbitMqConfig.BUSINESS_QUEUEB_NAME;
 
 /**
  * ************************************
@@ -55,5 +54,11 @@ public class BusinessListener {
     public void delayReceive(Message message, Channel channel) throws IOException {
         log.info("插件延时队列收到消息：" + new String(message.getBody()));
         channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+    }
+    
+    @RabbitListener(queues = "demo.db.queue")
+    @IdempotentConsumeDB
+    public void demoDbListener(Message message, Channel channel) {
+        log.info("db demo listener exec...");
     }
 }

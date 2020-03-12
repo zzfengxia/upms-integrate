@@ -23,6 +23,10 @@ public class RoutingDataSourceContext implements AutoCloseable {
     public static void setDataSourceRoutingKey(String key) {
         threadLocalDataSourceKey.set(key);
     }
+    
+    public static void clear() {
+        threadLocalDataSourceKey.remove();
+    }
 
     @Override
     public void close() throws Exception {

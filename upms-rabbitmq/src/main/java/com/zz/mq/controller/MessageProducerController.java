@@ -1,13 +1,12 @@
 package com.zz.mq.controller;
 
+import com.zz.mq.config.QueueEnum;
 import com.zz.mq.config.ReliableDeliveryConfig;
 import com.zz.mq.service.producer.MessageProducer;
 import com.zz.mq.service.producer.ReliableMessageProducer;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.NumberUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -71,6 +70,16 @@ public class MessageProducerController {
         reliableMessageProducer.sendCustomMsg(ReliableDeliveryConfig.BUSINESS_EXCHANGE_NAME, "noroute", msg);
         reliableMessageProducer.sendCustomMsg(ReliableDeliveryConfig.BUSINESS_EXCHANGE_NAME, ReliableDeliveryConfig.BUSINESS_ROUTINGKEY_NAME, msg);
 
+        return "success";
+    }
+    
+    @GetMapping("sendDbMsg")
+    @ResponseBody
+    public String sendDbMsg(String msg) {
+        log.info("send msg:{}", msg);
+        producer.sendMsgAndPersistDB(msg, QueueEnum.PERSIST_DB_QUEUE.getRoutingKey());
+        producer.sendMsgAndPersistDB(msg, "key.demo");
+        
         return "success";
     }
 }

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zz.mq.dao.MqMsgLogDao">
+    <resultMap id="BaseResultMap" type="com.zz.mq.entity.MqMsgLog">
+        <id column="msg_id" jdbcType="VARCHAR" property="msgId"/>
+        <result column="msg_text" jdbcType="VARCHAR" property="msgText"/>
+        <result column="exchange" jdbcType="VARCHAR" property="exchange"/>
+        <result column="routing_key" jdbcType="VARCHAR" property="routingKey"/>
+        <result column="status" jdbcType="CHAR" property="status"/>
+        <result column="try_count" jdbcType="INTEGER" property="tryCount"/>
+        <result column="next_try_time" jdbcType="TIMESTAMP" property="nextTryTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    msg_id, msg_text, exchange, routing_key, `status`, try_count, next_try_time, create_time, 
+    update_time
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mq_msg_log
+        where msg_id = #{msgId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from mq_msg_log
+    where msg_id = #{msgId,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.zz.mq.entity.MqMsgLog">
+    insert into mq_msg_log (msg_id, msg_text, exchange, routing_key,
+      `status`, try_count, next_try_time, 
+      create_time, update_time)
+    values (#{msgId}, #{msgText,jdbcType=VARCHAR}, #{exchange,jdbcType=VARCHAR}, #{routingKey,jdbcType=VARCHAR},
+      #{status,jdbcType=CHAR}, #{tryCount,jdbcType=INTEGER}, #{nextTryTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" parameterType="com.zz.mq.entity.MqMsgLog">
+        insert into mq_msg_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            msg_id,
+            <if test="msgText != null">
+                msg_text,
+            </if>
+            <if test="exchange != null">
+                exchange,
+            </if>
+            <if test="routingKey != null">
+                routing_key,
+            </if>
+            <if test="status != null">
+                `status`,
+            </if>
+            <if test="tryCount != null">
+                try_count,
+            </if>
+            <if test="nextTryTime != null">
+                next_try_time,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{msgId}
+            <if test="msgText != null">
+                #{msgText,jdbcType=VARCHAR},
+            </if>
+            <if test="exchange != null">
+                #{exchange,jdbcType=VARCHAR},
+            </if>
+            <if test="routingKey != null">
+                #{routingKey,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=CHAR},
+            </if>
+            <if test="tryCount != null">
+                #{tryCount,jdbcType=INTEGER},
+            </if>
+            <if test="nextTryTime != null">
+                #{nextTryTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zz.mq.entity.MqMsgLog">
+        update mq_msg_log
+        <set>
+            <if test="msgText != null">
+                msg_text = #{msgText,jdbcType=VARCHAR},
+            </if>
+            <if test="exchange != null">
+                exchange = #{exchange,jdbcType=VARCHAR},
+            </if>
+            <if test="routingKey != null">
+                routing_key = #{routingKey,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                `status` = #{status,jdbcType=CHAR},
+            </if>
+            <if test="tryCount != null">
+                try_count = #{tryCount,jdbcType=INTEGER},
+            </if>
+            <if test="nextTryTime != null">
+                next_try_time = #{nextTryTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where msg_id = #{msgId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.zz.mq.entity.MqMsgLog">
+        update mq_msg_log
+        set msg_text = #{msgText,jdbcType=VARCHAR},
+          exchange = #{exchange,jdbcType=VARCHAR},
+          routing_key = #{routingKey,jdbcType=VARCHAR},
+          `status` = #{status,jdbcType=CHAR},
+          try_count = #{tryCount,jdbcType=INTEGER},
+          next_try_time = #{nextTryTime,jdbcType=TIMESTAMP},
+          create_time = #{createTime,jdbcType=TIMESTAMP},
+          update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where msg_id = #{msgId,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateTryCount">
+        update msg_log set try_count = try_count + 1, next_try_time = #{nextTryTime}
+        <if test="updateTime != null">
+            ,update_time = #{updateTime}
+        </if>
+        where msg_id = #{msgId}
+    </update>
+</mapper>
