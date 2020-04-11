@@ -6,7 +6,6 @@ import com.zz.mq.common.MessageStatEnum;
 import com.zz.mq.entity.MqMsgLog;
 import com.zz.mq.service.MqMsgService;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;

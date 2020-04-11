@@ -30,6 +30,10 @@ spring:
         initial-size: 5
         min-idle: 2
         max-active: 10
+        # 启用数据库密码加密；多数据源的场景需要手动解密，重写DruidPasswordCallback.setProperties方法
+        password-callback-class-name: com.vfuchong.sptsm.admin.config.DbPasswordCallback
+        connection-properties: config.decrypt=true;config.decrypt.key=${druid-public-key};config.decrypt.password=Ftm4rjwdZLc3ah6MDnrMS/2iIdMQjpg0uZdCuaiX5E9JyS4gCZRHWRNedl+JI8DKgP48aKyvinshNLJv9bzNxA==
+
       two:  # 多数据源
         url: jdbc:mysql://192.168.1.208:3306/sptsm-pms?useUnicode=true&characterEncoding=utf-8
         username: answer
@@ -37,9 +41,15 @@ spring:
         initial-size: 4
         min-idle: 2
         max-active: 10
+        # 启用数据库密码加密；多数据源的场景需要手动解密，重写DruidPasswordCallback.setProperties方法
+        password-callback-class-name: com.vfuchong.sptsm.admin.config.DbPasswordCallback
+        connection-properties: config.decrypt=true;config.decrypt.key=${druid-public-key};config.decrypt.password=Ftm4rjwdZLc3ah6MDnrMS/2iIdMQjpg0uZdCuaiX5E9JyS4gCZRHWRNedl+JI8DKgP48aKyvinshNLJv9bzNxA==
+
   # redis配置
   redis:
     password: root
+
+druid-public-key: ffffffffffffffffffff
 
 # 开启mybatis的日志输出，logging.level + mapper包名
 logging:

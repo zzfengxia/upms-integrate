@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <property name="appName" value="upms-web"/>
+    <property name="logDir" value="/app/biz_logs/${appName}"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %class{50}\(%line\) - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="catalina" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${logDir}/catalina/catalina.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>${logDir}/catalina/catalina-%i.log</fileNamePattern>
+            <minIndex>1</minIndex>
+            <maxIndex>20</maxIndex>
+        </rollingPolicy>
+
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>500mb</maxFileSize>
+        </triggeringPolicy>
+
+        <encoder>
+            <charset>UTF-8</charset>
+            <Pattern>%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %class{20}\(%line\) - %msg%n</Pattern>
+        </encoder>
+    </appender>
+
+    <appender name="sptsm" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${logDir}/${appName}.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <FileNamePattern>${logDir}/${appName}.log.%d{yyyy-MM-dd}</FileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <Pattern>%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %class{20}\(%line\) - %msg%n</Pattern>
+        </encoder>
+    </appender>
+
+    <appender name="test" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${logDir}/httpclient.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <FileNamePattern>${logDir}/httpclient.log.%d{yyyy-MM-dd}</FileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <Pattern>%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %class{20}\(%line\) - %msg%n</Pattern>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>

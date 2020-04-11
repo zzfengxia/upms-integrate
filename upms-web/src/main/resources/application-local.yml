@@ -6,21 +6,36 @@ nacos:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://192.168.1.50/sptsm-pms?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT
+    url: jdbc:mysql://localhost/sptsm-pms?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT
     username: root
     # 生成的加密后的密码
-    password: 123456
+    password: UTXT6isuMZ3sAdJ4189ndjZmhDOiyV5fmij6/eHDIxq+Fni+xsK53GHhHvKPVrCPVfsvEPoEfc98yrGwoFDa6Q==
     # 使用druid连接池
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       initial-size: 1
       # 启用数据库密码加密
-      connection-properties: config.decrypt=false;config.decrypt.key=${druid-public-key}
+      connection-properties: config.decrypt=true;config.decrypt.key=${druid-public-key}
       filter:
-        config:
+        stat:
           enabled: false
+        wall:
+          enabled: false
+        slf4j:
+          enabled: false
+        log4j2:
+          enabled: false
+        log4j:
+          enabled: false
+        commons-log:
+          enabled: false
+        config: # 该配置要启用才能加密数据库密码
+          enabled: true
       stat-view-servlet:
         enabled: false # 关闭监控
+      web-stat-filter:
+        enabled: false
+        session-stat-enable: false
       # druid监控配置
       # stat-view-servlet:
         # urlPattern: /druid2/*
@@ -38,13 +53,15 @@ spring:
     password: mq2019!
 
 # 数据库密码生成的公钥
-#druid-public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIrxV/7MjMHL5cSl4kygTqMJkMhL7gav02jrivwhIrlclInpBInVel4Xj28S/ZBc1LfjG1AV5jbuy+AzcUyR+k8CAwEAAQ==
+druid-public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJCUm/3gVB71tTi/1xP/Sd/WTVTKw5EnrLQ2kPiLRcFuwn0GGFCJJ+AqH1XNJgfg2G6gBlXv5vJB+aq1/XZtfs0CAwEAAQ==
 
 # 开启mybatis的日志输出，logging.level + mapper包名
 logging:
   level:
     com.vfuchong.sptsm: debug
     com.baomidou.mybatisplus: debug
+  # 配置logback profile
+  config: classpath:logback-local.xml
 
 my:
  host: ${REGISTER_HOST:172.0.0.1}
