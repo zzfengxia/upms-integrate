@@ -196,6 +196,52 @@ public class MessageProducerController {
         ));
     }
     
+    @GetMapping("getDemo/sub1")
+    @ResponseBody
+    public String sub1(HttpServletRequest request, @RequestHeader Map<String, String> headers) throws InterruptedException {
+        String uid = UUID.randomUUID().toString();
+        log.info("[{}] receive request json:{}", uid, request.getParameterMap());
+        // 收到的请求头的key都会被转为小写
+        log.info("[{}] receive request headers:{}", uid, JSON.toJSONString(headers));
+        if(request.getParameter("testException") != null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        
+        if(request.getParameter("timeout") != null) {
+            Thread.sleep(60000);
+        }
+        
+        return JSON.toJSONString(ImmutableMap.of(
+                "uid", uid,
+                "message", "sub1",
+                "responseTime", responseTime(),
+                "code", "0"
+        ));
+    }
+    
+    @GetMapping("getDemo/sub2/sub1")
+    @ResponseBody
+    public String sub2(HttpServletRequest request, @RequestHeader Map<String, String> headers) throws InterruptedException {
+        String uid = UUID.randomUUID().toString();
+        log.info("[{}] receive request json:{}", uid, request.getParameterMap());
+        // 收到的请求头的key都会被转为小写
+        log.info("[{}] receive request headers:{}", uid, JSON.toJSONString(headers));
+        if(request.getParameter("testException") != null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        
+        if(request.getParameter("timeout") != null) {
+            Thread.sleep(60000);
+        }
+        
+        return JSON.toJSONString(ImmutableMap.of(
+                "uid", uid,
+                "message", "sub2",
+                "responseTime", responseTime(),
+                "code", "0"
+        ));
+    }
+    
     private String responseTime() {
         return DateFormatUtils.format(new Date(), "MM-dd HH:mm:ss.SSS");
     }

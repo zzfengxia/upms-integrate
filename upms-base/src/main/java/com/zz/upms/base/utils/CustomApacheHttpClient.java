@@ -2,8 +2,6 @@ package com.zz.upms.base.utils;
 
 import com.google.common.collect.Lists;
 import com.zz.upms.base.common.exception.BizException;
-import com.zz.upms.base.utils.CertUtil;
-import com.zz.upms.base.utils.DesUtil;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
@@ -19,6 +17,7 @@ import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
@@ -150,14 +149,10 @@ public class CustomApacheHttpClient {
                     }).loadKeyMaterial(keyStore, keyPassword.toCharArray()).build();
 
         } else {
-            // https单向认证忽略服务器证书
-            sslContext = SSLContexts.custom()
-                    .loadTrustMaterial(new org.apache.http.conn.ssl.TrustStrategy() {
-                        @Override
-                        public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                            return true;
-                        }
-                    }).build();
+            // https单向认证忽略服务器证书 SSLContexts.custom()
+            // 解决 Certificates does not conform to algorithm constraints 错误
+            sslContext =  new MySSLContextBuilder()
+                    .loadTrustMaterial((TrustStrategy) (chain, authType) -> true).build();
         }
 
         return sslContext;
