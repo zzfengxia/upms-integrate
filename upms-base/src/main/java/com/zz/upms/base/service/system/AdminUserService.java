@@ -65,6 +65,7 @@ public class AdminUserService extends BaseService<PmUserDao, PmUser> {
     @Transactional
     public void createUser(PmUser user) {
         accountService.encryptUser(user);
+        user.setDacGroup(StringUtils.join(user.getDacGroupList(), ","));
         user.setcTime(new Date());
         user.setmTime(new Date());
 
@@ -80,6 +81,7 @@ public class AdminUserService extends BaseService<PmUserDao, PmUser> {
     @Transactional
     public void updateUser(PmUser user) {
         user.setmTime(new Date());
+        user.setDacGroup(StringUtils.join(user.getDacGroupList(), ","));
         super.updateAllColumnById(user);
 
         // 更新用户角色

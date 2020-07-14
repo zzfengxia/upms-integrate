@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.zz.upms.base.common.constans.RedisKey;
 import com.zz.upms.base.common.protocol.PageParam;
+import com.zz.upms.base.dac.EnableDAC;
 import com.zz.upms.base.dao.system.ConfigParamDao;
 import com.zz.upms.base.entity.system.ConfigParam;
 import com.zz.upms.base.service.base.BaseService;
@@ -45,6 +46,7 @@ public class ConfigParamService extends BaseService<ConfigParamDao, ConfigParam>
      * @param param
      * @return
      */
+    @EnableDAC(getMethod = "getRecords", setMethod = "setRecords", setMethodParams = List.class)
     public Page<ConfigParam> queryPage(PageParam param) {
         String searchText = param.getSearch();
         Wrapper<ConfigParam> wrapper = new EntityWrapper<ConfigParam>()

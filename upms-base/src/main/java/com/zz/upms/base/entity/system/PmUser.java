@@ -26,12 +26,18 @@ public class PmUser extends BaseEntity {
     private String status;         // 1:正常;0:删除
     private String homePage;       // 首页
     private String bgStyle;        // 背景风格
+    
+    /**
+     * 数据权限控制，多个权限可用“,”分隔
+     */
+    private String dacGroup;
 
     @TableField(exist = false)
     private List<PmRole> roleList;
     @TableField(exist = false)
     private List<Long> roles;    // role id
-
+    @TableField(exist = false)
+    private List<String> dacGroupList;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public String getPassword() {

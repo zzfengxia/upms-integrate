@@ -62,7 +62,11 @@ class UserController extends BaseController {
     @RequestMapping("/info/{userId}")
     public Response<?> info(@PathVariable("userId") Long userId){
         PmUser user = userService.selectById(userId)
-
+        List<String> dacList = []
+        if(StringUtils.isNotEmpty(user.getDacGroup())) {
+            dacList = user.getDacGroup().split(",")
+        }
+        user.setDacGroupList(dacList)
         // 获取用户所属的角色列表
         List<Long> roleIdList = userroleService.queryRoleIdsByUserId(userId)
         user.setRoles(roleIdList)

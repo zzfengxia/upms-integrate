@@ -10,9 +10,11 @@ var vm = new Vue({
         show: false, // 是否渲染弹窗
         isUpdate: false,
         roles: [],
+        dacGroup: {},
         user: {
             status: "1",
-            roles: []
+            roles: [],
+            dacGroupList: []
         },
         check: {
             msgClass: '',
@@ -24,7 +26,7 @@ var vm = new Vue({
     mounted: function(){
         // vue对象
         let _this = this;
-
+        this.getDacGroup();
         this.tab = $("#bt-table").customBootstrapTable({
             url: baseURL + '/admin/user/list',
             toolbar: '#my-toolbar', // 自定义工具栏，jquery选择器
@@ -107,6 +109,20 @@ var vm = new Vue({
             this.getRoleList();
 
             this.openWin();
+        },
+        getDacGroup: function () {
+            /*let _this = this;
+            $.get(baseURL + "/caller/dacGroup", function(res) {
+                if(res.status === '0') {
+                    let data = res.data;
+                    _this.sourceChannelDict = data;
+                }
+            });*/
+            let _this = this;
+            _this.dacGroup = {
+                "1": "普通商户",
+                "2": "VIP商户"
+            }
         },
         del: function () {
             let rows = selectRows();
@@ -231,7 +247,7 @@ var vm = new Vue({
                 end: function() {
                     // 清空user
                     if(vm.isUpdate) {
-                        vm.user = {status: "1", roles: []};
+                        vm.user = {status: "1", roles: [], dacGroupList: []};
                     } else {
                         vm.user.password = null;
                     }

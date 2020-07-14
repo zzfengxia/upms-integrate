@@ -29,7 +29,7 @@ public class UserDTO {
     private String bgStyle;
 
     private List<Long> roles;	// role id
-
+    private List<String> dacGroupList;
     public UserDTO() {
 
     }
@@ -44,6 +44,7 @@ public class UserDTO {
         this.status = user.getStatus();
         this.homePage = user.getHomePage();
         this.bgStyle = getBgStyle();
+        this.dacGroupList = user.getDacGroupList();
 
         if(user.getRoles() != null) {
             this.roles = new ArrayList<>();

@@ -99,7 +99,8 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			}
 
             ShiroUser shiroUser = new ShiroUser(user.getId(), user.getUsername(), user.getRealname(), user.getJobuuid(), user.getHomePage(), user.getBgStyle());
-
+            shiroUser.setDacGroup(user.getDacGroup());
+            
             AuthenticationInfo info = new SimpleAuthenticationInfo(shiroUser, user.getPassword(), ByteSource.Util.bytes(salt), getName());
 
             return info;
@@ -129,6 +130,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
         public String jobuuid;
         public String homePage;
         public String bgStyle;
+        public String dacGroup;
 
         /**
          *
@@ -168,6 +170,14 @@ public class ShiroDbRealm extends AuthorizingRealm {
         @Override
         public boolean equals(Object obj) {
             return EqualsBuilder.reflectionEquals(this, obj, "username");
+        }
+    
+        public String getDacGroup() {
+            return dacGroup;
+        }
+    
+        public void setDacGroup(String dacGroup) {
+            this.dacGroup = dacGroup;
         }
     }
 }

@@ -39,7 +39,7 @@ public class DbPasswordCallback extends DruidPasswordCallback {
     }
 
     public static void main(String[] args) throws Exception {
-        String passwordPlain = "1%!";
+        String passwordPlain = "123456";
         String[] arr = ConfigTools.genKeyPair(512);
         System.out.println("privateKey:" + arr[0]);
         System.out.println("publicKey:" + arr[1]);

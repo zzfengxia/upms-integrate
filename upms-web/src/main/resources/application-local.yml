@@ -6,10 +6,10 @@ nacos:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost/sptsm-pms?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT
+    url: jdbc:mysql://localhost/upms?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
     # 生成的加密后的密码
-    password: UTXT6isuMZ3sAdJ4189ndjZmhDOiyV5fmij6/eHDIxq+Fni+xsK53GHhHvKPVrCPVfsvEPoEfc98yrGwoFDa6Q==
+    password: jpXGjp2Rujf7cjG3EbJOnFPrKVKhqHegqzjfoGPpodSE0rbJUzLg8xAk02OiO27dKqiBeRWNTPZDdFu6yCAR8w==
     # 使用druid连接池
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
@@ -53,7 +53,7 @@ spring:
     password: mq2019!
 
 # 数据库密码生成的公钥
-druid-public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJCUm/3gVB71tTi/1xP/Sd/WTVTKw5EnrLQ2kPiLRcFuwn0GGFCJJ+AqH1XNJgfg2G6gBlXv5vJB+aq1/XZtfs0CAwEAAQ==
+druid-public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJ//1/W0Xt2ACVHTI+rgnii36E4B6a68fus2bI2tZaHJhZSsvWjY2zchvxc2P5ZG/x9J0kv7TdboF+YMlC9qyPUCAwEAAQ==
 
 # 开启mybatis的日志输出，logging.level + mapper包名
 logging:
