@@ -1,6 +1,6 @@
 package com.zz.upms.base.service.system;
 
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import com.zz.upms.base.dao.system.PmRoleMenuDao;
 import com.zz.upms.base.entity.system.PmRole;
@@ -34,7 +34,7 @@ public class RoleMenuService extends ServiceImpl<PmRoleMenuDao, PmRoleMenu> {
                 }
             );
 
-            super.insertBatch(roleMenus);
+            super.saveBatch(roleMenus);
         }
     }
 

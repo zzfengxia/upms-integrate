@@ -1,6 +1,6 @@
 package com.zz.upms.admin.web.controller.base;
 
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zz.upms.base.common.protocol.PageResponse;
 import com.zz.upms.base.service.shiro.ShiroDbRealm;
 import org.apache.shiro.SecurityUtils;

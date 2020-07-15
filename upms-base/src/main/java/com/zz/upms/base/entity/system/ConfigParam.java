@@ -1,10 +1,11 @@
 package com.zz.upms.base.entity.system;
 
-import com.baomidou.mybatisplus.annotations.TableField;
-import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.zz.upms.base.dac.DacField;
-import com.zz.upms.base.entity.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,6 +24,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class ConfigParam implements DacField {
+    @TableId(type = IdType.INPUT)
     private String paramKey;
     private String paramValue;
     // 状态

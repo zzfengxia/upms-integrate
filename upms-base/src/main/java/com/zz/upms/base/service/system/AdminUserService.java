@@ -1,8 +1,8 @@
 package com.zz.upms.base.service.system;
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.mapper.Wrapper;
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zz.upms.base.annotation.EnableExecTimeLog;
 import com.zz.upms.base.annotation.RoutingWith;
 import com.zz.upms.base.common.constans.Constants;
@@ -50,7 +50,7 @@ public class AdminUserService extends BaseService<PmUserDao, PmUser> {
     @EnableExecTimeLog(argIndex = 1)
     public Page<PmUser> queryPage(PageParam param) {
         String searchText = param.getSearch();
-        Wrapper<PmUser> wrapper = new EntityWrapper<PmUser>()
+        Wrapper<PmUser> wrapper = new QueryWrapper<PmUser>()
                 .like(StringUtils.isNotEmpty(searchText), "username", searchText)
                 .or()
                 .like(StringUtils.isNotEmpty(searchText), "realname", searchText);
@@ -71,7 +71,7 @@ public class AdminUserService extends BaseService<PmUserDao, PmUser> {
 
         user.setStatus(Constants.STATUS_NORMAL);
 
-        super.insert(user);
+        super.save(user);
         // 插入用户角色关联信息
         urService.insertRelate(user);
 
@@ -82,10 +82,10 @@ public class AdminUserService extends BaseService<PmUserDao, PmUser> {
     public void updateUser(PmUser user) {
         user.setmTime(new Date());
         user.setDacGroup(StringUtils.join(user.getDacGroupList(), ","));
-        super.updateAllColumnById(user);
+        super.updateById(user);
 
         // 更新用户角色
-        urService.delete(new EntityWrapper<PmUserrole>().eq("user_id", user.getId()));
+        urService.remove(new QueryWrapper<PmUserrole>().eq("user_id", user.getId()));
         urService.insertRelate(user);
 
         logger.info("{} 于{}更新了用户{}", getCurrentUser().username, CommonUtils.getFormatDateStr(), user.getUsername());
@@ -93,10 +93,10 @@ public class AdminUserService extends BaseService<PmUserDao, PmUser> {
 
     @Transactional
     public void deleteUser(Long... ids) {
-        List<PmUser> users = super.selectBatchIds(Arrays.asList(ids));
+        List<PmUser> users = super.listByIds(Arrays.asList(ids));
 
         // 删除关联角色
-        urService.delete(new EntityWrapper<PmUserrole>().in("user_id", ids));
+        urService.remove(new QueryWrapper<PmUserrole>().in("user_id", ids));
 
         for(PmUser user : users) {
             user.setStatus("0");
@@ -116,7 +116,7 @@ public class AdminUserService extends BaseService<PmUserDao, PmUser> {
      */
     @Transactional
     public void updatePwd(String pwd, String newPwd) {
-        PmUser curUser = selectById(getCurrentUser().id);
+        PmUser curUser = getById(getCurrentUser().id);
         if(!accountService.checkPwd(curUser, pwd)) {
             throw new BizException("原密码错误,请重新输入");
         }
@@ -138,7 +138,7 @@ public class AdminUserService extends BaseService<PmUserDao, PmUser> {
      */
     @Transactional
     public String resetPwd(String username) {
-        PmUser user = selectOne(new EntityWrapper<PmUser>().eq("username", username));
+        PmUser user = getOne(new QueryWrapper<PmUser>().eq("username", username));
 
         if(user == null) {
             throw new BizException("用户不存在,请刷新重试");
@@ -160,18 +160,18 @@ public class AdminUserService extends BaseService<PmUserDao, PmUser> {
 
     @RoutingWith(Constants.SLAVE_SOURCE)
     public boolean insertSlave(PmUser user) {
-        return insert(user);
+        return save(user);
     }
 
     @RoutingWith(Constants.MASTE_SOURCE)
     public boolean insertMaster(PmUser user) {
-        return insert(user);
+        return save(user);
     }
 
     @RoutingWith(Constants.SLAVE_SOURCE)
     @Transactional
     public boolean insertSlaveWithTransaction(PmUser user) {
-        boolean res = insert(user);
+        boolean res = save(user);
 
         int i = 1 / 0;
         return res;
@@ -180,7 +180,7 @@ public class AdminUserService extends BaseService<PmUserDao, PmUser> {
     @RoutingWith(Constants.MASTE_SOURCE)
     @Transactional
     public boolean insertMasterWithTransaction(PmUser user) {
-        boolean res = insert(user);
+        boolean res = save(user);
 
         int i = 1 / 0;
         return res;

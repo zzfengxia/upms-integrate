@@ -1,7 +1,7 @@
 package com.zz.upms.admin.web.controller.system;
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zz.upms.admin.web.controller.base.BaseController;
 import com.zz.upms.base.common.protocol.PageParam;
 import com.zz.upms.base.common.protocol.PageResponse;
@@ -32,15 +32,15 @@ public class ConfigParamController extends BaseController {
     }
 
     @RequestMapping("/delete")
-    public Response<?> delete(@RequestBody Long[] ids) {
+    public Response<?> delete(@RequestBody String[] ids) {
         configParamService.deleteParam(ids);
 
         return Response.success();
     }
 
     @RequestMapping("/info/{id}")
-    public Response<?> info(@PathVariable("id") Long id) {
-        ConfigParam param = configParamService.selectById(id);
+    public Response<?> info(@PathVariable("id") String id) {
+        ConfigParam param = configParamService.getById(id);
 
         if(param == null) {
             return Response.error("参数不存在,请刷新重试");
@@ -54,7 +54,7 @@ public class ConfigParamController extends BaseController {
         if(StringUtils.isEmpty(param.getParamKey())) {
             return Response.error("参数KEY不能为空");
         }
-        ConfigParam cp = configParamService.selectOne(new EntityWrapper<ConfigParam>().eq("param_key", param.getParamKey()));
+        ConfigParam cp = configParamService.getOne(new QueryWrapper<ConfigParam>().eq("param_key", param.getParamKey()));
 
         if(cp != null) {
             return Response.error("参数KEY已存在，请重新输入");

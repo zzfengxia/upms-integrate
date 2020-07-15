@@ -45,7 +45,7 @@ spring:
   # redis配置
   redis:
     password: root
-    host: 192.168.1.50
+    host: localhost
   rabbitmq:
     host: 172.16.80.132
     port: 5672

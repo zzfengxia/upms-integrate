@@ -1,6 +1,7 @@
 package com.zz.upms.admin.web.controller.system;
 
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zz.upms.admin.web.controller.base.BaseController;
 import com.zz.upms.base.annotation.EnableExecTimeLog;
 import com.zz.upms.base.common.protocol.PageParam;
 import com.zz.upms.base.common.protocol.PageResponse;
@@ -8,7 +9,6 @@ import com.zz.upms.base.common.protocol.Response;
 import com.zz.upms.base.entity.system.PmMenu;
 import com.zz.upms.base.service.system.MenuService;
 import com.zz.upms.base.service.system.ShiroFilterChainManager;
-import com.zz.upms.admin.web.controller.base.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,7 +47,7 @@ public class MenuController extends BaseController {
 
         for(PmMenu menu : result.getRecords()) {
             // 获取父菜单
-            PmMenu parentMenu = menuService.selectById(menu.getParentId());
+            PmMenu parentMenu = menuService.getById(menu.getParentId());
             menu.setParent(parentMenu);
         }
 
@@ -126,7 +126,7 @@ public class MenuController extends BaseController {
     @RequestMapping("/info/{id}")
     @EnableExecTimeLog(argIndex = 1)
     public Response<?> info(@PathVariable("id") Long id) {
-        PmMenu menu = menuService.selectById(id);
+        PmMenu menu = menuService.getById(id);
 
         if(menu == null) {
             return Response.error("菜单不存在,请刷新重试");
@@ -140,7 +140,7 @@ public class MenuController extends BaseController {
             menu.setParent(root);
         } else {
             // 查询父菜单
-            PmMenu parentMenu = menuService.selectById(menu.getParentId());
+            PmMenu parentMenu = menuService.getById(menu.getParentId());
             menu.setParent(parentMenu);
         }
 

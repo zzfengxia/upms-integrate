@@ -1,6 +1,6 @@
 package com.zz.upms.base.entity;
 
-import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;

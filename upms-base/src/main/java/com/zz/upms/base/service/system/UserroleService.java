@@ -1,6 +1,6 @@
 package com.zz.upms.base.service.system;
 
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import com.zz.upms.base.dao.system.PmUserroleDao;
 import com.zz.upms.base.entity.system.PmUser;
@@ -39,7 +39,7 @@ public class UserroleService extends ServiceImpl<PmUserroleDao, PmUserrole> {
 
                 userroles.add(ur);
             }
-            super.insertBatch(userroles);
+            super.saveBatch(userroles);
         }
     }
 }

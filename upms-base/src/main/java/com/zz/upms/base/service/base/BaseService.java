@@ -1,10 +1,10 @@
 package com.zz.upms.base.service.base;
 
-import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.baomidou.mybatisplus.mapper.Wrapper;
-import com.baomidou.mybatisplus.plugins.Page;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import com.zz.upms.base.common.protocol.CustomPage;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zz.upms.base.common.protocol.PageParam;
 import com.zz.upms.base.common.protocol.PageResponse;
 import com.zz.upms.base.service.shiro.ShiroDbRealm;
@@ -12,7 +12,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 
@@ -21,9 +20,6 @@ import java.util.List;
  */
 public class BaseService<M extends BaseMapper<T>, T> extends ServiceImpl<M, T> {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
-
-    @Value("${mybatis-plus.global-config.db-column-underline:false}")
-    private boolean camelCaseFlag;
 
     /**
      * 获取当前登录的用户
@@ -36,7 +32,7 @@ public class BaseService<M extends BaseMapper<T>, T> extends ServiceImpl<M, T> {
 
     public Page<T> queryWithPage(PageParam params, Wrapper<T> wrapper) {
 
-        return selectPage(getPage(params), wrapper);
+        return page(getPage(params), wrapper);
     }
 
     private Page<T> getPage(PageParam params) {
@@ -47,23 +43,22 @@ public class BaseService<M extends BaseMapper<T>, T> extends ServiceImpl<M, T> {
 
         // 排序规则
         boolean isAsc = "asc".equalsIgnoreCase(params.getOrder());
-
-        if(sortCols == null) {
-            return new CustomPage<>(curPage, params.getLimit(), params.getSort(), isAsc);
+    
+        Page<T> pageParam = new Page<T>(curPage, params.getLimit());
+        if(sortCols == null || sortCols.isEmpty()) {
+            if(StringUtils.isNotEmpty(params.getSort())) {
+                pageParam.addOrder(isAsc ? OrderItem.asc(params.getSort()) : OrderItem.desc(params.getSort()));
+            }
         } else {
             if(StringUtils.isNotEmpty(params.getSort()) && !sortCols.contains(params.getSort())) {
                 sortCols.add(params.getSort());
             }
-
-            Page<T> page = new CustomPage<>(curPage, params.getLimit());
-            if(isAsc) {
-                page.setAscs(sortCols);
-            } else {
-                page.setDescs(sortCols);
-            }
-
-            return page;
+    
+            sortCols.forEach(col -> {
+                pageParam.addOrder(isAsc ? OrderItem.asc(col) : OrderItem.desc(col));
+            });
         }
+        return pageParam;
     }
 
     public PageResponse<?> wrapperPageResult(Page<T> result) {

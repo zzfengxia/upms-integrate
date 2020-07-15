@@ -24,11 +24,12 @@ mybatis:
   mapper-locations: classpath:mapper/**/*.xml
   # 实体扫描，多个package用逗号或者分号分隔
   type-aliases-package: com.zz.generator.entity
-  configuration:
+  configuration: # mybatis-config,也可以使用xml配置，这里会覆盖xml的配置；{@link MybatisAutoConfiguration}
     # 驼峰命名转换
     map-underscore-to-camel-case: true
-    cache-enabled: false
+    cache-enabled: false # 是否开启二级缓存
     call-setters-on-nulls: true
+  # config-location: classpath:mapper/sql-config.xml  # mybatis xml方式配置，没有上面的configuration优先级高
 
 # 开启mybatis的日志输出，logging.level + mapper包名
 logging:

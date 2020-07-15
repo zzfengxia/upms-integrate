@@ -25,6 +25,9 @@ import java.time.Duration;
 /**
  * ************************************
  * create by Intellij IDEA
+ * 继承CachingConfigurerSupport，自定义springboot注解缓存的key生产策略等配置
+ * @see {@link org.springframework.cache.annotation.Cacheable}
+ * @see {@link org.springframework.cache.annotation.EnableCaching}
  *
  * @author Francis.zz
  * @date 2018-06-09 17:44
@@ -86,10 +89,12 @@ public class RedisConfig extends CachingConfigurerSupport {
     /**
      * 自定义Cacheable注解的缓存管理
      * 覆盖{@link org.springframework.boot.autoconfigure.cache.RedisCacheConfiguration}的默认CacheManager注入
+     * springboot默认使用redis作为缓存
+     * @see {@link org.springframework.boot.autoconfigure.cache.EhCacheCacheConfiguration}
      *
      * @return
      */
-    @Bean
+    //@Bean
     public CacheManager cacheManager(RedisConnectionFactory factory) {
         // 使用FastJson序列化value
         GenericFastJsonRedisSerializer jsonRedisSerializer = new GenericFastJsonRedisSerializer();

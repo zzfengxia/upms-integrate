@@ -1,8 +1,8 @@
 package com.zz.upms.base.service.system;
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.mapper.Wrapper;
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.zz.upms.base.common.constans.Constants;
 import com.zz.upms.base.common.constans.MenuType;
@@ -119,18 +119,15 @@ public class MenuService extends BaseService<MenuDao, PmMenu> {
         Wrapper<PmMenu> wrapper = null;
         if(StringUtils.isNotEmpty(searchText)) {
             // 查询菜单名匹配的菜单
-            List<Object> parentIds = super.selectObjs(new EntityWrapper<PmMenu>()
+            List<Object> parentIds = super.listObjs(new QueryWrapper<PmMenu>()
                     .like("view_name", searchText)
-                    .setSqlSelect("id"));
+                    .select("id"));
 
-            wrapper = new EntityWrapper<PmMenu>()
+            wrapper = new QueryWrapper<PmMenu>()
                     .like("view_name", searchText)
                     .or()
-                    .like("url", searchText);
-
-            if(parentIds != null && !parentIds.isEmpty()) {
-                wrapper.or().in("parent_id", parentIds);
-            }
+                    .like("url", searchText)
+                    .or(parentIds != null && !parentIds.isEmpty(), s -> s.in("parent_id", parentIds));
         }
 
         // 使用viewName排序
@@ -168,14 +165,14 @@ public class MenuService extends BaseService<MenuDao, PmMenu> {
         }
 
         // 删除角色与菜单的关联关系
-        roleMenuDao.delete(new EntityWrapper<PmRoleMenu>().in("menu_id", allIds));
+        roleMenuDao.delete(new QueryWrapper<PmRoleMenu>().in("menu_id", allIds));
 
         // 删除指定的菜单
-        super.deleteBatchIds(allIds);
+        super.removeByIds(allIds);
     }
 
     public List<PmMenu> findSubMenu(List<Long> parentId) {
-        return super.selectList(new EntityWrapper<PmMenu>().in("parent_id", parentId));
+        return super.list(new QueryWrapper<PmMenu>().in("parent_id", parentId));
     }
 
     public List<PmMenu> findNotButtonList() {
@@ -188,7 +185,7 @@ public class MenuService extends BaseService<MenuDao, PmMenu> {
      * @return
      */
     public List<PmMenu> findShowMenuList() {
-        return baseMapper.selectList(new EntityWrapper<PmMenu>().eq("show_flag", true));
+        return baseMapper.selectList(new QueryWrapper<PmMenu>().eq("show_flag", true));
     }
 
     @Transactional
@@ -199,7 +196,7 @@ public class MenuService extends BaseService<MenuDao, PmMenu> {
 
         menu.setStatus(Constants.STATUS_NORMAL);
 
-        super.insert(menu);
+        super.save(menu);
     }
 
     @Transactional
@@ -208,23 +205,23 @@ public class MenuService extends BaseService<MenuDao, PmMenu> {
             menu.setParentId(menu.getParent().getId());
         }
 
-        super.updateAllColumnById(menu);
+        super.updateById(menu);
     }
 
     public PmMenu findByMenu(PmMenu oldMenu) {
-        return super.selectOne(new EntityWrapper<PmMenu>()
-                .eq("view_name", oldMenu.getViewName())
-                .and()
-                .eq("type", oldMenu.getType())
-                .and()
-                .eq(oldMenu.getParent() != null, "parent_id", oldMenu.getParent().getId())
+        return super.getOne(new QueryWrapper<PmMenu>()
+                .nested(i -> {
+                    i.eq("view_name", oldMenu.getViewName())
+                            .eq("type", oldMenu.getType())
+                            .eq(oldMenu.getParent() != null, "parent_id", oldMenu.getParent().getId());
+                })
         );
     }
 
     public Map<String, String> assemblePermsChain() {
         // 自定义权限控制,拦截请求
         Map<String, String> filterMap = new LinkedHashMap<>();
-        List<PmMenu> menus = super.selectList(new EntityWrapper<PmMenu>().isNotNull("url").and().isNotNull("perm"));
+        List<PmMenu> menus = super.list(new QueryWrapper<PmMenu>().nested(i -> i.isNotNull("url").isNotNull("perm")));
 
         for (PmMenu p : menus) {
             if(StringUtils.isEmpty(p.getUrl()) || StringUtils.isEmpty(p.getPerm())) {

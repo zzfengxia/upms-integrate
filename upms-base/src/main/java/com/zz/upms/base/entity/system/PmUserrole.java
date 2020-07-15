@@ -1,8 +1,8 @@
 package com.zz.upms.base.entity.system;
 
 
-import com.baomidou.mybatisplus.annotations.TableField;
-import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.zz.upms.base.entity.IDEntity;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,7 @@
 package com.zz.upms.base.dao.caipiao;
 
-import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zz.upms.base.entity.caipiao.CaiPiaoHistory;
 
 /**

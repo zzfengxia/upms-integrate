@@ -12,10 +12,10 @@ spring:
     name: mq-test
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost/sptsm-pms?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT
+    url: jdbc:mysql://localhost/upms?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
     # 生成的加密后的密码
-    password: 123456
+    password: jpXGjp2Rujf7cjG3EbJOnFPrKVKhqHegqzjfoGPpodSE0rbJUzLg8xAk02OiO27dKqiBeRWNTPZDdFu6yCAR8w==
     # 使用druid连接池
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
@@ -23,10 +23,25 @@ spring:
       # 启用数据库密码加密
       connection-properties: config.decrypt=false;config.decrypt.key=${druid-public-key}
       filter:
-        config:
+        stat:
           enabled: false
+        wall:
+          enabled: false
+        slf4j:
+          enabled: false
+        log4j2:
+          enabled: false
+        log4j:
+          enabled: false
+        commons-log:
+          enabled: false
+        config: # 该配置要启用才能加密数据库密码
+          enabled: true
       stat-view-servlet:
         enabled: false # 关闭监控
+      web-stat-filter:
+        enabled: false
+        session-stat-enable: false
   rabbitmq:
     addresses: 172.16.80.132
     password: mq2019!
@@ -41,6 +56,7 @@ spring:
       reply-timeout: 1000 # 消息投递后等待结果的时间
     publisher-confirm-type: correlated # 使用消费者确认模式
 
-mybatis:
+mybatis-plus:
   mapper-locations: classpath*:mapper/*.xml
-  type-aliases-package: com.zz.mq.entity
+
+druid-public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJ//1/W0Xt2ACVHTI+rgnii36E4B6a68fus2bI2tZaHJhZSsvWjY2zchvxc2P5ZG/x9J0kv7TdboF+YMlC9qyPUCAwEAAQ==

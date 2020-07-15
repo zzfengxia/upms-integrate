@@ -1,8 +1,8 @@
 package com.zz.upms.base.service.system;
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.mapper.Wrapper;
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zz.upms.base.common.constans.RedisKey;
 import com.zz.upms.base.common.protocol.PageParam;
 import com.zz.upms.base.dac.EnableDAC;
@@ -49,7 +49,7 @@ public class ConfigParamService extends BaseService<ConfigParamDao, ConfigParam>
     @EnableDAC(getMethod = "getRecords", setMethod = "setRecords", setMethodParams = List.class)
     public Page<ConfigParam> queryPage(PageParam param) {
         String searchText = param.getSearch();
-        Wrapper<ConfigParam> wrapper = new EntityWrapper<ConfigParam>()
+        Wrapper<ConfigParam> wrapper = new QueryWrapper<ConfigParam>()
                 .like(StringUtils.isNotEmpty(searchText), "param_key", searchText);
 
         // 使用param_key排序
@@ -61,8 +61,8 @@ public class ConfigParamService extends BaseService<ConfigParamDao, ConfigParam>
     }
 
     @Transactional
-    public void deleteParam(Long[] ids) {
-        List<Long> idList = Arrays.asList(ids);
+    public void deleteParam(String[] ids) {
+        List<String> idList = Arrays.asList(ids);
 
         List<ConfigParam> params = baseMapper.selectBatchIds(idList);
         // 删除DB
@@ -103,7 +103,7 @@ public class ConfigParamService extends BaseService<ConfigParamDao, ConfigParam>
 
         // 更新DB
         param.setmTime(new Date());
-        baseMapper.updateAllColumnById(param);
+        baseMapper.updateById(param);
     }
 
     /**
@@ -122,7 +122,7 @@ public class ConfigParamService extends BaseService<ConfigParamDao, ConfigParam>
         }
 
         // 查询DB
-        ConfigParam param = super.selectOne(new EntityWrapper<ConfigParam>().eq("param_key", key));
+        ConfigParam param = super.getOne(new QueryWrapper<ConfigParam>().eq("param_key", key));
 
         if(param == null || param.getParamValue() == null || !param.getStatus()) {
             logger.warn("not found param form db or param status is invalid, key:{}", key);

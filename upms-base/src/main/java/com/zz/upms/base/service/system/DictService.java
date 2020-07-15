@@ -1,9 +1,9 @@
 package com.zz.upms.base.service.system;
 
 import com.alibaba.fastjson.JSON;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.mapper.Wrapper;
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.zz.upms.base.common.constans.Constants;
 import com.zz.upms.base.common.constans.RedisKey;
@@ -102,10 +102,8 @@ public class DictService extends BaseService<DictDao, Dict> {
     }
 
     public Dict checkDict(String dictHash, String dictKey) {
-        return super.selectOne(new EntityWrapper<Dict>()
-                .eq("dict_type", dictHash)
-                .and()
-                .eq("dict_key", dictKey)
+        return super.getOne(new QueryWrapper<Dict>()
+                .nested(i -> i.eq("dict_type", dictHash).eq("dict_key", dictKey))
         );
     }
 
@@ -117,7 +115,7 @@ public class DictService extends BaseService<DictDao, Dict> {
      */
     public Page<Dict> queryPage(PageParam param) {
         String searchText = param.getSearch();
-        Wrapper<Dict> wrapper = new EntityWrapper<Dict>()
+        Wrapper<Dict> wrapper = new QueryWrapper<Dict>()
                 .like(StringUtils.isNotEmpty(searchText), "dict_name", searchText)
                 .or()
                 .like(StringUtils.isNotEmpty(searchText), "dict_type", searchText);
@@ -144,7 +142,7 @@ public class DictService extends BaseService<DictDao, Dict> {
         List<Long> idList = Arrays.asList(ids);
 
         // 查出具体字典项
-        List<Dict> dictList = super.selectBatchIds(idList);
+        List<Dict> dictList = super.listByIds(idList);
 
         List<String> logStr = Lists.newArrayListWithCapacity(dictList.size());
         // 删除缓存
@@ -154,7 +152,7 @@ public class DictService extends BaseService<DictDao, Dict> {
         }
 
         // 删除DB
-        super.deleteBatchIds(idList);
+        super.removeByIds(idList);
 
         logger.info("{} 于 {} 删除了数据字典 {} ", getCurrentUser().username, CommonUtils.getFormatDateStr(), JSON.toJSONString(logStr));
     }
@@ -162,7 +160,7 @@ public class DictService extends BaseService<DictDao, Dict> {
     @Transactional
     public void createDict(Dict dict) {
         // 添加到DB
-        super.insert(dict);
+        super.save(dict);
         // 添加到缓存
         redisHelper.hMSet(dict.getDictType(), dict.getDictKey(), dict.getDictVal());
         // 获取有效时间
@@ -175,7 +173,7 @@ public class DictService extends BaseService<DictDao, Dict> {
     @Transactional
     public void updateDict(Dict dict) {
         // 更新DB
-        super.updateAllColumnById(dict);
+        super.updateById(dict);
         // 更新缓存
         redisHelper.hMSet(dict.getDictType(), dict.getDictKey(), dict.getDictVal());
         // 获取有效时间

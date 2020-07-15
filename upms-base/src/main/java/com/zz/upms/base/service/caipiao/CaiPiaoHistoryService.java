@@ -1,14 +1,14 @@
 package com.zz.upms.base.service.caipiao;
 
-import com.zz.upms.base.service.base.BaseService;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zz.upms.base.common.protocol.PageParam;
 import com.zz.upms.base.dao.caipiao.CaiPiaoHistoryDao;
 import com.zz.upms.base.entity.caipiao.CaiPiaoHistory;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.mapper.Wrapper;
-import com.baomidou.mybatisplus.plugins.Page;
-import org.springframework.stereotype.Service;
+import com.zz.upms.base.service.base.BaseService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 
 /**
  * ************************************
@@ -29,7 +29,7 @@ public class CaiPiaoHistoryService extends BaseService<CaiPiaoHistoryDao, CaiPia
      */
     public Page<CaiPiaoHistory> queryPage(PageParam param) {
         String searchText = param.getSearch();
-        Wrapper<CaiPiaoHistory> wrapper = new EntityWrapper<CaiPiaoHistory>();
+        Wrapper<CaiPiaoHistory> wrapper = new QueryWrapper<CaiPiaoHistory>();
         // 排序
         String sortCol = param.getSort();
         sortCol = StringUtils.isEmpty(sortCol) ? "id": sortCol;

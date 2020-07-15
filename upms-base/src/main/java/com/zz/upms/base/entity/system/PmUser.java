@@ -1,6 +1,6 @@
 package com.zz.upms.base.entity.system;
 
-import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.zz.upms.base.entity.BaseEntity;

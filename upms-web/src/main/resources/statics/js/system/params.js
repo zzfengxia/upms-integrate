@@ -101,7 +101,7 @@ var vm = new Vue({
             // 获取id
             const ids = [];
             each(rows, function(i, val) {
-                ids.push(val.id);
+                ids.push(val.paramKey);
             });
 
             layer.confirm('确定要删除选中的参数项', {

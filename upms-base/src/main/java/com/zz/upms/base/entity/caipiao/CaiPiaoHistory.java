@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import com.baomidou.mybatisplus.annotations.TableName;
-import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.TableId;
 
 /**
  * ************************************

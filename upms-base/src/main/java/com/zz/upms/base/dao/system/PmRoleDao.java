@@ -1,6 +1,6 @@
 package com.zz.upms.base.dao.system;
 
-import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zz.upms.base.entity.system.PmMenu;
 import com.zz.upms.base.entity.system.PmRole;
 
