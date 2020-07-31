@@ -55,8 +55,8 @@ public class UidGenerator extends IdWorker implements InitializingBean {
      * 获取去掉"-" UUID
      * </p>
      */
-    public synchronized String get32UUID() {
-        return UUID.randomUUID().toString().replace("-", "");
+    public static String UUID() {
+        return UUID.randomUUID().toString().replaceAll("-", "").toUpperCase();
     }
 
     @Override

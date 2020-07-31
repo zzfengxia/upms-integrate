@@ -191,26 +191,30 @@ var vm = new Vue({
         checkUsername: function() {
             // 校验用户名
             if(!this.user.username || this.isUpdate) {
-                return;
+                return true;
             }
+            let result = true
             $.get(baseURL + "/admin/user/check/" + this.user.username, function(r) {
                 if(r.status === "0") {
-                    vm.check.msgClass = 'valid-feedback';
-                    vm.check.resClass = 'is-valid';
-                    vm.check.msg = '用户名可以使用';
+                    // vm.check.msgClass = 'valid-feedback';
+                    // vm.check.resClass = 'is-valid';
+                    // vm.check.msg = '用户名可以使用';
+                    result = true
                 } else {
-                    vm.check.msgClass = 'invalid-feedback';
-                    vm.check.resClass = 'is-invalid';
-                    vm.check.msg = r.message;
+                    layer.alert(!!r.message ? r.message : "用户名已使用")
+                    // vm.check.msgClass = 'invalid-feedback';
+                    // vm.check.resClass = 'is-invalid';
+                    // vm.check.msg = r.message;
+                    result =  false
                 }
             });
+            return result
         },
         openWin: function() {
             // 渲染弹窗
             vm.show = true;
             // 绑定表单校验
             $('#userForm').validate();
-
             layer.open({
                 type: 1,
                 offset: '20px',
@@ -222,19 +226,22 @@ var vm = new Vue({
                 content: $('#winContent'),
                 btn: ['保存', '取消'],
                 btn1: function (index) {
+                    if(!vm.isUpdate && !vm.checkUsername()) {
+                        return
+                    }
                     // 保存
-                    if($('#userForm').valid()) {
+                    if ($('#userForm').valid()) {
                         let opType = vm.isUpdate ? "update" : "create";
                         $.ajax({
                             type: "POST",
                             url: baseURL + "/admin/user/save/" + opType,
                             contentType: "application/json",
                             data: JSON.stringify(vm.user),
-                            success: function(r) {
-                                if(r.status === "0") {
+                            success: function (r) {
+                                if (r.status === "0") {
                                     vm.reload(index);
                                 } else {
-                                    if(r.status === undefined) {
+                                    if (r.status === undefined) {
                                         layer.alert("网络异常或权限不足");
                                     } else {
                                         layer.alert(r.message);
@@ -244,18 +251,18 @@ var vm = new Vue({
                         });
                     }
                 },
-                end: function() {
+                end: function () {
                     // 清空user
-                    if(vm.isUpdate) {
+                    if (vm.isUpdate) {
                         vm.user = {status: "1", roles: [], dacGroupList: []};
                     } else {
                         vm.user.password = null;
                     }
                     // 清空check
-                    vm.check= {
+                    vm.check = {
                         msgClass: '',
                         resClass: '',
-                        msg:''
+                        msg: ''
                     };
                     // 隐藏表单
                     vm.show = false;
@@ -266,12 +273,11 @@ var vm = new Vue({
 });
 
 function update(uid) {
-    // 修改弹窗
-    vm.isUpdate = true;
     vm.getUser(uid);
     // 获取角色信息
     vm.getRoleList();
-
+    // 修改弹窗
+    vm.isUpdate = true;
     vm.openWin();
 
     stopBubble();

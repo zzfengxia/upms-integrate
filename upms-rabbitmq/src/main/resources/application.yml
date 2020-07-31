@@ -21,7 +21,7 @@ spring:
     druid:
       initial-size: 1
       # 启用数据库密码加密
-      connection-properties: config.decrypt=false;config.decrypt.key=${druid-public-key}
+      connection-properties: config.decrypt=true;config.decrypt.key=${druid-public-key}
       filter:
         stat:
           enabled: false
@@ -42,6 +42,9 @@ spring:
       web-stat-filter:
         enabled: false
         session-stat-enable: false
+  redis:
+    password: root
+    host: localhost
   rabbitmq:
     addresses: 172.16.80.132
     password: mq2019!
@@ -52,9 +55,24 @@ spring:
       simple:
         default-requeue-rejected: false # 拒绝的消息是否重新投递，设置为false会将消息投入死信队列(绑定了死信Exchange的情况)
         acknowledge-mode: manual    # manual:手动确认消息
+        concurrency: 2 # 并发消费，最小线程数
+        retry:
+          initial-interval: 2000
+          max-attempts: 3
+          enabled: true # 开启重试机制，需要关闭手动确认消息才能生效
     template:
       reply-timeout: 1000 # 消息投递后等待结果的时间
-    publisher-confirm-type: correlated # 使用消费者确认模式
+    publisher-confirm-type: correlated # 使用消息生产者发送确认模式
+    cache:
+      connection:
+        # 默认CHANNEL缓存模式，当我们调用 createConnection()方法时，每次返回相同的Connection。默认情况下，
+        # 只创建一个Connection，只创建一个Channel（通过配置创建Channel数量参数，可以创建缓存多个Channel）。即可以创建多个Channel，但是所有的Channel共用同一个Connection
+        # 2. 如果选择CacheMode#CONNECTION的缓存模式，可以同时配置创建Connection的数量和Channel数据。当调用 createConnection()时，从缓存中获取可用Connection，
+        # 如果没有且创建的数量没有达到上限，则创建新的Connection。同理Channel
+        mode: CHANNEL
+
+
+
 
 mybatis-plus:
   mapper-locations: classpath*:mapper/*.xml

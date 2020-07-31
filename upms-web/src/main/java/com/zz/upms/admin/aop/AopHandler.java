@@ -5,11 +5,9 @@ import com.zz.upms.base.common.exception.BizException;
 import com.zz.upms.base.common.protocol.Response;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 
 /**
@@ -21,8 +19,8 @@ import org.springframework.stereotype.Component;
  * @desc aop切面
  * ************************************
  */
-@Aspect
-@Component
+//@Aspect
+//@Component
 public class AopHandler {
 
     private Logger logger = LoggerFactory.getLogger(getClass());

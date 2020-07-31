@@ -4,6 +4,7 @@
     <resultMap id="BaseResultMap" type="com.zz.mq.entity.MqMsgLog">
         <id column="msg_id" jdbcType="VARCHAR" property="msgId"/>
         <result column="msg_text" jdbcType="VARCHAR" property="msgText"/>
+        <result column="msg_header" jdbcType="VARCHAR" property="msgHeader"/>
         <result column="exchange" jdbcType="VARCHAR" property="exchange"/>
         <result column="routing_key" jdbcType="VARCHAR" property="routingKey"/>
         <result column="status" jdbcType="CHAR" property="status"/>
@@ -13,7 +14,7 @@
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
     <sql id="Base_Column_List">
-    msg_id, msg_text, exchange, routing_key, `status`, try_count, next_try_time, create_time, 
+    msg_id, msg_text, msg_header, exchange, routing_key, `status`, try_count, next_try_time, create_time,
     update_time
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -27,10 +28,10 @@
     where msg_id = #{msgId,jdbcType=VARCHAR}
   </delete>
     <insert id="insert" parameterType="com.zz.mq.entity.MqMsgLog">
-    insert into mq_msg_log (msg_id, msg_text, exchange, routing_key,
+    insert into mq_msg_log (msg_id, msg_text, msg_header, exchange, routing_key,
       `status`, try_count, next_try_time, 
       create_time, update_time)
-    values (#{msgId}, #{msgText,jdbcType=VARCHAR}, #{exchange,jdbcType=VARCHAR}, #{routingKey,jdbcType=VARCHAR},
+    values (#{msgId}, #{msgText,jdbcType=VARCHAR}, #{msgHeader,jdbcType=VARCHAR}, #{exchange,jdbcType=VARCHAR}, #{routingKey,jdbcType=VARCHAR},
       #{status,jdbcType=CHAR}, #{tryCount,jdbcType=INTEGER}, #{nextTryTime,jdbcType=TIMESTAMP}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
@@ -41,6 +42,9 @@
             <if test="msgText != null">
                 msg_text,
             </if>
+            <if test="msgHeader != null">
+                msg_header,
+            </if>
             <if test="exchange != null">
                 exchange,
             </if>
@@ -48,7 +52,7 @@
                 routing_key,
             </if>
             <if test="status != null">
-                `status`,
+                status,
             </if>
             <if test="tryCount != null">
                 try_count,
@@ -64,9 +68,12 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            #{msgId}
+            #{msgId},
             <if test="msgText != null">
                 #{msgText,jdbcType=VARCHAR},
+            </if>
+            <if test="msgHeader != null">
+                #{msgHeader,jdbcType=VARCHAR},
             </if>
             <if test="exchange != null">
                 #{exchange,jdbcType=VARCHAR},
@@ -97,6 +104,9 @@
             <if test="msgText != null">
                 msg_text = #{msgText,jdbcType=VARCHAR},
             </if>
+            <if test="msgHeader != null">
+                msg_header = #{msgHeader,jdbcType=VARCHAR},
+            </if>
             <if test="exchange != null">
                 exchange = #{exchange,jdbcType=VARCHAR},
             </if>
@@ -104,7 +114,7 @@
                 routing_key = #{routingKey,jdbcType=VARCHAR},
             </if>
             <if test="status != null">
-                `status` = #{status,jdbcType=CHAR},
+                status = #{status,jdbcType=CHAR},
             </if>
             <if test="tryCount != null">
                 try_count = #{tryCount,jdbcType=INTEGER},
@@ -124,6 +134,7 @@
     <update id="updateByPrimaryKey" parameterType="com.zz.mq.entity.MqMsgLog">
         update mq_msg_log
         set msg_text = #{msgText,jdbcType=VARCHAR},
+          msg_header = #{msgHeader,jdbcType=VARCHAR},
           exchange = #{exchange,jdbcType=VARCHAR},
           routing_key = #{routingKey,jdbcType=VARCHAR},
           `status` = #{status,jdbcType=CHAR},

@@ -42,7 +42,6 @@ public class DictService extends BaseService<DictDao, Dict> {
     private DictDao dictDao;
     @Autowired
     private RedisHelper redisHelper;
-
     /**
      * 根据key和hash key查询字典项的值，缓存机制（单个字典）
      *

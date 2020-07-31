@@ -39,12 +39,6 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>-->
 
-        <!-- aop -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
-
         <!-- 验证码插件 -->
         <dependency>
             <groupId>com.github.axet</groupId>

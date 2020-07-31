@@ -1,6 +1,7 @@
 package com.zz.upms.base.entity.system;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.zz.upms.base.annotation.EnableCache;
 import com.zz.upms.base.entity.IDEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @TableName("pm_dict")
+@EnableCache
 public class Dict extends IDEntity {
     // 字典名称
     private String dictName;

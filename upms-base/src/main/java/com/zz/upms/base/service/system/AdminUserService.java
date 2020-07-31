@@ -18,6 +18,9 @@ import com.zz.upms.base.utils.DigestsUtis;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +43,8 @@ public class AdminUserService extends BaseService<PmUserDao, PmUser> {
     private AccountService accountService;
     @Autowired
     private UserroleService urService;
-
+    @Autowired
+    private PmUserDao userDao;
     /**
      * 分页查询
      *
@@ -61,7 +65,22 @@ public class AdminUserService extends BaseService<PmUserDao, PmUser> {
 
         return queryWithPage(param, wrapper);
     }
-
+    
+    /**
+     * Cacheable 注解会使查询结果缓存，查询时优先从缓存读取，这里使用的是springboot的缓存机制，区别于mybatis的二级缓存
+     *
+     * @param id
+     * @return
+     */
+    @Cacheable("user")
+    public PmUser findById(Long id) {
+        return userDao.findById(id);
+    }
+    
+    /**
+     * CachePut 会刷新缓存
+     */
+    @CachePut(cacheNames = "user", key = "'cache:AdminUserService:' + #user.id")
     @Transactional
     public void createUser(PmUser user) {
         accountService.encryptUser(user);
@@ -77,9 +96,13 @@ public class AdminUserService extends BaseService<PmUserDao, PmUser> {
 
         logger.info("{} 于{}创建了用户{}", getCurrentUser().username, CommonUtils.getFormatDateStr(), user.getUsername());
     }
-
+    
+    /**
+     * CachePut的key和keyGenerator只能设置其中一个
+     */
+    @CachePut(cacheNames = "user", key = "'cache:AdminUserService:' + #user.id")
     @Transactional
-    public void updateUser(PmUser user) {
+    public PmUser updateUser(PmUser user) {
         user.setmTime(new Date());
         user.setDacGroup(StringUtils.join(user.getDacGroupList(), ","));
         super.updateById(user);
@@ -89,8 +112,13 @@ public class AdminUserService extends BaseService<PmUserDao, PmUser> {
         urService.insertRelate(user);
 
         logger.info("{} 于{}更新了用户{}", getCurrentUser().username, CommonUtils.getFormatDateStr(), user.getUsername());
+        return user;
     }
-
+    
+    /**
+     * CacheEvict 删除缓存，ids为数组或list时不会分别删除（需要找解决办法）
+     */
+    @CacheEvict(cacheNames = "user", key = "'cache:AdminUserService:' + #ids")
     @Transactional
     public void deleteUser(Long... ids) {
         List<PmUser> users = super.listByIds(Arrays.asList(ids));

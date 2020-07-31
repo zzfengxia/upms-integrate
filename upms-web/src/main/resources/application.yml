@@ -46,5 +46,6 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     cache-enabled: false # 是否开启二级缓存
     call-setters-on-nulls: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 调试时打开
 
 

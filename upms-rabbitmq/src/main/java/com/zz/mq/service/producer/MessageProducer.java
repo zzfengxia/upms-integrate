@@ -1,24 +1,18 @@
 package com.zz.mq.service.producer;
 
-import com.zz.mq.common.MessageStatEnum;
 import com.zz.mq.config.DeadLetterRabbitMqConfig;
 import com.zz.mq.config.DelayRabbitMqConfig;
-import com.zz.mq.config.QueueEnum;
 import com.zz.mq.config.ReliableDeliveryConfig;
-import com.zz.mq.entity.MqMsgLog;
 import com.zz.mq.service.MqMsgService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.connection.CorrelationData;
+import org.springframework.amqp.core.MessageDeliveryMode;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
-import java.util.Date;
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * ************************************
@@ -82,6 +76,9 @@ public class MessageProducer {
         rabbitTemplate.convertAndSend(DelayRabbitMqConfig.DELAY_EXCHANGE_NAME, DelayRabbitMqConfig.DELAY_QUEUEC_ROUTING_KEY, msg, a ->{
             // 设置消息的延时时间 ms
             a.getMessageProperties().setExpiration(delayTime);
+            
+            // 设置消息持久化
+            a.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
             return a;
         });
     }
@@ -113,23 +110,5 @@ public class MessageProducer {
         if (msg != null && msg.contains("exception"))
             throw new RuntimeException("surprise!");
         log.info("tx消息已发送 {}" ,msg);
-    }
-    
-    public void sendMsgAndPersistDB(String msg, String routingKey) {
-        String msgId = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase();
-        MqMsgLog msgLog = new MqMsgLog();
-        msgLog.setMsgId(msgId);
-        msgLog.setMsgText(msg);
-        msgLog.setExchange(QueueEnum.PERSIST_DB_QUEUE.getExchange());
-        msgLog.setRoutingKey(QueueEnum.PERSIST_DB_QUEUE.getRoutingKey());
-        msgLog.setStatus(MessageStatEnum.DELIVERING.getStatus());
-        msgLog.setCreateTime(new Date());
-        // 消息标记
-        msgService.insert(msgLog);
-        // 发送消息
-        CorrelationData correlationData = new CorrelationData(msgId);
-        rabbitTemplate.convertAndSend(QueueEnum.PERSIST_DB_QUEUE.getExchange(), routingKey, msg, correlationData);
-        
-        log.info("demo db msg producer exec...");
     }
 }

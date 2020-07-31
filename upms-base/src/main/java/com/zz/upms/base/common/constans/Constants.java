@@ -12,7 +12,7 @@ public final class Constants {
     /**
      * 默认缓存时间(ms)
      */
-    public final static long DEFAULT_CACHE_TIME = 1000 * 60 * 15;
+    public final static long DEFAULT_CACHE_TIME = 1000 * 60 * 2;
 
     /**
      * 超级管理员账户ID

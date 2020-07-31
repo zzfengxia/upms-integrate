@@ -7,11 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.annotation.ComponentScan;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.zz.upms"})
 @MapperScan(basePackages = {"com.zz.upms.base.dao"})
-@ComponentScan(basePackages = {"com.zz.upms"})
 @NacosPropertySource(dataId = "test", autoRefreshed = true)
 @EnableCaching
 public class UpmsAdminApplication extends SpringBootServletInitializer {

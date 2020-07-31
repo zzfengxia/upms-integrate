@@ -7,8 +7,6 @@ import org.springframework.amqp.core.ExchangeBuilder;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.QueueBuilder;
-import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
-import org.springframework.amqp.rabbit.transaction.RabbitTransactionManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -84,16 +82,5 @@ public class ReliableDeliveryConfig {
     @Bean
     public Binding backupBinding() {
         return BindingBuilder.bind(backupQueue()).to(backupExchange());
-    }
-
-    /**
-     * 配置启用rabbitmq事务
-     *
-     * @param connectionFactory
-     * @return
-     */
-    @Bean
-    public RabbitTransactionManager rabbitTransactionManager(CachingConnectionFactory connectionFactory) {
-        return new RabbitTransactionManager(connectionFactory);
     }
 }

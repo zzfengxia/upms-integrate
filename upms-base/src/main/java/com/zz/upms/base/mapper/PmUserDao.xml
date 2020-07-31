@@ -6,6 +6,11 @@
         from pm_user
         where username = #{username,jdbcType=VARCHAR}
     </select>
+    <select id="findById" resultType="com.zz.upms.base.entity.system.PmUser">
+        select *
+        from pm_user
+        where id = #{id}
+    </select>
 
     <select id="findAllUser" resultType="com.zz.upms.base.entity.system.PmUser">
         SELECT *

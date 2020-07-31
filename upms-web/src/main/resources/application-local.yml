@@ -58,8 +58,8 @@ druid-public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJ//1/W0Xt2ACVHTI+rgnii36E4B6a
 # 开启mybatis的日志输出，logging.level + mapper包名
 logging:
   level:
-    com.vfuchong.sptsm: debug
-    com.baomidou.mybatisplus: debug
+    com.baomidou.example.mapper: debug
+    org.apache.ibatis.*: debug
   # 配置logback profile
   config: classpath:logback-local.xml
 

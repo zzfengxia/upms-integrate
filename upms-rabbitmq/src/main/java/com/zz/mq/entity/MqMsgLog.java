@@ -24,6 +24,11 @@ public class MqMsgLog implements Serializable {
      * 消息体, json格式化
      */
     private String msgText;
+    
+    /**
+     * 消息头
+     */
+    private String msgHeader;
 
     /**
      * 交换机
@@ -43,7 +48,7 @@ public class MqMsgLog implements Serializable {
     /**
      * 重试次数
      */
-    private int tryCount;
+    private Integer tryCount;
 
     /**
      * 下一次重试时间

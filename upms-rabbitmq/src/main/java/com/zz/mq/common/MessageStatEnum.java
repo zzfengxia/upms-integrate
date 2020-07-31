@@ -11,7 +11,22 @@ import lombok.Getter;
  * ************************************
  */
 public enum  MessageStatEnum {
-    DELIVERING(0), DELIVER_SUCCESS(1), DELIVER_FAIL(2), CONSUMED_SUCCESS(3);
+    /**
+     * 待确认
+     */
+    WAIT_CONFIRM(0),
+    /**
+     * 投递成功
+     */
+    DELIVER_SUCCESS(1),
+    /**
+     * 投递失败
+     */
+    DELIVER_FAIL(2),
+    /**
+     * 已消费
+     */
+    CONSUMED_SUCCESS(3);
     
     @Getter
     private int status;

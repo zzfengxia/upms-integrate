@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.zz.upms.base.annotation.EnableCache;
 import com.zz.upms.base.dac.DacField;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +24,7 @@ import java.util.Date;
 @TableName("pm_config_params")
 @Getter
 @Setter
+@EnableCache
 public class ConfigParam implements DacField {
     @TableId(type = IdType.INPUT)
     private String paramKey;

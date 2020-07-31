@@ -1,7 +1,6 @@
 package com.zz.mq.config;
 
 import com.zz.mq.common.MessageStatEnum;
-import com.zz.mq.dao.MqMsgLogDao;
 import com.zz.mq.service.MqMsgService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
@@ -46,7 +45,8 @@ public class MessageCallBackForDB implements RabbitTemplate.ConfirmCallback, Rab
     }
     
     /**
-     * 未成功路由的消息会回调该方法，但优先级没有备份交换机高，如果配置了备份交换机会优先把消息投递到备份交换机，而不是回调该方法
+     * 当Mandatory设置为true时未成功路由的消息会回调该方法，但优先级没有备份交换机高，如果配置了备份交换机会优先把消息投递到备份交换机，而不是回调该方法
+     * 但是同时也会调用消息确认的方法
      *
      * @param message
      * @param replyCode

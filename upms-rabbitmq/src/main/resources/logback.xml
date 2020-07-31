@@ -6,7 +6,7 @@
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %class{50}\(%line\) - %msg%n</pattern>
+            <pattern>[%X{sessionId}] %d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %class{50}\(%line\) - %msg%n</pattern>
         </encoder>
     </appender>
 

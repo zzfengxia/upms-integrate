@@ -10,6 +10,7 @@ import java.util.List;
 public interface PmUserDao extends BaseMapper<PmUser> {
 
     PmUser findByUsername(String username);
+    PmUser findById(Long id);
 
     List<PmUser> findAllUser(@Param("status") Integer status);
 

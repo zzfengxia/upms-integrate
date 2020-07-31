@@ -1,4 +1,4 @@
-package com.zz.upms.base.config;
+package com.zz.mq.config;
 
 import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
 import org.springframework.context.annotation.Bean;
@@ -18,18 +18,6 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  */
 @Configuration
 public class RedisConfig {
-    /**
-     * json转换配置，不属于redis配置，需要转走
-     */
-    /*@Bean
-    public ObjectMapper objectMapper() {
-        ObjectMapper om = new ObjectMapper();
-        om.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-        om.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-
-        return om;
-    }*/
-
     /**
      * 自定义RedisTemplate配置覆盖默认redis注入
      * 查看默认配置{@link org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration}

@@ -2,12 +2,20 @@ package com.zz.mq.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.ImmutableMap;
-import com.zz.mq.config.QueueEnum;
+import com.google.common.collect.Maps;
+import com.zz.mq.common.QueueEnum;
 import com.zz.mq.config.ReliableDeliveryConfig;
+import com.zz.mq.entity.MqMsgLog;
+import com.zz.mq.service.MqMsgService;
+import com.zz.mq.service.RabbitMqUtilService;
+import com.zz.mq.service.producer.DelayMessageProducer;
 import com.zz.mq.service.producer.MessageProducer;
-import com.zz.mq.service.producer.ReliableMessageProducer;
+import com.zz.mq.service.producer.ReliableDeliveryProducer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageProperties;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,8 +44,16 @@ public class MessageProducerController {
     @Autowired
     private MessageProducer producer;
     @Autowired
-    private ReliableMessageProducer reliableMessageProducer;
-
+    private DelayMessageProducer delayMessageProducer;
+    @Autowired
+    private ReliableDeliveryProducer reliableDeliveryProducer;
+    @Autowired
+    private RabbitMqUtilService rabbitMqUtilService;
+    @Autowired
+    private MqMsgService msgService;
+    @Autowired
+    private MessageConverter messageConverter;
+    
     @GetMapping("send")
     @ResponseBody
     public String sendMsg(String msg) {
@@ -79,19 +95,9 @@ public class MessageProducerController {
     @GetMapping("sendReliable")
     @ResponseBody
     public String sendReliable(String msg) {
-        reliableMessageProducer.sendCustomMsg(ReliableDeliveryConfig.BUSINESS_EXCHANGE_NAME, "noroute", msg);
-        reliableMessageProducer.sendCustomMsg(ReliableDeliveryConfig.BUSINESS_EXCHANGE_NAME, ReliableDeliveryConfig.BUSINESS_ROUTINGKEY_NAME, msg);
+        delayMessageProducer.sendCustomMsg(ReliableDeliveryConfig.BUSINESS_EXCHANGE_NAME, "noroute", msg);
+        delayMessageProducer.sendCustomMsg(ReliableDeliveryConfig.BUSINESS_EXCHANGE_NAME, ReliableDeliveryConfig.BUSINESS_ROUTINGKEY_NAME, msg);
 
-        return "success";
-    }
-    
-    @GetMapping("sendDbMsg")
-    @ResponseBody
-    public String sendDbMsg(String msg) {
-        log.info("send msg:{}", msg);
-        producer.sendMsgAndPersistDB(msg, QueueEnum.PERSIST_DB_QUEUE.getRoutingKey());
-        producer.sendMsgAndPersistDB(msg, "key.demo");
-        
         return "success";
     }
     
@@ -240,6 +246,81 @@ public class MessageProducerController {
                 "responseTime", responseTime(),
                 "code", "0"
         ));
+    }
+    
+    /**
+     * 可靠消息投递，分布式事务最终一致性
+     *
+     * @param msg
+     * @return
+     */
+    @GetMapping("sendReliableMsg")
+    @ResponseBody
+    public String sendDbMsg(String msg) {
+        log.info("send msg:{}", msg);
+        String msgId = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase();
+        Map<String, String> msgMap = Maps.newHashMap();
+        msgMap.put("msg", msg);
+        MqMsgLog msgLog = new MqMsgLog();
+        msgLog.setMsgId(msgId);
+        msgLog.setMsgText(JSON.toJSONString(msgMap));
+        msgLog.setExchange(QueueEnum.PERSIST_DB_QUEUE.getExchange().getExchangeName());
+        msgLog.setRoutingKey(QueueEnum.PERSIST_DB_QUEUE.getRoutingKey());
+        
+        // 同一事务控制写订单和写消息到DB
+        reliableDeliveryProducer.doBusinessAndSaveMsg(msgLog);
+        // 发送消息，这里网络原因导致的发送不成功可以通过定时扫描待确认的消息来兜底补偿
+        if(msg.contains("routingKey")) {
+            // 模拟路由失败
+            reliableDeliveryProducer.sendMsg(msgLog, "test");
+            return "success";
+        }
+        reliableDeliveryProducer.sendMsg(msgLog);
+        return "success";
+    }
+    
+    @GetMapping("sendDelayPlugin2")
+    @ResponseBody
+    public String sendDelayPlugin2(String msg, Integer delayTime) {
+        log.info("send delay msg:{}", msg);
+        Map<String, String> msgMap = Maps.newHashMap();
+        msgMap.put("msg", msg);
+        String msgId = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase();
+        MqMsgLog msgLog = new MqMsgLog();
+        msgLog.setMsgId(msgId);
+        msgLog.setMsgText(JSON.toJSONString(msgMap));
+        msgLog.setExchange(QueueEnum.DELAY_QUEUE.getExchange().getExchangeName());
+        msgLog.setRoutingKey(QueueEnum.DELAY_QUEUE.getRoutingKey());
+    
+        // 同一事务控制写订单和写消息到DB
+        reliableDeliveryProducer.doBusinessAndSaveMsg(msgLog);
+        
+        reliableDeliveryProducer.sendMsg(msgLog, delayTime);
+        return "success";
+    }
+    
+    @GetMapping("prodDemo")
+    @ResponseBody
+    public String prodDemo(String msg, Integer delayTime) {
+        log.info("send prodDemo msg:{}", msg);
+        Map<String, String> msgMap = Maps.newHashMap();
+        msgMap.put("msg", msg);
+    
+        MessageProperties messageProperties = msgService.setMessageProperties(UUID.randomUUID().toString().replaceAll("-", "").toUpperCase(),
+                MessageProperties.CONTENT_TYPE_JSON);
+        
+        messageProperties.setReceivedExchange(QueueEnum.DELAY_QUEUE.getExchange().getExchangeName());
+        messageProperties.setReceivedRoutingKey(QueueEnum.DELAY_QUEUE.getRoutingKey());
+        messageProperties.setDelay(delayTime);
+        messageProperties.setHeader("Hello", "World");
+    
+        Message message = messageConverter.toMessage(JSON.toJSONString(msgMap), messageProperties);
+        
+        // 同一事务控制写订单和写消息到DB
+        reliableDeliveryProducer.doBusinessAndSaveMsg(message);
+        
+        reliableDeliveryProducer.sendMsg(message);
+        return "success";
     }
     
     private String responseTime() {

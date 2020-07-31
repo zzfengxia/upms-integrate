@@ -9,12 +9,10 @@ import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
-import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
-import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -67,23 +65,31 @@ public class ShiroConfig {
         return shiroFilter;
     }
 
-    @Bean("lifecycleBeanPostProcessor")
+    /*@Bean("lifecycleBeanPostProcessor")
     public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
         return new LifecycleBeanPostProcessor();
-    }
+    }*/
 
     /**
      * 解决springboot整合shiro的dynamic proxy的坑
-     *
-     * @return
+     * DefaultAdvisorAutoProxyCreator默认代理接口是JDK代理，指定代理类就会变成cglib代理
+     * lifecycleBeanPostProcessor和defaultAdvisorAutoProxyCreator不需要开启，会导致 Cacheable二次代理，缓存出现两个key
      */
-    @Bean
+    /*@Bean
+    @DependsOn("lifecycleBeanPostProcessor")
     public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
         DefaultAdvisorAutoProxyCreator proxyCreator = new DefaultAdvisorAutoProxyCreator();
-        proxyCreator.setProxyTargetClass(true);
+        proxyCreator.setProxyTargetClass(true); // 使用cglib代理
         return proxyCreator;
-    }
-
+    }*/
+    
+    /**
+     * 开启shiro注解权限拦截，不用配置`lifecycleBeanPostProcessor`和`defaultAdvisorAutoProxyCreator`
+     * 只需要开启`spring.aop.proxy-target-class=true`,springboot是默认打开的，所以只需要引入AOP依赖就可以
+     *
+     * @param securityManager
+     * @return
+     */
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
         AuthorizationAttributeSourceAdvisor advisor = new AuthorizationAttributeSourceAdvisor();

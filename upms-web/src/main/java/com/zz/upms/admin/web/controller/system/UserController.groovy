@@ -60,7 +60,7 @@ class UserController extends BaseController {
      */
     @RequestMapping("/info/{userId}")
     public Response<?> info(@PathVariable("userId") Long userId){
-        PmUser user = userService.getById(userId)
+        PmUser user = userService.findById(userId)
         List<String> dacList = []
         if(StringUtils.isNotEmpty(user.getDacGroup())) {
             dacList = user.getDacGroup().split(",")

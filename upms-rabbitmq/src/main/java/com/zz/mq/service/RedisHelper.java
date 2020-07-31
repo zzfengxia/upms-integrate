@@ -1,4 +1,4 @@
-package com.zz.upms.base.service.base;
+package com.zz.mq.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;

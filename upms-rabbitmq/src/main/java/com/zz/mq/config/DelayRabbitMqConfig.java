@@ -2,8 +2,8 @@ package com.zz.mq.config;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.CustomExchange;
 import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.ExchangeBuilder;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.context.annotation.Bean;
@@ -66,14 +66,17 @@ public class DelayRabbitMqConfig {
 
     /**
      * 使用延时队列插件 <url>https://www.rabbitmq.com/community-plugins.html </url>下载rabbitmq_delayed_message_exchange插件
-     *
+     * @see {@link org.springframework.amqp.rabbit.core.RabbitAdmin#initialize} 会创建所有通过spring bean创建出来的交换机和队列
      * @return
      */
     @Bean
-    public CustomExchange customExchange() {
-        Map<String, Object> args = new HashMap<>();
+    public DirectExchange customExchange() {
+        /*Map<String, Object> args = new HashMap<>();
         args.put("x-delayed-type", "direct");
-        return new CustomExchange(DELAYED_EXCHANGE_NAME, "x-delayed-message", true, false, args);
+        return new CustomExchange(DELAYED_EXCHANGE_NAME, "x-delayed-message", true, false, args);*/
+        
+        // 直接使用 delayed 声明延迟交换机 RabbitAdmin.declareExchanges会自动创建
+        return ExchangeBuilder.directExchange(DELAYED_EXCHANGE_NAME).durable(true).delayed().build();
     }
 
     // 声明延时队列A并绑定到对应的死信交换机
@@ -171,7 +174,7 @@ public class DelayRabbitMqConfig {
     }
 
     @Bean
-    public Binding bindingNotify(Queue immediateQueue, CustomExchange customExchange) {
-        return BindingBuilder.bind(immediateQueue).to(customExchange).with(DELAYED_ROUTING_KEY).noargs();
+    public Binding bindingNotify(Queue immediateQueue, DirectExchange customExchange) {
+        return BindingBuilder.bind(immediateQueue).to(customExchange).with(DELAYED_ROUTING_KEY);
     }
 }

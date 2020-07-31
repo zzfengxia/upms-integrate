@@ -1,10 +1,8 @@
 package com.zz.upms.base.aop;
 
-import com.zz.upms.base.common.constans.Constants;
 import com.zz.upms.base.dac.DacField;
 import com.zz.upms.base.dac.DacUtils;
 import com.zz.upms.base.dac.EnableDAC;
-import com.zz.upms.base.entity.system.PmUser;
 import com.zz.upms.base.service.shiro.ShiroDbRealm;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -44,7 +42,7 @@ public class DACInterceptor {
      * 这里只能过滤实现了{@link DacField}接口的数据。如果是分页数据，这里无法改变分页的total总数，如需实现可通过前端分页先过滤全部数据。
      */
     @Around(value = "pointCut(enableDAC)")
-    public Object idempotentConsumeDBAround(ProceedingJoinPoint joinPoint, EnableDAC enableDAC) {
+    public Object dacAround(ProceedingJoinPoint joinPoint, EnableDAC enableDAC) {
         Object[] args = joinPoint.getArgs();
         Object result = null;
         try {

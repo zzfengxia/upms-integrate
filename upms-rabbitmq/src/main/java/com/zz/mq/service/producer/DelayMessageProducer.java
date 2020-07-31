@@ -20,7 +20,7 @@ import java.util.UUID;
  */
 @Component
 @Slf4j
-public class ReliableMessageProducer implements RabbitTemplate.ConfirmCallback, RabbitTemplate.ReturnCallback {
+public class DelayMessageProducer implements RabbitTemplate.ConfirmCallback, RabbitTemplate.ReturnCallback {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
