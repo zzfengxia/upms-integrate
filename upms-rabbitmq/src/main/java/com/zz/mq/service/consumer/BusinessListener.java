@@ -7,10 +7,12 @@ import com.zz.mq.annotation.EnableMDCLog;
 import com.zz.mq.annotation.IdempotentConsume;
 import com.zz.mq.config.DeadLetterRabbitMqConfig;
 import com.zz.mq.config.DelayRabbitMqConfig;
+import com.zz.mq.service.RedisHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -29,6 +31,9 @@ import java.util.Map;
 @Component
 @Slf4j
 public class BusinessListener {
+    @Autowired
+    private RedisHelper redisHelper;
+    
     @RabbitListener(queues = DeadLetterRabbitMqConfig.BUSINESS_QUEUEA_NAME)
     public void receiveA(Message message, Channel channel) throws IOException {
         String msg = new String(message.getBody());
@@ -70,16 +75,16 @@ public class BusinessListener {
      * @param message
      * @param channel
      */
-    @RabbitListener(queues = "#{queuesMap.PERSIST_DB_QUEUE}")
+    //@RabbitListener(queues = "#{queuesMap.PERSIST_DB_QUEUE}")
     @IdempotentConsume
     @EnableMDCLog(argIndex = 0)
     public void demoDbListener(Message message, Channel channel) {
         // 这里会使用配置的 `Jackson2JsonMessageConverter` Bean来转换消息体
         String msg = (String) new Jackson2JsonMessageConverter().fromMessage(message);
-        log.info("db msg:" + msg);
         Map<String, String> result = JSON.parseObject(msg, new TypeReference<Map<String, String>>(){});
-        log.info("msg from json:" + result.get("msg"));
         log.info("db demo listener exec...");
+        // 消费计数
+        redisHelper.increment("rabbitmq:consumer:size");
     }
     
     /**
@@ -98,7 +103,6 @@ public class BusinessListener {
         log.info("msg from json:" + result.get("msg"));
         log.info("delay demo listener exec...");
         testLog();
-        throw new IllegalArgumentException("111");
     }
     
     private void testLog() {

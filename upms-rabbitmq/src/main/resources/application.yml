@@ -19,7 +19,8 @@ spring:
     # 使用druid连接池
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      initial-size: 1
+      initial-size: 80
+      max-active: 200
       # 启用数据库密码加密
       connection-properties: config.decrypt=true;config.decrypt.key=${druid-public-key}
       filter:
@@ -43,19 +44,22 @@ spring:
         enabled: false
         session-stat-enable: false
   redis:
-    password: root
-    host: localhost
+    password: jfyxow!22##
+    host: 172.16.80.106
+    port: 6379
   rabbitmq:
-    addresses: 172.16.80.132
-    password: mq2019!
-    username: guest
+    host: 172.16.80.117
     port: 5672
+    # addresses:ip1:port1,ip2:port2,ip3:port3  #连接rabbitmq集群，host和port就不用配置了
+    username: sptsm
+    password: vfc2020_prod2020@@
+    virtual-host: sptsm-dev
     listener:
       type: simple
       simple:
         default-requeue-rejected: false # 拒绝的消息是否重新投递，设置为false会将消息投入死信队列(绑定了死信Exchange的情况)
         acknowledge-mode: manual    # manual:手动确认消息
-        concurrency: 2 # 并发消费，最小线程数
+        concurrency: 1 # 并发消费，最小线程数
         retry:
           initial-interval: 2000
           max-attempts: 3
@@ -70,9 +74,6 @@ spring:
         # 2. 如果选择CacheMode#CONNECTION的缓存模式，可以同时配置创建Connection的数量和Channel数据。当调用 createConnection()时，从缓存中获取可用Connection，
         # 如果没有且创建的数量没有达到上限，则创建新的Connection。同理Channel
         mode: CHANNEL
-
-
-
 
 mybatis-plus:
   mapper-locations: classpath*:mapper/*.xml

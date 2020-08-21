@@ -61,7 +61,6 @@ public class RedisHelper {
 
     public void put(String key, String value) {
         ValueOperations<String, String> operations = redisTemplate.opsForValue();
-
         operations.set(key,value);
     }
     
@@ -115,5 +114,11 @@ public class RedisHelper {
         ValueOperations<String, String> operations = redisTemplate.opsForValue();
 
         return operations.getAndSet(key, value);
+    }
+    
+    public Long increment(String key) {
+        ValueOperations<String, String> operations = redisTemplate.opsForValue();
+    
+        return operations.increment(key);
     }
 }

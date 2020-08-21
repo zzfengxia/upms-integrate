@@ -47,10 +47,10 @@ spring:
     password: root
     host: localhost
   rabbitmq:
-    host: 172.16.80.132
+    host: 172.16.80.160
     port: 5672
-    username: guest
-    password: mq2019!
+    username: sptsm
+    password: vfc2020_prod2020@@
 
 # 数据库密码生成的公钥
 druid-public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJ//1/W0Xt2ACVHTI+rgnii36E4B6a68fus2bI2tZaHJhZSsvWjY2zchvxc2P5ZG/x9J0kv7TdboF+YMlC9qyPUCAwEAAQ==

@@ -8,10 +8,12 @@ import com.zz.mq.config.ReliableDeliveryConfig;
 import com.zz.mq.entity.MqMsgLog;
 import com.zz.mq.service.MqMsgService;
 import com.zz.mq.service.RabbitMqUtilService;
+import com.zz.mq.service.RedisHelper;
 import com.zz.mq.service.producer.DelayMessageProducer;
 import com.zz.mq.service.producer.MessageProducer;
 import com.zz.mq.service.producer.ReliableDeliveryProducer;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
@@ -53,6 +55,8 @@ public class MessageProducerController {
     private MqMsgService msgService;
     @Autowired
     private MessageConverter messageConverter;
+    @Autowired
+    private RedisHelper redisHelper;
     
     @GetMapping("send")
     @ResponseBody
@@ -325,5 +329,18 @@ public class MessageProducerController {
     
     private String responseTime() {
         return DateFormatUtils.format(new Date(), "MM-dd HH:mm:ss.SSS");
+    }
+    
+    @GetMapping("redisTest")
+    @ResponseBody
+    public String redisTest(String key, String value) {
+        if(StringUtils.isEmpty(key)) {
+            key = "test-161-master";
+        }
+        if(StringUtils.isNotEmpty(value)) {
+            redisHelper.put(key, value);
+        }
+        
+        return redisHelper.get(key)+"";
     }
 }
