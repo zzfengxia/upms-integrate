@@ -29,7 +29,7 @@ import java.util.Map;
  * ************************************
  */
 @Component
-@Slf4j
+@Slf4j(topic = "consumer")
 public class BusinessListener {
     @Autowired
     private RedisHelper redisHelper;
@@ -75,14 +75,14 @@ public class BusinessListener {
      * @param message
      * @param channel
      */
-    //@RabbitListener(queues = "#{queuesMap.PERSIST_DB_QUEUE}")
+    @RabbitListener(queues = "#{queuesMap.PERSIST_DB_QUEUE}", concurrency = "5")
     @IdempotentConsume
     @EnableMDCLog(argIndex = 0)
     public void demoDbListener(Message message, Channel channel) {
         // 这里会使用配置的 `Jackson2JsonMessageConverter` Bean来转换消息体
         String msg = (String) new Jackson2JsonMessageConverter().fromMessage(message);
         Map<String, String> result = JSON.parseObject(msg, new TypeReference<Map<String, String>>(){});
-        log.info("db demo listener exec...");
+        log.info(message.getMessageProperties().getMessageId() + ":db demo listener exec...");
         // 消费计数
         redisHelper.increment("rabbitmq:consumer:size");
     }

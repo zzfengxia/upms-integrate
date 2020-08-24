@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @date 2020-03-10 15:13
  * ************************************
  */
-@Slf4j
+@Slf4j(topic = "publisher")
 public class MessageCallBackForDB implements RabbitTemplate.ConfirmCallback, RabbitTemplate.ReturnCallback {
     @Autowired
     private MqMsgService msgService;
@@ -42,6 +42,7 @@ public class MessageCallBackForDB implements RabbitTemplate.ConfirmCallback, Rab
             log.error("消息未成功投递, id:{}, cause:{}", id, s);
             msgService.updateStatus(id, MessageStatEnum.DELIVER_FAIL);
         }
+        log.info("success to update msg status, id:{}", id);
     }
     
     /**

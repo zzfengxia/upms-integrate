@@ -3,10 +3,23 @@ package com.zz.mq;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication(scanBasePackages = {"com.zz.mq"})
 @MapperScan(basePackages = {"com.zz.mq.dao"})
-public class UpmsRabbitmqApplication {
+@EnableAsync
+public class UpmsRabbitmqApplication extends SpringBootServletInitializer {
+    
+    /**
+     * 继承 SpringBootServletInitializer 并实现configure方法来让程序在外部tomcat等容器启动
+     * pom文件排序`spring-boot-starter-tomcat`依赖，无法使用jar方法直接启动，需要放置在外部容器中启动
+     */
+    /*@Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        builder.sources(this.getClass());
+        return super.configure(builder);
+    }*/
     
     /**
      * 确保消息的可靠投递和可靠消费步骤：

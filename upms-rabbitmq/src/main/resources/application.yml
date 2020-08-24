@@ -12,10 +12,10 @@ spring:
     name: mq-test
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost/upms?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
-    username: root
+    url: jdbc:mysql://172.16.80.106:3306/upms?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: vfc_sptsm_qa
     # 生成的加密后的密码
-    password: jpXGjp2Rujf7cjG3EbJOnFPrKVKhqHegqzjfoGPpodSE0rbJUzLg8xAk02OiO27dKqiBeRWNTPZDdFu6yCAR8w==
+    password: ftETtJ/EDOIB4MpNwX8+M0ehP9g4XSzo9puATWjsAUzeZszdqW0Em5PruVhwb4ZNocUbduR2vN+IjKMnlBPeqg==
     # 使用druid连接池
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
@@ -59,7 +59,7 @@ spring:
       simple:
         default-requeue-rejected: false # 拒绝的消息是否重新投递，设置为false会将消息投入死信队列(绑定了死信Exchange的情况)
         acknowledge-mode: manual    # manual:手动确认消息
-        concurrency: 1 # 并发消费，最小线程数
+        concurrency: 2 # 并发消费，最小线程数
         retry:
           initial-interval: 2000
           max-attempts: 3
@@ -78,4 +78,4 @@ spring:
 mybatis-plus:
   mapper-locations: classpath*:mapper/*.xml
 
-druid-public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJ//1/W0Xt2ACVHTI+rgnii36E4B6a68fus2bI2tZaHJhZSsvWjY2zchvxc2P5ZG/x9J0kv7TdboF+YMlC9qyPUCAwEAAQ==
+druid-public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAKdU10HP7aNZNvPjR/2bZlx3paIqefCSt3aLjIQdtgLNYla+T/I7UetNof7TymcX4eFuTO6OLiTIMD+jSzS5UTUCAwEAAQ==

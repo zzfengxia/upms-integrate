@@ -12,7 +12,7 @@ public interface MqMsgLogDao {
     MqMsgLog selectByPrimaryKey(String msgId);
 
     int updateByPrimaryKeySelective(MqMsgLog record);
-
+    int updateStatusOnNotConsumed(MqMsgLog record);
     int updateByPrimaryKey(MqMsgLog record);
     
     int updateTryCount(MqMsgLog record);

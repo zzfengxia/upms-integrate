@@ -30,12 +30,12 @@ public class MqMsgService {
     @Autowired
     private MessageConverter messageConverter;
     
-    public void updateStatus(String msgId, MessageStatEnum status) {
+    public int updateStatus(String msgId, MessageStatEnum status) {
         MqMsgLog MqMsgLog = new MqMsgLog();
         MqMsgLog.setMsgId(msgId);
         MqMsgLog.setStatus(status.getStatus());
         MqMsgLog.setUpdateTime(new Date());
-        msgLogDao.updateByPrimaryKeySelective(MqMsgLog);
+        return msgLogDao.updateStatusOnNotConsumed(MqMsgLog);
     }
     
     public MqMsgLog selectByMsgId(String msgId) {
@@ -44,7 +44,7 @@ public class MqMsgService {
     
     public int updateMsg(MqMsgLog mqMsgLog) {
         mqMsgLog.setUpdateTime(new Date());
-        return msgLogDao.updateByPrimaryKeySelective(mqMsgLog);
+        return msgLogDao.updateStatusOnNotConsumed(mqMsgLog);
     }
     
     public void insert(MqMsgLog msg) {

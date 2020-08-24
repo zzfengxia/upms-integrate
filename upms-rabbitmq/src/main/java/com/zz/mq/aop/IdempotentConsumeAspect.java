@@ -92,7 +92,9 @@ public class IdempotentConsumeAspect {
             }
             
             joinPoint.proceed(new Object[]{message, channel});// 真正消费的业务逻辑
-            msgService.updateStatus(msgId, MessageStatEnum.CONSUMED_SUCCESS);
+            log.info(msgId + ":prepare to update msg");
+            int res = msgService.updateStatus(msgId, MessageStatEnum.CONSUMED_SUCCESS);
+            log.info(msgId + ":success to update msg, res:" + res);
             channel.basicAck(tag, false);// 消费确认
         } catch (Throwable throwable) {
             log.error("getProxy error", throwable);

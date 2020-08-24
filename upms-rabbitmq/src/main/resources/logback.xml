@@ -2,33 +2,37 @@
 <configuration>
 
     <property name="appName" value="upms-rabbitmq"/>
-    <property name="logDir" value="/app/biz_logs/${appName}"/>
+    <property name="logDir" value="/home/biz_logs/${appName}"/>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>[%X{sessionId}] %d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %class{50}\(%line\) - %msg%n</pattern>
         </encoder>
     </appender>
-
-    <appender name="catalina" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${logDir}/catalina/catalina.log</File>
-        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <fileNamePattern>${logDir}/catalina/catalina-%i.log</fileNamePattern>
-            <minIndex>1</minIndex>
-            <maxIndex>20</maxIndex>
+    <appender name="consumer" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${logDir}/consumer.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <FileNamePattern>${logDir}/consumer.log.%d{yyyy-MM-dd}</FileNamePattern>
         </rollingPolicy>
-
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <maxFileSize>500mb</maxFileSize>
-        </triggeringPolicy>
-
         <encoder>
             <charset>UTF-8</charset>
             <Pattern>%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %class{20}\(%line\) - %msg%n</Pattern>
         </encoder>
     </appender>
 
-    <appender name="sptsm" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="publish" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${logDir}/publish.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <FileNamePattern>${logDir}/publish.log.%d{yyyy-MM-dd}</FileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <Pattern>%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %class{20}\(%line\) - %msg%n</Pattern>
+        </encoder>
+    </appender>
+    <appender name="mq" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <File>${logDir}/${appName}.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
@@ -39,18 +43,17 @@
             <Pattern>%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %class{20}\(%line\) - %msg%n</Pattern>
         </encoder>
     </appender>
+    <logger name="consumer" level="info" additivity="false">
+        <appender-ref ref="consumer" />
+    </logger>
 
-    <appender name="test" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${logDir}/httpclient.log</File>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- daily rollover -->
-            <FileNamePattern>${logDir}/httpclient.log.%d{yyyy-MM-dd}</FileNamePattern>
-        </rollingPolicy>
-        <encoder>
-            <charset>UTF-8</charset>
-            <Pattern>%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %class{20}\(%line\) - %msg%n</Pattern>
-        </encoder>
-    </appender>
+    <logger name="publisher" level="info" additivity="false">
+        <appender-ref ref="publish" />
+    </logger>
+
+    <logger name="com" level="info" additivity="false">
+        <appender-ref ref="mq" />
+    </logger>
 
     <root level="info">
         <appender-ref ref="CONSOLE"/>
