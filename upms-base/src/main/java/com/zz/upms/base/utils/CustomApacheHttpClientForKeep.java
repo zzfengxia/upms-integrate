@@ -11,6 +11,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
 import org.apache.http.config.SocketConfig;
@@ -248,11 +249,11 @@ public class CustomApacheHttpClientForKeep {
             PoolingHttpClientConnectionManager manager = new PoolingHttpClientConnectionManager(registry, connectionFactory, dnsResolver);
             // 设置默认的socket参数
             manager.setDefaultSocketConfig(SocketConfig.custom().setTcpNoDelay(true).build());
-            manager.setMaxTotal(300);//设置最大连接数。高于这个值时，新连接请求，需要阻塞，排队等待
+            manager.setMaxTotal(500);//设置最大连接数。高于这个值时，新连接请求，需要阻塞，排队等待。所有路由总共最多允许开启的线程数，一个长连接为一个线程
             //路由是对MaxTotal的细分。
             // 每个路由实际最大连接数默认值是由DefaultMaxPerRoute控制。
             // MaxPerRoute设置的过小，无法支持大并发：ConnectionPoolTimeoutException:Timeout waiting for connection from pool
-            manager.setDefaultMaxPerRoute(200); //每个路由的最大连接
+            manager.setDefaultMaxPerRoute(300); // 每个路由的最大连接，路由即地址，所以这里才是实际的单个地址最大连接数控制。
             manager.setValidateAfterInactivity(5 * 1000); //在从连接池获取连接时，连接不活跃多长时间后需要进行一次验证，默认为2s
 
             this.client = HttpClients.custom()
@@ -266,7 +267,7 @@ public class CustomApacheHttpClientForKeep {
                     .setConnectionManagerShared(false) //连接池不是共享模式，这个共享是指与其它httpClient是否共享
                     .evictIdleConnections(60, TimeUnit.SECONDS)//定期回收空闲连接
                     .evictExpiredConnections()//回收过期连接
-                    .setConnectionTimeToLive(60, TimeUnit.SECONDS)//连接存活时间，如果不设置，则根据长连接信息决定
+                    .setConnectionTimeToLive(60, TimeUnit.SECONDS)// 连接存活时间，如果不设置，则根据长连接信息决定
                     .setConnectionReuseStrategy(DefaultConnectionReuseStrategy.INSTANCE)//连接重用策略，即是否能keepAlive
                     .setKeepAliveStrategy(DefaultConnectionKeepAliveStrategy.INSTANCE)//长连接配置，即获取长连接生产多长时间
                     .setRetryHandler(new DefaultHttpRequestRetryHandler(0, false))//设置重试次数，默认为3次；当前是禁用掉
@@ -342,19 +343,33 @@ public class CustomApacheHttpClientForKeep {
     public String doPost(String jsonReq) throws Exception {
         return doPost(jsonReq, null);
     }
-
+    
+    public String doPost(String jsonReq, Map<String, String> headers) throws Exception {
+        return doPost(jsonReq, null, null);
+    }
     /**
      * POST，application/json请求，HTTP、HTTPS均可；SSL需要证书，暂只实现双向认证
      * @param jsonReq 请求body中的内容。json格式的字符串
      * @param headers 请求头。key是请求头的名称，value是请求头的值
      * @return 请求成功后body中的内容
      */
-    public String doPost(String jsonReq, Map<String, String> headers) throws Exception {
+    public String doPost(String jsonReq, Map<String, String> headers, Map<String, String> formParams) throws Exception {
         logger.info("POST url={} body={} header={}", url, jsonReq, headers == null ? null :headers.toString());
 
         checkClient();
-
-        HttpPost httpPost = new HttpPost(url);
+        String postUrl = url;
+        // 表单参数
+        if(formParams != null) {
+            List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+            Set<String> keys = formParams.keySet();
+            for(String key : keys) {
+                nvps.add(new BasicNameValuePair(key, formParams.get(key)));
+            }
+            String paramsStr = URLEncodedUtils.format(nvps, "utf-8");
+            postUrl = postUrl + "?" + paramsStr;
+        }
+        
+        HttpPost httpPost = new HttpPost(postUrl);
 
         StringEntity reqEntity = new StringEntity(jsonReq, charset);   //解决中文乱码问题
         reqEntity.setContentEncoding(charset);
@@ -398,18 +413,39 @@ public class CustomApacheHttpClientForKeep {
      * @throws Exception
      */
     public String doGet() throws Exception {
+        return doGet(null);
+    }
+    
+    /**
+     * GET请求
+     *
+     * @return
+     * @throws Exception
+     */
+    public String doGet(Map<String, String> params) throws Exception {
         checkClient();
-
-        HttpGet httpGet = new HttpGet(url);
+        String getUrl = url;
+        // 表单参数
+        if(params != null) {
+            List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+            Set<String> keys = params.keySet();
+            for(String key : keys) {
+                nvps.add(new BasicNameValuePair(key, params.get(key)));
+            }
+            String paramsStr = URLEncodedUtils.format(nvps, "utf-8");
+            getUrl = getUrl + "?" + paramsStr;
+        }
+        
+        HttpGet httpGet = new HttpGet(getUrl);
         httpGet.setConfig(config);
-
+        
         String recvData = null;
         CloseableHttpResponse response = null;
         try{
-
+            
             response = this.client.execute(httpGet);
             int respCode = response.getStatusLine().getStatusCode();
-
+            
             if(respCode != HttpStatus.SC_OK) {
                 throw new BizException("Failed to execute Http request,error code: " + respCode);
             }
