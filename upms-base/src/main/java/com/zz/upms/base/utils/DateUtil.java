@@ -249,6 +249,21 @@ public class DateUtil {
 			return null;
 		}
     }
+    
+    /**
+     * String日期转换成Date
+     *
+     */
+    public static Date string2date(String dateStr, String format) {
+        if (dateStr == null || dateStr.length() == 0)
+            return null;
+        DateFormat df = new SimpleDateFormat(format);
+        try {
+            return df.parse(dateStr);
+        } catch (ParseException e) {
+            return null;
+        }
+    }
     /**
      * String日期转换成Date(yyyymmdd)
      * 

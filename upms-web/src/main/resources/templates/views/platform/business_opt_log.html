@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<#include "/header.html">
+	<!-- bootstrap -->
+	<link rel="stylesheet" href="${base}/statics/css/bootstrap.min.css">
+	<link rel="stylesheet" href="${base}/statics/plugins/daterangepicker/daterangepicker.css">
+</head>
+<body>
+<div id="app" v-cloak>
+	<div class="card">
+		<div id="my-toolbar" class="card-header grid-btn">
+			<div class="form-group row">
+				<!--<div class="col-sm-2">
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">城市</span>
+						</div>
+						<select id="cardCodeSearch" class="form-control" v-model="cusReqParams.cardCode" @change="search">
+							<option value="">请选择</option>
+							<option v-for="(val, key) of cardCodeDict" :value="key">{{val}}</option>
+						</select>
+					</div>
+				</div>-->
+				<div class="col-sm-2">
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">渠道</span>
+						</div>
+						<select id="sourceChnl" class="form-control" v-model="cusReqParams.sourceChnl" @change="search">
+							<option value="">请选择</option>
+							<option v-for="(val, key) of callerDict" :value="key">{{val}}</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">时间范围</span>
+						</div>
+						<input type="text" class="form-control float-right" id="searchTimeRange" :title="dataRangeStr">
+					</div>
+					<!-- /.input group -->
+				</div>
+				<div class="col-sm-2">
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">系统类型</span>
+						</div>
+						<select id="businessType" class="form-control" v-model="cusReqParams.businessType" @change="search">
+							<option value="">请选择</option>
+							<option value="0">业务系统</option>
+							<option value="1">前置系统</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="form-group row mb-0">
+				<div class="col-sm-2">
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">接口</span>
+						</div>
+						<select id="interfaceSearch" class="form-control" v-model="cusReqParams.commandId" @change="search">
+							<option value="">请选择</option>
+							<option v-for="(val, key) of interfaceList" :value="key">{{val}}</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-sm-2">
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">结果</span>
+						</div>
+						<select id="errCodeSearch" class="form-control" v-model="cusReqParams.optCode" @change="search">
+							<option value="">请选择</option>
+							<option value="0">正常</option>
+							<option value="-1">异常</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">SEID/CPLC</span>
+						</div>
+						<input type="text" class="form-control" v-model="cusReqParams.seUid"/>
+					</div>
+				</div>
+                <div class="col-sm-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">卡号</span>
+                        </div>
+                        <input type="text" class="form-control" v-model="cusReqParams.cardNo"/>
+                    </div>
+                </div>
+
+				<div class="col-sm-2">
+					<button class="btn btn-primary" @click="search"><i class="fa fa-search"></i>&nbsp;查询</button>
+				</div>
+			</div>
+		</div>
+
+    <div id="table-toolbar" class="grid-btn row mb-0 pl-3">
+      <div class="form-group mb-0">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text bg-primary">自动刷新</span>
+          </div>
+          <select id="autorefresh" class="form-control" @change="autorefresh" v-model="currentFrequency">
+            <option v-for="(val, key) of refreshFrequency" :value="val">{{key}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+		<div class="card-body">
+			<table id="bt-table"></table>
+		</div>
+	</div>
+</div>
+
+<!-- daterangepicker -->
+<script src="${base}/statics/lib/moment.min.js"></script>
+<script src="${base}/statics/plugins/daterangepicker/daterangepicker.js"></script>
+<script src="${base}/statics/js/platform/business_opt_log.js?_${.now?long}"></script>
+</body>
+</html>

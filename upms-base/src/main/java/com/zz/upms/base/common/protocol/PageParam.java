@@ -14,7 +14,7 @@ import java.util.List;
  * ************************************
  */
 @Data
-public class PageParam {
+public class PageParam<T> {
     /**
      * 搜索参数
      */
@@ -31,14 +31,19 @@ public class PageParam {
      * 每页数量
      */
     private int limit;
-
+    
     /**
      * 排序字段
      */
     private String sort;
-
+    
     /**
      * 排序字段组
      */
     private List<String> sorts;
+    
+    /**
+     * 额外查询参数
+     */
+    private T params;
 }

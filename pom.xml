@@ -33,6 +33,8 @@
         <lombok.version>1.16.18</lombok.version>
         <groovy.eclipse.compiler.version>2.9.2-01</groovy.eclipse.compiler.version>
         <groovy.eclipse.batch.version>2.4.3-01</groovy.eclipse.batch.version>
+        <sharding-sphere.version>4.1.1</sharding-sphere.version>
+        <nacos.version>1.3.2</nacos.version>
     </properties>
 
     <dependencies>
@@ -133,6 +135,12 @@
             </dependency>
 
             <dependency>
+                <groupId>com.ieooc.nacos</groupId>
+                <artifactId>nacos-client</artifactId>
+                <version>${nacos.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.apache.jmeter</groupId>
                 <artifactId>ApacheJMeter_java</artifactId>
                 <version>5.2.1</version>
@@ -150,6 +158,38 @@
                 <artifactId>javax.servlet-api</artifactId>
                 <version>3.1.0</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+                <version>${sharding-sphere.version}</version>
+            </dependency>
+
+            <!-- sharding jdbc 治理 -->
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>sharding-jdbc-orchestration-spring-boot-starter</artifactId>
+                <version>${sharding-sphere.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>sharding-orchestration-center-nacos</artifactId>
+                <version>${sharding-sphere.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>sharding-orchestration-center-zookeeper-curator</artifactId>
+                <version>${sharding-sphere.version}</version>
+            </dependency>
+
+            <!-- for spring namespace -->
+            <!--<dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>sharding-jdbc-spring-namespace</artifactId>
+                <version>${sharding-sphere.version}</version>
+            </dependency>-->
         </dependencies>
     </dependencyManagement>
 

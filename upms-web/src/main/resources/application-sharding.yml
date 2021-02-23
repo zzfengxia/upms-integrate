@@ -1,0 +1,105 @@
+nacos:
+  config:
+    server-addr: 172.16.80.118:8848
+    namespace: da77dde1-210f-40d4-a9e4-2aae5ea4e430
+    data-id: nacos_sharding_config
+    group-id: SHARDING_JDBC_GROUP
+
+# db配置
+spring:
+  autoconfigure:
+    exclude:
+      - org.apache.shardingsphere.shardingjdbc.spring.boot.SpringBootConfiguration # 排除ShardingJDBC自动配置
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration # 多数据源需要排除这个
+      #- com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure # shardingJDBC自动配置，需要排除Druid的DB自动配置
+
+  shardingsphere:
+    datasource:
+      names: master,slave
+      master: # 数据源配置
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://localhost/sptsm-pms?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+        username: root
+        password: 123456
+        initial-size: 2
+      slave: # 从库
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://localhost/vfc_sptsm?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+        username: root
+        password: 123456
+        initial-size: 5
+
+    # 以下分库分表、主从规则都可以从配置中心获取
+    sharding:
+      tables:
+        pm_business_opt_log:
+          actual-data-nodes: ds0.pm_business_opt_log,ds0.pm_business_opt_log_$->{2019..2021}
+          table-strategy:
+            standard:
+              # 分片字段
+              sharding-column: create_time
+              # eq，in匹配算法类
+              precise-algorithm-class-name: com.zz.upms.admin.sharding.DatePreciseShardingAlgorithm
+              # range范围匹配算法类（date between and）
+              range-algorithm-class-name: com.zz.upms.admin.sharding.DateRangeShardingAlgorithm
+      binding-tables: pm_business_opt_log
+
+      masterSlaveRules:
+        ds0:
+          masterDataSourceName: master # 主库名，上面的datasource.names配置
+          slaveDataSourceNames:
+            - slave  # 从库列表
+
+    props:
+      sql:
+        show: true
+
+  datasource:
+    druid:
+      filter:
+        stat:
+          enabled: false
+        wall:
+          enabled: false
+        slf4j:
+          enabled: false
+        log4j2:
+          enabled: false
+        log4j:
+          enabled: false
+        commons-log:
+          enabled: false
+        config: # 该配置要启用才能加密数据库密码
+          enabled: true
+      stat-view-servlet:
+        enabled: false # 关闭监控
+      web-stat-filter:
+        enabled: false
+        session-stat-enable: false
+      # druid监控配置
+      # stat-view-servlet:
+        # urlPattern: /druid2/*
+        # allow: 192.168.1.1
+        # deny: 127.0.0.1
+
+  # redis配置
+  redis:
+    password: root
+
+# 数据库密码生成的公钥
+druid-public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJ//1/W0Xt2ACVHTI+rgnii36E4B6a68fus2bI2tZaHJhZSsvWjY2zchvxc2P5ZG/x9J0kv7TdboF+YMlC9qyPUCAwEAAQ==
+
+# 开启mybatis的日志输出，logging.level + mapper包名
+logging:
+  level:
+    com.baomidou.example.mapper: debug
+    org.apache.ibatis.*: debug
+  # 配置logback profile
+  config: classpath:logback-local.xml
+
+my:
+ host: ${REGISTER_HOST:172.0.0.1}
+ rabbit: ${RABBIT_MQ_USERNAME:admin}
+

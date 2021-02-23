@@ -1,5 +1,9 @@
 # Spring Boot 2.X 版本不再支持配置继承，多数据源的话每个数据源的所有配置都需要单独配置，否则配置不会生效
 spring:
+  autoconfigure:
+    # 多数据源环境下必须排除掉 DataSourceAutoConfiguration，否则会导致循环依赖报错
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     # 使用druid连接池
@@ -24,7 +28,7 @@ spring:
         commons-log:
           enabled: false
       one:  # 多数据源
-        url: jdbc:mysql://localhost/sptsm-pms?useUnicode=true&characterEncoding=utf-8
+        url: jdbc:mysql://localhost/sptsm-pms?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
         username: root
         password: 123456
         initial-size: 5
@@ -32,22 +36,23 @@ spring:
         max-active: 10
         # 启用数据库密码加密；多数据源的场景需要手动解密，重写DruidPasswordCallback.setProperties方法
         password-callback-class-name: com.vfuchong.sptsm.admin.config.DbPasswordCallback
-        connection-properties: config.decrypt=true;config.decrypt.key=${druid-public-key};config.decrypt.password=Ftm4rjwdZLc3ah6MDnrMS/2iIdMQjpg0uZdCuaiX5E9JyS4gCZRHWRNedl+JI8DKgP48aKyvinshNLJv9bzNxA==
+        connection-properties: config.decrypt=false;config.decrypt.key=${druid-public-key};config.decrypt.password=Ftm4rjwdZLc3ah6MDnrMS/2iIdMQjpg0uZdCuaiX5E9JyS4gCZRHWRNedl+JI8DKgP48aKyvinshNLJv9bzNxA==
 
       two:  # 多数据源
-        url: jdbc:mysql://192.168.1.208:3306/sptsm-pms?useUnicode=true&characterEncoding=utf-8
-        username: answer
-        password: answer
+        url: jdbc:mysql://localhost/sptsm-pms?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+        username: root
+        password: 123456
         initial-size: 4
         min-idle: 2
         max-active: 10
         # 启用数据库密码加密；多数据源的场景需要手动解密，重写DruidPasswordCallback.setProperties方法
         password-callback-class-name: com.vfuchong.sptsm.admin.config.DbPasswordCallback
-        connection-properties: config.decrypt=true;config.decrypt.key=${druid-public-key};config.decrypt.password=Ftm4rjwdZLc3ah6MDnrMS/2iIdMQjpg0uZdCuaiX5E9JyS4gCZRHWRNedl+JI8DKgP48aKyvinshNLJv9bzNxA==
+        connection-properties: config.decrypt=false;config.decrypt.key=${druid-public-key};config.decrypt.password=Ftm4rjwdZLc3ah6MDnrMS/2iIdMQjpg0uZdCuaiX5E9JyS4gCZRHWRNedl+JI8DKgP48aKyvinshNLJv9bzNxA==
 
   # redis配置
   redis:
     password: root
+
 
 druid-public-key: ffffffffffffffffffff
 

@@ -1,0 +1,28 @@
+{
+  "properties": [
+    {
+      "name": "nacos.config.data-id",
+      "type": "java.lang.String",
+      "description": "nacos config data id for sharding rule.",
+      "sourceType": "com.zz.upms.admin.config.NacosProperties"
+    },
+    {
+      "name": "nacos.config.group-id",
+      "type": "java.lang.String",
+      "description": "nacos config group id for sharding rule.",
+      "sourceType": "com.zz.upms.admin.config.NacosProperties"
+    },
+    {
+      "name": "nacos.config.server-addr",
+      "type": "java.lang.String",
+      "description": "nacos config server addr for sharding rule.",
+      "sourceType": "com.zz.upms.admin.config.NacosProperties"
+    },
+    {
+      "name": "nacos.config.namespace",
+      "type": "java.lang.String",
+      "description": "nacos config namespace for sharding rule.",
+      "sourceType": "com.zz.upms.admin.config.NacosProperties"
+    }
+  ]
+}

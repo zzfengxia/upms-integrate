@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zz.upms.base.dao.platform.BusinessOptLogDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseResultMap" type="com.zz.upms.base.entity.platform.BusinessOptLog">
+        <id column="id" property="id"/>
+        <result column="card_code" property="cardCode"/>
+        <result column="se_uid" property="seUid"/>
+        <result column="business_type" property="businessType"/>
+        <result column="command_id" property="commandId"/>
+        <result column="execute_time" property="executeTime"/>
+        <result column="step_id" property="stepId"/>
+        <result column="is_last_step" property="isLastStep"/>
+        <result column="opt_code" property="optCode"/>
+        <result column="opt_msg" property="optMsg"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="card_no" property="cardNo"/>
+        <result column="trace_id" property="traceId"/>
+        <result column="remark" property="remark"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+</mapper>

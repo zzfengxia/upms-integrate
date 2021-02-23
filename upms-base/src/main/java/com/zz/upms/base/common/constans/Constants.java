@@ -36,4 +36,8 @@ public final class Constants {
      * 从数据源
      */
     public static final String SLAVE_SOURCE = "slaveDB";
+    /**
+     * Sharding JDBC数据源
+     */
+    public static final String DB_SOURCE_SHARDING = "shardingDB";
 }

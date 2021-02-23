@@ -32,7 +32,7 @@ import java.util.List;
 public class DictController extends BaseController {
     @Autowired
     private DictService dictService;
-    @Value("${my.host}")
+    @Value("${my.host:}")
     private String myHost;
     @NacosValue(value = "${my.rabbit:}", autoRefreshed = true)
     private String rabbitUser;      // 使用@Value引用配置中心的参数不会自动刷新

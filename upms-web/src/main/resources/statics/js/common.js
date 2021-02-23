@@ -238,3 +238,37 @@ window.addEventListener("keydown", function (event) {
 jQuery.validator.addMethod("repeatPwd", function(value, element, params) {
     return value === $(params).val();
 }, "两次输入密码不相同");
+
+
+$.prototype.daterangepicker_zh = function(option, cb, startTime) {
+    if(!startTime){
+        startTime = moment().startOf('day');
+    }
+
+    let cusOpt = {
+        linkedCalendars: false,
+        timePickerSeconds: true,// 显示秒
+        timePicker: true,
+        timePicker24Hour: true,// 24小时制
+        timeZone: moment().utcOffset(480),// 北京时间
+        startDate: startTime,
+        endDate: moment(),
+        locale: {
+            format: 'YYYY-MM-DD HH:mm:ss',//日期格式
+            separator: ' ~ ',
+            applyLabel: "应用",
+            cancelLabel: "清空",
+            fromLabel: '从',
+            toLabel: '到',
+            weekLabel: '周',
+            customRangeLabel: '自定义范围',
+            firstDay: moment.localeData()._week.dow,
+            daysOfWeek: ["日", "一", "二", "三", "四", "五", "六"],
+            monthNames: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+        }
+    };
+
+    let finalOpt = $.extend({}, cusOpt, option);
+
+    return this.daterangepicker(finalOpt, cb);
+};
