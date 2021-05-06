@@ -48,5 +48,7 @@ upms-integrate
 admin/123456
 
 登录界面：
+<img src="https://gitee.com/zzfengxia/upms/blob/master/img/%E7%99%BB%E5%BD%95%E7%95%8C%E9%9D%A2.png" alt="登录界面"/>
 
 菜单管理界面：
+<img src="https://gitee.com/zzfengxia/upms/blob/master/img/%E5%8A%9F%E8%83%BD%E8%8F%9C%E5%8D%95.png" alt="管理菜单"/>
