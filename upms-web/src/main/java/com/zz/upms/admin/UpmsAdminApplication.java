@@ -2,11 +2,9 @@ package com.zz.upms.admin;
 
 import org.apache.catalina.startup.Tomcat;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.xml.ParserContext;
-import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -17,7 +15,6 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.support.AbstractApplicationContext;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
@@ -156,15 +153,13 @@ public class UpmsAdminApplication extends SpringBootServletInitializer {
      *
      */
     public static void main(String[] args) {
-        //SpringApplication.run(UpmsAdminApplication.class, args);
-    
-        BeanFactory bf = new XmlBeanFactory(new ClassPathResource("sptsm.core.xml"));
+        SpringApplication.run(UpmsAdminApplication.class, args);
     }
+
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(UpmsAdminApplication.class);
     }
-    
     
     /**
      * <span>Spring5.2.x源码解析</span>
@@ -195,14 +190,14 @@ public class UpmsAdminApplication extends SpringBootServletInitializer {
      * <b>解析默认标签</b>
      * -> {@link org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader#parseDefaultElement} 解析配置文件的默认标签
      * import alias bean beans标签
-     * -> {@link org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader#processBeanDefinition} 实例BeanDefinition，解析xml属性，创建Bean
+     * -> {@link org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader#processBeanDefinition} 实例BeanDefinition，解析xml属性，创建BeanDefinition
      *
      * -> {@link org.springframework.beans.factory.xml.BeanDefinitionParserDelegate#parseBeanDefinitionElement(Element, BeanDefinition)} 解析bean节点属性
      * -> {@link org.springframework.beans.factory.xml.BeanDefinitionParserDelegate#parseBeanDefinitionElement(Element, String, BeanDefinition)}
      * -> {@link org.springframework.beans.factory.xml.BeanDefinitionParserDelegate#parseBeanDefinitionAttributes}
      * lookup-method属性为获取器注入功能，可以为抽象方法指定注入的Bean，实现可拔插的功能。@Lookup注解作用于抽象方法上。
      *
-     * -> {@link org.springframework.beans.factory.support.BeanDefinitionReaderUtils#registerBeanDefinition} 注册bean，并注册alias别名与bean的映射关系
+     * -> {@link org.springframework.beans.factory.support.BeanDefinitionReaderUtils#registerBeanDefinition} 注册BeanDefinition，并注册alias别名与bean的映射关系
      * -> {@link org.springframework.beans.factory.support.DefaultListableBeanFactory#registerBeanDefinition}
      * -> {@link org.springframework.beans.factory.support.SimpleBeanDefinitionRegistry#registerAlias} 注册别名
      *
@@ -220,5 +215,9 @@ public class UpmsAdminApplication extends SpringBootServletInitializer {
      * 然后将创建出来的handler保缓存进handlerMappings中
      * -> {@link org.springframework.beans.factory.xml.NamespaceHandlerSupport#parse(Element, ParserContext)}
      * 根据标签获取对应的解析器，也就是上面init方法中注册的对应解析器，然后再调用解析器的parse方法注册bean和其他相关操作
+     *
+     *
+     * <h1>Bean的加载</h1>
+     *
      */
 }

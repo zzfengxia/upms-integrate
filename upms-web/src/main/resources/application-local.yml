@@ -48,11 +48,11 @@ spring:
   redis:
     password: root
     host: localhost
-  rabbitmq:
-    host: 172.16.80.160
-    port: 5672
-    username: sptsm
-    password: vfc2020_prod2020@@
+#  rabbitmq:
+#    host: 172.16.80.160
+#    port: 5672
+#    username: sptsm
+#    password: vfc2020_prod2020@@
 
 
 # 数据库密码生成的公钥

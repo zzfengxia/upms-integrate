@@ -1,11 +1,11 @@
 package com.zz.upms.base.entity.caipiao;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.TableId;
 
 /**
  * ************************************
@@ -17,7 +17,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
  */
 @Getter
 @Setter
-@TableName("cai_piao_history")
+//@TableName("cai_piao_history")
 public class CaiPiaoHistory implements Serializable {
     @TableId
     private Integer id;

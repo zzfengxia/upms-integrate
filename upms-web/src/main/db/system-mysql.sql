@@ -1,5 +1,5 @@
 
-CREATE TABLE `cai_piao_history` (
+/*CREATE TABLE `cai_piao_history` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) DEFAULT NULL,
   `code` varchar(10) NOT NULL COMMENT '期数代码',
@@ -14,7 +14,7 @@ CREATE TABLE `cai_piao_history` (
   `remark` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uniq_name_code` (`name`,`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;*/
 
 /*Data for the table `cai_piao_history` */
 
@@ -33,9 +33,6 @@ CREATE TABLE `pm_config_params` (
 
 /*Data for the table `pm_config_params` */
 
-insert  into `pm_config_params`(`param_key`,`param_value`,`status`,`data_group`,`remark`,`c_time`,`m_time`) values ('hw.spid','890086000000001154',1,'1',NULL,'2019-04-17 09:17:09','2019-04-17 09:17:09');
-insert  into `pm_config_params`(`param_key`,`param_value`,`status`,`data_group`,`remark`,`c_time`,`m_time`) values ('hw.stopService.url','http://njtestlf2.hwcloudtest.cn:18093/WalletTransCardService/partner/v1/monitor/stopService',1,'1',NULL,'2019-04-17 09:17:38','2019-04-17 09:17:38');
-insert  into `pm_config_params`(`param_key`,`param_value`,`status`,`data_group`,`remark`,`c_time`,`m_time`) values ('hw.timeout','20000',1,'2',NULL,'2019-04-17 09:17:23','2019-04-17 09:17:23');
 insert  into `pm_config_params`(`param_key`,`param_value`,`status`,`data_group`,`remark`,`c_time`,`m_time`) values ('toolConf','{\"authcode\": [\"generateUID\"], \"450000\": [], \"460000\": [\"createReturnFile\", \"checkCardKey\"], \"370200\": [\"createReturnFile\", \"checkCardKey\"], \"220000\": [\"createReturnFile\", \"checkCardKey\", \"saveTMK\", \"checkIn\"], \"130000\": [\"createReturnFile\", \"checkCardKey\"], \"130100\": [\"createReturnFile\", \"checkCardKey\"], \"610101\": [\"createReturnFile\", \"checkCardKey\"], \"610100\": [\"importAuthCode\"], \"320500\": [], \"210100\": [\"checkCardKey\"], \"650100\": [\"checkCardKey\"], \"340100\": [\"createReturnFile\", \"checkCardKey\"], \"330700\": [\"checkCardKey\"], \"315000\": [\"checkCardKey\"], \"320200\": [\"checkCardKey\"], \"650101\": [\"checkCardKey\"],\"370700\": [\"createReturnFile\", \"checkCardKey\"], \"440400\": [\"checkCardKey\"]}',1,'2','工具包配置','2019-04-11 11:11:31','2019-11-07 15:39:28');
 
 /*Table structure for table `pm_dict` */
