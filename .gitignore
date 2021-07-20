@@ -96,3 +96,5 @@ local.properties
 .cache-main
 .scala_dependencies
 .worksheet
+
+!spring-aop/src/main/java/org/springframework/aop/target
