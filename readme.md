@@ -48,7 +48,7 @@ upms-integrate
 admin/123456
 
 登录界面：
-![登录界面](https://gitee.com/zzfengxia/upms/raw/master/img/2.png "登录界面.png")
+![登录界面](https://github.com/zzfengxia/upms-integrate/blob/master/img/2.png "登录界面.png")
 
 菜单管理界面：
-![功能菜单](https://gitee.com/zzfengxia/upms/raw/master/img/1.png "功能菜单.png")
+![功能菜单](https://github.com/zzfengxia/upms-integrate/blob/master/img/1.png "功能菜单.png")
