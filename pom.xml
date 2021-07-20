@@ -12,6 +12,8 @@
         <module>upms-generator</module>
         <module>jmeter</module>
         <module>upms-rabbitmq</module>
+        <module>spring-aop</module>
+        <module>spring-beans</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -182,6 +184,18 @@
                 <groupId>org.apache.shardingsphere</groupId>
                 <artifactId>sharding-orchestration-center-zookeeper-curator</artifactId>
                 <version>${sharding-sphere.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jamonapi</groupId>
+                <artifactId>jamon</artifactId>
+                <version>2.82</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.inject</groupId>
+                <artifactId>javax.inject</artifactId>
+                <version>1</version>
             </dependency>
 
             <!-- for spring namespace -->

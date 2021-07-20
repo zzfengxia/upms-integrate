@@ -105,7 +105,7 @@ public class UpmsAdminApplication extends SpringBootServletInitializer {
      * 该方法会获取声明的成员变量，然后递归调用上面的方法将成员变量创建为 bean
      *
      * <code>
-     *     Set<AnnotationAttributes> componentScans = AnnotationConfigUtils.attributesForRepeatable(
+     *     Set<AnnotationAttributes> componentScans = AnnotationConfigUtils.attributesForRepeatable(l
      * 				sourceClass.getMetadata(), ComponentScans.class, ComponentScan.class);
      * </code>
      * 获取 ComponentScan 注解的所有属性，扫描指定的包并将带有 @Component的类创建为bean，然后再递归创建其属性中的bean，
@@ -218,6 +218,14 @@ public class UpmsAdminApplication extends SpringBootServletInitializer {
      *
      *
      * <h1>Bean的加载</h1>
+     * <p>ApplicationContext的加载都会调用{@link AbstractApplicationContext#refresh()}方法，这里会有Bean的加载过程</p>
+     * -> finishBeanFactoryInitialization
+     * -> {@link org.springframework.beans.factory.support.DefaultListableBeanFactory#preInstantiateSingletons}
+     * -> getBean
+     *
+     * 上面是解析在家bean配置，最终得到BeanDefinition。Bean的加载是在调用 getBean 方法阶段完成的。
+     * {@link org.springframework.beans.factory.support.AbstractBeanFactory#getBean(Class)}
+     * -> {@link org.springframework.beans.factory.support.AbstractBeanFactory#doGetBean(String, Class, Object[], boolean)}
      *
      */
 }

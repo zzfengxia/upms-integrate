@@ -8,16 +8,16 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost/upms?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
-    username: root
+    url: jdbc:mysql://172.16.80.106:3306/vfc_sptsm?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: vfc_sptsm_qa
     # 生成的加密后的密码
-    password: jpXGjp2Rujf7cjG3EbJOnFPrKVKhqHegqzjfoGPpodSE0rbJUzLg8xAk02OiO27dKqiBeRWNTPZDdFu6yCAR8w==
+    password: vfcsptsmqa123%!
     # 使用druid连接池
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       initial-size: 1
       # 启用数据库密码加密
-      connection-properties: config.decrypt=true;config.decrypt.key=${druid-public-key}
+      connection-properties: config.decrypt=false;config.decrypt.key=${druid-public-key}
       filter:
         stat:
           enabled: false
