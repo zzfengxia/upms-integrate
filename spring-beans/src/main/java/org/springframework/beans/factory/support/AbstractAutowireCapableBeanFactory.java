@@ -433,7 +433,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		    if(processor.getClass().getName().equals("org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator")) {
                 Thread.currentThread().setName("main11");
                 System.out.println(traceid + "AnnotationAwareAspectJAutoProxyCreator exec...");
-		        current = processor.postProcessAfterInitialization(result, beanName, traceid);
+		        current = processor.postProcessAfterInitialization(result, beanName);
             } else {
                 System.out.println(traceid + "current class: " + processor.getClass().getName());
                 String className = processor.getClass().getName();

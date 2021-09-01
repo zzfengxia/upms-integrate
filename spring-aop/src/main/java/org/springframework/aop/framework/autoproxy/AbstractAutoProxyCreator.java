@@ -47,7 +47,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -237,7 +236,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 	public Object getEarlyBeanReference(Object bean, String beanName) {
 		Object cacheKey = getCacheKey(bean.getClass(), beanName);
 		this.earlyProxyReferences.put(cacheKey, bean);
-		return wrapIfNecessary(bean, beanName, cacheKey, null);
+		return wrapIfNecessary(bean, beanName, cacheKey);
 	}
 
 	@Override
@@ -293,35 +292,14 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 	 */
 	@Override
 	public Object postProcessAfterInitialization(@Nullable Object bean, String beanName) {
-	    String uid = UUID.randomUUID().toString().replace("-", "");
-        System.out.println(uid + " old exec....");
-        System.out.println(uid + " current thread:" + Thread.currentThread().getName());
 		if (bean != null) {
 			Object cacheKey = getCacheKey(bean.getClass(), beanName);
-            System.out.println(uid + " -- cacheKey:" + cacheKey);
 			if (this.earlyProxyReferences.remove(cacheKey) != bean) {
-                System.out.println(uid + " before wrapIfNecessary...");
-				return wrapIfNecessary(bean, beanName, cacheKey, uid);
+				return wrapIfNecessary(bean, beanName, cacheKey);
 			}
 		}
 		return bean;
 	}
-
-    @Override
-    public Object postProcessAfterInitialization(@Nullable Object bean, String beanName, String uid) {
-        System.out.println(uid + " new exec....");
-        System.out.println(uid + " current thread:" + Thread.currentThread().getName());
-        if (bean != null) {
-            Object cacheKey = getCacheKey(bean.getClass(), beanName);
-            System.out.println(uid + " -- cacheKey:" + cacheKey);
-            if (this.earlyProxyReferences.remove(cacheKey) != bean) {
-                System.out.println(uid + " before wrapIfNecessary...");
-                return wrapIfNecessary(bean, beanName, cacheKey, uid);
-            }
-        }
-        return bean;
-    }
-
 
 	/**
 	 * Build a cache key for the given bean class and bean name.
@@ -351,8 +329,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 	 * @param cacheKey the cache key for metadata access
 	 * @return a proxy wrapping the bean, or the raw bean instance as-is
 	 */
-	protected Object wrapIfNecessary(Object bean, String beanName, Object cacheKey, String uid) {
-        System.out.println(uid + "into wrapIfNecessary...");
+	protected Object wrapIfNecessary(Object bean, String beanName, Object cacheKey) {
 		if (StringUtils.hasLength(beanName) && this.targetSourcedBeans.contains(beanName)) {
 			return bean;
 		}
@@ -366,12 +343,10 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 
 		// Create proxy if we have advice.
 		Object[] specificInterceptors = getAdvicesAndAdvisorsForBean(bean.getClass(), beanName, null);
-        System.out.println(uid + "before createProxy...");
 		if (specificInterceptors != DO_NOT_PROXY) {
 			this.advisedBeans.put(cacheKey, Boolean.TRUE);
 			Object proxy = createProxy(
 					bean.getClass(), beanName, specificInterceptors, new SingletonTargetSource(bean));
-            System.out.println(uid + "into createProxy...");
 			this.proxyTypes.put(cacheKey, proxy.getClass());
 			return proxy;
 		}

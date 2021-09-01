@@ -46,6 +46,8 @@ import java.util.Set;
  * 支持http单向认证忽略证书，https 双向认证带证书
  * 双向认证请求的证书密码需要KEY加密
  * 使用httpclient4.5.x版本
+ *
+ * {@link org.apache.http.impl.conn.DefaultHttpClientConnectionOperator#connect}建立socket连接，调用DNS解析器解析域名地址
  */
 public class CustomApacheHttpClient {
     private final static Logger logger = LoggerFactory.getLogger(CustomApacheHttpClient.class);
