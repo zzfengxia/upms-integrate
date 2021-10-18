@@ -64,9 +64,10 @@ logging:
     com.baomidou.example.mapper: debug
     org.apache.ibatis.*: debug
   # 配置logback profile
-  config: classpath:logback-local.xml
+  config: classpath:logback-spring.xml
 
 my:
  host: ${REGISTER_HOST:172.0.0.1}
  rabbit: ${RABBIT_MQ_USERNAME:admin}
+
 

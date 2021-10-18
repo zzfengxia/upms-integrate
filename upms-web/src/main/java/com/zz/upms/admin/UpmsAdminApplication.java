@@ -1,6 +1,5 @@
 package com.zz.upms.admin;
 
-import org.apache.catalina.startup.Tomcat;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;

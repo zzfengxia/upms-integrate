@@ -43,7 +43,7 @@
             <Pattern>%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %class{20}\(%line\) - %msg%n</Pattern>
         </encoder>
     </appender>
-    <logger name="consumer" level="info" additivity="false">
+    <!--<logger name="consumer" level="info" additivity="false">
         <appender-ref ref="consumer" />
     </logger>
 
@@ -53,7 +53,7 @@
 
     <logger name="com" level="info" additivity="false">
         <appender-ref ref="mq" />
-    </logger>
+    </logger>-->
 
     <root level="info">
         <appender-ref ref="CONSOLE"/>

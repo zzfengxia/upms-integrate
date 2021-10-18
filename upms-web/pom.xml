@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>upms-web</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>upms-web</name>
 
     <properties>
@@ -25,7 +25,7 @@
             <groupId>com.zz</groupId>
             <artifactId>upms-base</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-            <exclusions>
+            <!--<exclusions>
                 <exclusion>
                     <artifactId>spring-aop</artifactId>
                     <groupId>org.springframework</groupId>
@@ -34,14 +34,14 @@
                     <artifactId>spring-beans</artifactId>
                     <groupId>org.springframework</groupId>
                 </exclusion>
-            </exclusions>
+            </exclusions>-->
         </dependency>
 
         <!-- freemarker模板引擎 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-freemarker</artifactId>
-            <exclusions>
+            <!--<exclusions>
                 <exclusion>
                     <artifactId>spring-aop</artifactId>
                     <groupId>org.springframework</groupId>
@@ -50,10 +50,10 @@
                     <artifactId>spring-beans</artifactId>
                     <groupId>org.springframework</groupId>
                 </exclusion>
-            </exclusions>
+            </exclusions>-->
         </dependency>
 
-        <dependency>
+        <!--<dependency>
             <groupId>com.zz</groupId>
             <artifactId>spring-aop</artifactId>
             <version>0.0.1-SNAPSHOT</version>
@@ -63,13 +63,13 @@
                     <groupId>org.springframework</groupId>
                 </exclusion>
             </exclusions>
-        </dependency>
+        </dependency>-->
 
-        <dependency>
+        <!--<dependency>
             <groupId>com.zz</groupId>
             <artifactId>spring-beans</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-        </dependency>
+        </dependency>-->
 
         <!-- 校验框架 -->
         <!--<dependency>
@@ -117,17 +117,29 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
-            <exclusions>
+            <!--<exclusions>
                 <exclusion>
                     <artifactId>spring-beans</artifactId>
                     <groupId>org.springframework</groupId>
                 </exclusion>
-            </exclusions>
+            </exclusions>-->
         </dependency>
 
         <dependency>
             <groupId>org.apache.shardingsphere</groupId>
             <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-loader</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!--<dependency>
@@ -175,6 +187,41 @@
                 <profileActive>prod</profileActive>
             </properties>
         </profile>
+
+        <!-- 通过profile来控制打包成jar还是war包 -->
+        <!--<profile>
+            <id>jar</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <project.packaging>jar</project.packaging>
+            </properties>
+        </profile>
+        <profile>
+            <id>war</id>
+            <properties>
+                <project.packaging>war</project.packaging>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-web</artifactId>
+                    <exclusions>
+                        <exclusion>
+                            <artifactId>spring-boot-starter-tomcat</artifactId>
+                            <groupId>org.springframework.boot</groupId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+                <dependency>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>javax.servlet-api</artifactId>
+                    <version>4.0.1</version>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+        </profile>-->
     </profiles>
 
     <build>
@@ -217,7 +264,7 @@
                  使用该插件必须保证Dockerfile与pom.xml在同级目录下
                  必须安装docker环境
              -->
-            <plugin>
+            <!--<plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>dockerfile-maven-plugin</artifactId>
                 <version>1.4.13</version>
@@ -230,17 +277,17 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <!-- 可以使用dockerfile参数指定Dockerfile -->
+                    &lt;!&ndash; 可以使用dockerfile参数指定Dockerfile &ndash;&gt;
                     <repository>registry.cn-hangzhou.aliyuncs.com/vfuchong/${project.artifactId}</repository>
-                    <!--<tag>${project.version}</tag>-->
+                    &lt;!&ndash;<tag>${project.version}</tag>&ndash;&gt;
                     <buildArgs>
-                        <!-- Do not use ${project.build.directory} as a way to reference your build directory.
+                        &lt;!&ndash; Do not use ${project.build.directory} as a way to reference your build directory.
                              这里要使用相对路径，不能使用${project.build.directory}，该值是maven的绝对路径，会导致Dockerfile文件中的ADD指令无法找到目标文件
-                        -->
+                        &ndash;&gt;
                         <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
                     </buildArgs>
                 </configuration>
-            </plugin>
+            </plugin>-->
         </plugins>
     </build>
 </project>

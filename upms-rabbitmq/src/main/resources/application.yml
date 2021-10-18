@@ -1,13 +1,7 @@
-server:
-  tomcat:
-     uri-encoding: UTF-8
-     max-threads: 100
-     min-spare-threads: 10
-  port: 8083
-  servlet:
-    context-path: /mq
-
 spring:
+  main:
+    web-application-type: NONE  # 关闭web模块
+
   application:
     name: mq-test
   datasource:
@@ -19,8 +13,8 @@ spring:
     # 使用druid连接池
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      initial-size: 80
-      max-active: 200
+      initial-size: 1
+      max-active: 5
       # 启用数据库密码加密
       connection-properties: config.decrypt=true;config.decrypt.key=${druid-public-key}
       filter:
@@ -74,6 +68,14 @@ spring:
         # 2. 如果选择CacheMode#CONNECTION的缓存模式，可以同时配置创建Connection的数量和Channel数据。当调用 createConnection()时，从缓存中获取可用Connection，
         # 如果没有且创建的数量没有达到上限，则创建新的Connection。同理Channel
         mode: CHANNEL
+  task:
+    execution: # 异步执行线程池，默认8
+      pool:
+        core-size: 8
+      thread-name-prefix: async-executor
+    scheduling:  # 任务调度线程池，默认1
+      pool:
+        size: 5
 
 mybatis-plus:
   mapper-locations: classpath*:mapper/*.xml

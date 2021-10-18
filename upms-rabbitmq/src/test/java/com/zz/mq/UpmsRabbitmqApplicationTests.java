@@ -22,8 +22,8 @@ class UpmsRabbitmqApplicationTests {
     @Test
     void testConcurrentPublishMQ() throws InterruptedException {
         long start = System.currentTimeMillis();
-        int threadNum = 350;
-        int frequency = 60;
+        int threadNum = 2;
+        int frequency = 3;
         CountDownLatch countDownLatch = new CountDownLatch(threadNum * frequency);
         CyclicBarrier cyclicBarrier = new CyclicBarrier(threadNum);
     

@@ -1,11 +1,5 @@
 package com.zz.mq.controller;
 
-import com.zz.mq.service.PublishService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 /**
  * ************************************
  * create by Intellij IDEA
@@ -14,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @date 2020-08-21 14:29
  * ************************************
  */
-@Controller
+/*@Controller
 public class ConcurrentPublishController {
     @Autowired
     private PublishService publishService;
@@ -27,4 +21,4 @@ public class ConcurrentPublishController {
     }
     
     
-}
+}*/

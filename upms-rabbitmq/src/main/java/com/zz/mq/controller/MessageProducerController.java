@@ -1,37 +1,5 @@
 package com.zz.mq.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
-import com.zz.mq.common.QueueEnum;
-import com.zz.mq.config.ReliableDeliveryConfig;
-import com.zz.mq.entity.MqMsgLog;
-import com.zz.mq.service.MqMsgService;
-import com.zz.mq.service.RabbitMqUtilService;
-import com.zz.mq.service.RedisHelper;
-import com.zz.mq.service.producer.DelayMessageProducer;
-import com.zz.mq.service.producer.MessageProducer;
-import com.zz.mq.service.producer.ReliableDeliveryProducer;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.core.MessageProperties;
-import org.springframework.amqp.support.converter.MessageConverter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
-import java.util.Map;
-import java.util.UUID;
-
 /**
  * ************************************
  * create by Intellij IDEA
@@ -40,6 +8,7 @@ import java.util.UUID;
  * @date 2020-01-16 16:45
  * ************************************
  */
+/*
 @Controller
 @Slf4j
 public class MessageProducerController {
@@ -252,12 +221,14 @@ public class MessageProducerController {
         ));
     }
     
-    /**
+    */
+/**
      * 可靠消息投递，分布式事务最终一致性
      *
      * @param msg
      * @return
-     */
+     *//*
+
     @GetMapping("sendReliableMsg")
     @ResponseBody
     public String sendDbMsg(String msg) {
@@ -271,7 +242,7 @@ public class MessageProducerController {
         msgLog.setExchange(QueueEnum.PERSIST_DB_QUEUE.getExchange().getExchangeName());
         msgLog.setRoutingKey(QueueEnum.PERSIST_DB_QUEUE.getRoutingKey());
         
-        // 同一事务控制写订单和写消息到DB
+        // 同一事务控制写订单和写消息到DB，消息投递与消息入库不能在同一事务中（会出现消息被投递了，但是由于事务未提交导致消息未入库的问题）
         reliableDeliveryProducer.doBusinessAndSaveMsg(msgLog);
         // 发送消息，这里网络原因导致的发送不成功可以通过定时扫描待确认的消息来兜底补偿
         if(msg.contains("routingKey")) {
@@ -344,3 +315,4 @@ public class MessageProducerController {
         return redisHelper.get(key)+"";
     }
 }
+*/

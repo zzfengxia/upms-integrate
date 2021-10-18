@@ -1,10 +1,8 @@
 package com.zz.mq.config;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * ************************************
@@ -16,9 +14,14 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
  * ************************************
  */
 @Configuration
-@EnableAsync
+@EnableAsync       // 开启异步任务
+@EnableScheduling  // 开启任务调度（定时任务）
 public class ExecutorConfig {
-    @Bean
+    /**
+     * ThreadPoolTaskExecutor是异步执行的线程池
+     * 默认coresize为8
+     */
+    /*@Bean
     public AsyncTaskExecutor taskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setThreadNamePrefix("async-executor");
@@ -28,5 +31,5 @@ public class ExecutorConfig {
         executor.setCorePoolSize(10);
 
         return executor;
-    }
+    }*/
 }
