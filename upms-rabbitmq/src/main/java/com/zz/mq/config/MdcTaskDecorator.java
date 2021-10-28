@@ -1,6 +1,8 @@
 package com.zz.mq.config;
 
 import org.slf4j.MDC;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.autoconfigure.task.TaskExecutionProperties;
 import org.springframework.core.task.TaskDecorator;
 
 import java.util.Map;
@@ -8,6 +10,8 @@ import java.util.Map;
 /**
  * ************************************
  * create by Intellij IDEA
+ * {@link org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguration#taskExecutorBuilder(TaskExecutionProperties, ObjectProvider, ObjectProvider)}
+ * 会自动注入到TaskExecutorBuilder中
  *
  * @author Francis.zz
  * @date 2019-09-23 16:54

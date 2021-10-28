@@ -72,6 +72,7 @@ spring:
     execution: # 异步执行线程池，默认8
       pool:
         core-size: 8
+
       thread-name-prefix: async-executor
     scheduling:  # 任务调度线程池，默认1
       pool:

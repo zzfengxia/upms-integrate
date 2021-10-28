@@ -1,8 +1,17 @@
 package com.zz.mq.config;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.task.TaskExecutorBuilder;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.core.annotation.Order;
+import org.springframework.scheduling.annotation.AsyncAnnotationBeanPostProcessor;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+
+import java.util.concurrent.Executor;
 
 /**
  * ************************************
@@ -16,20 +25,17 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Configuration
 @EnableAsync       // 开启异步任务
 @EnableScheduling  // 开启任务调度（定时任务）
+@Import(MdcTaskDecorator.class)
 public class ExecutorConfig {
     /**
-     * ThreadPoolTaskExecutor是异步执行的线程池
-     * 默认coresize为8
+     * Non web服务需要提前初始化ThreadPoolTaskExecutor到容器，否则会被nacos放入容器中的`ThreadPoolExecutor`抢先注入
+     * Web项目会由{@link org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter}中注入的，
+     * 而非web项目会因为条件不满足（spring.main.web-application-type: NONE）不会调用
      */
-    /*@Bean
-    public AsyncTaskExecutor taskExecutor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setThreadNamePrefix("async-executor");
-        // 装饰异步线程执行代码
-        executor.setTaskDecorator(new MdcTaskDecorator());
-        executor.setMaxPoolSize(30);
-        executor.setCorePoolSize(10);
-
-        return executor;
-    }*/
+    @Order(0)
+    @Bean(name = { "applicationTaskExecutor", AsyncAnnotationBeanPostProcessor.DEFAULT_TASK_EXECUTOR_BEAN_NAME })
+    @ConditionalOnMissingBean(Executor.class)
+    public ThreadPoolTaskExecutor applicationTaskExecutor(TaskExecutorBuilder builder) {
+        return builder.build();
+    }
 }

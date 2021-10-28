@@ -20,6 +20,8 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 public class RedisConfig {
     /**
      * json转换配置，不属于redis配置，需要转走
+     * 这里如果有创建这个Bean的话，那么就需要重写jackson2HttpMessageConverter的ObjectMapper参数
+     * 参考WebConfig#extendMessageConverters
      */
     /*@Bean
     public ObjectMapper objectMapper() {

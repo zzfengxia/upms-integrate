@@ -15,6 +15,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <failOnMissingWebXml>false</failOnMissingWebXml>
     </properties>
 
     <dependencies>
@@ -100,6 +101,18 @@
     </dependencies>
 
     <build>
+        <!--<plugins>
+            <plugin>
+                &lt;!&ndash; 非web项目打成war包需要使用该插件 &ndash;&gt;
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+        </plugins>-->
+
+        <!-- Non-web项目打成jar包，增量更新可以使用解压-替换文件-压缩jar包的方式 -->
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
