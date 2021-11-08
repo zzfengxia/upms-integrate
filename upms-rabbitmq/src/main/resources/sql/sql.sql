@@ -9,5 +9,4 @@ CREATE TABLE `mq_msg_log` (
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`msg_id`),
-  UNIQUE KEY `unq_msg_id` (`msg_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='消息投递日志';
