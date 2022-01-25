@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zz.mq.dao.SpOrderRechargeDao">
+  <resultMap id="BaseResultMap" type="com.zz.mq.entity.SpOrderRecharge">
+    <id column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="sp_req_serial" jdbcType="VARCHAR" property="spReqSerial" />
+    <result column="sp_cfm_serial" jdbcType="VARCHAR" property="spCfmSerial" />
+    <result column="sp_trans_time" jdbcType="VARCHAR" property="spTransTime" />
+    <result column="ykt_req_serial" jdbcType="VARCHAR" property="yktReqSerial" />
+    <result column="ykt_cfm_serial" jdbcType="VARCHAR" property="yktCfmSerial" />
+    <result column="ykt_trans_time" jdbcType="VARCHAR" property="yktTransTime" />
+    <result column="terminal_no" jdbcType="VARCHAR" property="terminalNo" />
+    <result column="offline_counter" jdbcType="VARCHAR" property="offlineCounter" />
+    <result column="online_counter" jdbcType="VARCHAR" property="onlineCounter" />
+    <result column="tac" jdbcType="VARCHAR" property="tac" />
+    <result column="card_file_0015" jdbcType="VARCHAR" property="cardFile0015" />
+    <result column="ykt_order" jdbcType="VARCHAR" property="yktOrder" />
+    <result column="write_result" jdbcType="VARCHAR" property="writeResult" />
+    <result column="last_recharge_record" jdbcType="VARCHAR" property="lastRechargeRecord" />
+    <result column="req_key_num" jdbcType="INTEGER" property="reqKeyNum" />
+    <result column="card_balance" jdbcType="DECIMAL" property="cardBalance" />
+    <result column="batch_no" jdbcType="DECIMAL" property="batchNo" />
+    <result typeHandler="com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler"
+            column="ext_json_data" javaType="com.zz.mq.entity.RechargeExtData"
+            jdbcType="VARCHAR"
+            property="extData"/>
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    order_no, sp_req_serial, sp_cfm_serial, sp_trans_time, ykt_req_serial, ykt_cfm_serial, 
+    ykt_trans_time, terminal_no, offline_counter, online_counter, tac, card_file_0015, 
+    ykt_order, write_result, last_recharge_record, req_key_num, card_balance, batch_no, ext_json_data,
+    create_time, update_time
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sp_order_recharge
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </select>
+
+    <select id="isExistRecord" parameterType="java.lang.String" resultType="boolean">
+        select
+        (case when count(1) > 0 then 1 else 0 end) as cnt
+        from sp_order_recharge
+        where order_no = #{orderNo,jdbcType=VARCHAR}
+    </select>
+
+  <insert id="insertSelective" keyColumn="order_no" keyProperty="orderNo" parameterType="com.zz.mq.entity.SpOrderRecharge" useGeneratedKeys="true">
+    insert into sp_order_recharge
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="orderNo != null">
+            order_no,
+        </if>
+      <if test="spReqSerial != null">
+        sp_req_serial,
+      </if>
+      <if test="spCfmSerial != null">
+        sp_cfm_serial,
+      </if>
+      <if test="spTransTime != null">
+        sp_trans_time,
+      </if>
+      <if test="yktReqSerial != null">
+        ykt_req_serial,
+      </if>
+      <if test="yktCfmSerial != null">
+        ykt_cfm_serial,
+      </if>
+      <if test="yktTransTime != null">
+        ykt_trans_time,
+      </if>
+      <if test="terminalNo != null">
+        terminal_no,
+      </if>
+      <if test="offlineCounter != null">
+        offline_counter,
+      </if>
+      <if test="onlineCounter != null">
+        online_counter,
+      </if>
+      <if test="tac != null">
+        tac,
+      </if>
+      <if test="cardFile0015 != null">
+        card_file_0015,
+      </if>
+      <if test="yktOrder != null">
+        ykt_order,
+      </if>
+      <if test="writeResult != null">
+        write_result,
+      </if>
+      <if test="lastRechargeRecord != null">
+        last_recharge_record,
+      </if>
+        req_key_num,
+      <if test="cardBalance != null">
+        card_balance,
+      </if>
+      <if test="extJsonData != null">
+        ext_json_data,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="orderNo != null">
+            #{orderNo,jdbcType=VARCHAR},
+        </if>
+      <if test="spReqSerial != null">
+        #{spReqSerial,jdbcType=VARCHAR},
+      </if>
+      <if test="spCfmSerial != null">
+        #{spCfmSerial,jdbcType=VARCHAR},
+      </if>
+      <if test="spTransTime != null">
+        #{spTransTime,jdbcType=VARCHAR},
+      </if>
+      <if test="yktReqSerial != null">
+        #{yktReqSerial,jdbcType=VARCHAR},
+      </if>
+      <if test="yktCfmSerial != null">
+        #{yktCfmSerial,jdbcType=VARCHAR},
+      </if>
+      <if test="yktTransTime != null">
+        #{yktTransTime,jdbcType=VARCHAR},
+      </if>
+      <if test="terminalNo != null">
+        #{terminalNo,jdbcType=VARCHAR},
+      </if>
+      <if test="offlineCounter != null">
+        #{offlineCounter,jdbcType=VARCHAR},
+      </if>
+      <if test="onlineCounter != null">
+        #{onlineCounter,jdbcType=VARCHAR},
+      </if>
+      <if test="tac != null">
+        #{tac,jdbcType=VARCHAR},
+      </if>
+      <if test="cardFile0015 != null">
+        #{cardFile0015,jdbcType=VARCHAR},
+      </if>
+      <if test="yktOrder != null">
+        #{yktOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="writeResult != null">
+        #{writeResult,jdbcType=VARCHAR},
+      </if>
+      <if test="lastRechargeRecord != null">
+        #{lastRechargeRecord,jdbcType=VARCHAR},
+      </if>
+      <choose>
+          <when test="reqKeyNum != null">
+            #{reqKeyNum,jdbcType=INTEGER},
+          </when>
+         <when test="isAddKeyNum">
+            1,
+         </when>
+        <otherwise>
+            0,
+        </otherwise>
+      </choose>
+      <if test="cardBalance != null">
+        #{cardBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="extJsonData != null">
+        #{extJsonData,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.zz.mq.entity.SpOrderRecharge">
+    update sp_order_recharge
+    <set>
+      <if test="spReqSerial != null">
+        sp_req_serial = #{spReqSerial,jdbcType=VARCHAR},
+      </if>
+      <if test="spCfmSerial != null">
+        sp_cfm_serial = #{spCfmSerial,jdbcType=VARCHAR},
+      </if>
+      <if test="spTransTime != null">
+        sp_trans_time = #{spTransTime,jdbcType=VARCHAR},
+      </if>
+      <if test="yktReqSerial != null">
+        ykt_req_serial = #{yktReqSerial,jdbcType=VARCHAR},
+      </if>
+      <if test="yktCfmSerial != null">
+        ykt_cfm_serial = #{yktCfmSerial,jdbcType=VARCHAR},
+      </if>
+      <if test="yktTransTime != null">
+        ykt_trans_time = #{yktTransTime,jdbcType=VARCHAR},
+      </if>
+      <if test="terminalNo != null">
+        terminal_no = #{terminalNo,jdbcType=VARCHAR},
+      </if>
+      <if test="offlineCounter != null">
+        offline_counter = #{offlineCounter,jdbcType=VARCHAR},
+      </if>
+      <if test="onlineCounter != null">
+        online_counter = #{onlineCounter,jdbcType=VARCHAR},
+      </if>
+      <if test="tac != null">
+        tac = #{tac,jdbcType=VARCHAR},
+      </if>
+      <if test="cardFile0015 != null">
+        card_file_0015 = #{cardFile0015,jdbcType=VARCHAR},
+      </if>
+      <if test="yktOrder != null">
+        ykt_order = #{yktOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="writeResult != null">
+        write_result = #{writeResult,jdbcType=VARCHAR},
+      </if>
+      <if test="lastRechargeRecord != null">
+        last_recharge_record = #{lastRechargeRecord,jdbcType=VARCHAR},
+      </if>
+        <choose>
+            <when test="reqKeyNum != null">
+                req_key_num = #{reqKeyNum,jdbcType=INTEGER},
+            </when>
+            <when test="isAddKeyNum">
+                req_key_num = req_key_num + 1,
+            </when>
+            <otherwise></otherwise>
+        </choose>
+      <if test="cardBalance != null">
+        card_balance = #{cardBalance,jdbcType=DECIMAL},
+      </if>
+      <!-- javaType，jdbcType ，TypeHandler都要指定才能自动转成json-->
+      <if test="extData != null">
+        ext_json_data = #{extData,jdbcType=VARCHAR,
+        typeHandler=com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler,
+        javaType=com.zz.mq.entity.RechargeExtData},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

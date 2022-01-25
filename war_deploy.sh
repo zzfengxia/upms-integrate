@@ -21,7 +21,7 @@ LOG_BASE_DIR=${tomcat_basehome}/logs
 war_name=sptsm-server-0.0.1-SNAPSHOT.war
 # 保留备份文件数量
 bak_file_num=5
-usage="Usage: "$SCRIPT_NAME" [start|stop|restart|status|deploy] \
+usage="Usage: "$SCRIPT_NAME" [start|stop|restart|status|deploy|unpack] \
       升级时必须使用deploy指令"
 
 PID="ps -ef|grep -w ${tomcat_basehome}|grep 'java'|grep -v 'grep'|awk '{print \$2}'|xargs"
@@ -135,7 +135,7 @@ archive() {
 }
 
 unpack_and_backup() {
-  if [ ! -a "$war_source_dir"/"${war_name}" ]; then
+  if [ ! -f $war_source_dir/${war_name} ]; then
     error_exit "deploy file $war_source_dir/${war_name} not exist,please check."
   fi
 
@@ -210,6 +210,11 @@ deploy_app() {
   start_server
 }
 
+unpack() {
+  stop_server
+  unpack_and_backup
+}
+
 # 遍历unpack目录，查找最新更新日期，并与source目录的war的最后更改时间作比对
 # @return 1标识最新的是解包目录;2标识最新的是target中的war
 compare_version() {
@@ -263,7 +268,7 @@ if [[ -n $1 ]]; then
     deploy_app
     ;;
   "unpack")
-    unpack_and_backup
+    unpack
     ;;
   *)
     echo "$usage"
