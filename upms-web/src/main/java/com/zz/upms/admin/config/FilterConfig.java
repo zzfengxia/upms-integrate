@@ -30,7 +30,7 @@ public class FilterConfig {
         registration.addInitParameter("targetFilterLifecycle", "true");
         registration.setEnabled(true);
         registration.setOrder(Integer.MAX_VALUE - 1);
-        registration.addUrlPatterns("/*");
+        registration.addUrlPatterns("/tmp/*");
         registration.setDispatcherTypes(DispatcherType.REQUEST, DispatcherType.FORWARD);
 
         return registration;

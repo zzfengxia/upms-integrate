@@ -92,7 +92,7 @@ public class SpOrderRecharge implements Serializable {
     private String batchNo;
     /**
      * 充值扩展字段，json格式
-     * @see {@link RechargeExtData}
+     * @see {@link com.zz.mq.entity.RechargeExtData}
      */
     private String extJsonData;
     private RechargeExtData extData = new RechargeExtData();

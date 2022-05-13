@@ -47,8 +47,6 @@ import java.util.Set;
  * 使用httpclient4.5.x版本
  */
 public class CustomApacheHttpClient {
-    private final static Logger logger = LoggerFactory.getLogger(CustomApacheHttpClient.class);
-
     private final static String KEY = "5E986AA875BD34F12E1098DEAC97CA515E986AA875BD34F1";
     private final static String KEY_STORE_TYPE_JKS = "jks";         // keystore，jks证书
     private static final String KEY_STORE_TYPE_P12 = "PKCS12";		// .p12后缀的证书
@@ -192,7 +190,7 @@ public class CustomApacheHttpClient {
                     .setRetryHandler(new DefaultHttpRequestRetryHandler(0, false))//设置重试次数，默认为3次；当前是禁用掉
                     .build();
         } catch (Exception e) {
-            logger.error("create http client failed.", e);
+            e.printStackTrace();
         }
     }
 
@@ -231,7 +229,6 @@ public class CustomApacheHttpClient {
 
             if (entity != null) {
                 recvData = EntityUtils.toString(entity, StandardCharsets.UTF_8);
-                logger.info("Response content: " + recvData);
             }
             EntityUtils.consume(entity);
         }finally {
@@ -265,8 +262,6 @@ public class CustomApacheHttpClient {
      * @return 请求成功后body中的内容
      */
     public String doPost(String url, String jsonReq, String charset, Map<String, String> headers) throws Exception {
-        logger.info("POST url={} body={} header={}", url, jsonReq, headers == null ? null :headers.toString());
-
         createClient(url);
         checkClient();
 
@@ -297,7 +292,6 @@ public class CustomApacheHttpClient {
 
             if (entity != null) {
                 recvData = EntityUtils.toString(entity, StandardCharsets.UTF_8);
-                logger.debug("Response content: " + recvData);
             }
             EntityUtils.consume(entity);
         }finally {

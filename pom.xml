@@ -198,6 +198,13 @@
                 <version>1</version>
             </dependency>
 
+            <!-- 执行效率太低，不使用该工具包 -->
+            <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>1.9.4</version>
+            </dependency>
+
             <!-- for spring namespace -->
             <!--<dependency>
                 <groupId>org.apache.shardingsphere</groupId>

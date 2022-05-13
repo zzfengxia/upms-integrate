@@ -20,7 +20,7 @@
     <result column="req_key_num" jdbcType="INTEGER" property="reqKeyNum" />
     <result column="card_balance" jdbcType="DECIMAL" property="cardBalance" />
     <result column="batch_no" jdbcType="DECIMAL" property="batchNo" />
-    <result typeHandler="com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler"
+    <result typeHandler="com.zz.mq.mybatis.FastjsonTypeHandler"
             column="ext_json_data" javaType="com.zz.mq.entity.RechargeExtData"
             jdbcType="VARCHAR"
             property="extData"/>
@@ -49,7 +49,7 @@
         where order_no = #{orderNo,jdbcType=VARCHAR}
     </select>
 
-  <insert id="insertSelective" keyColumn="order_no" keyProperty="orderNo" parameterType="com.zz.mq.entity.SpOrderRecharge" useGeneratedKeys="true">
+    <insert id="insertSelective" keyColumn="order_no" keyProperty="orderNo" parameterType="com.zz.mq.entity.SpOrderRecharge" useGeneratedKeys="true">
     insert into sp_order_recharge
     <trim prefix="(" suffix=")" suffixOverrides=",">
         <if test="orderNo != null">
@@ -243,7 +243,7 @@
       <!-- javaType，jdbcType ，TypeHandler都要指定才能自动转成json-->
       <if test="extData != null">
         ext_json_data = #{extData,jdbcType=VARCHAR,
-        typeHandler=com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler,
+        typeHandler=com.zz.mq.mybatis.FastjsonTypeHandler,
         javaType=com.zz.mq.entity.RechargeExtData},
       </if>
       <if test="createTime != null">
@@ -255,5 +255,4 @@
     </set>
     where order_no = #{orderNo,jdbcType=VARCHAR}
   </update>
-
 </mapper>

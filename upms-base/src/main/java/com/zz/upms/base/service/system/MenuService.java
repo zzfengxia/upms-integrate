@@ -245,7 +245,7 @@ public class MenuService extends BaseService<MenuDao, PmMenu> {
         filterMap.put("/logout", "logout");
 
         // 必须在末尾。使用user来启用rememberme功能而不是authc
-        filterMap.put("/**", "kickout,authc");
+        //filterMap.put("/**", "kickout,authc");
 
         return filterMap;
     }

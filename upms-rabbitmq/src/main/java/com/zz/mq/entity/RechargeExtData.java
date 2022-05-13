@@ -1,8 +1,6 @@
 package com.zz.mq.entity;
 
-import com.alibaba.fastjson.JSON;
 import lombok.Data;
-import lombok.experimental.Accessors;
 
 /**
  * ************************************
@@ -13,9 +11,7 @@ import lombok.experimental.Accessors;
  * ************************************
  */
 @Data
-@Accessors(chain = true)
 public class RechargeExtData {
-
     /**
      * 请求包号
      */
@@ -93,8 +89,5 @@ public class RechargeExtData {
      * 上次交易日期时间
      */
     private String lastTransTime;
-
-    public String toJson() {
-        return JSON.toJSONString(this);
-    }
+    private boolean isName;
 }

@@ -54,7 +54,7 @@ public class ShiroConfig {
         shiroFilter.setUnauthorizedUrl("/403");
         // 添加拦截器，可在url拦截中指定这里配置的拦截器key
         Map<String, Filter> filters = new HashMap<>();
-        filters.put("kickout", kickoutSessionControlFilter);
+        //filters.put("kickout", kickoutSessionControlFilter);
         shiroFilter.setFilters(filters);
 
         // 自定义权限控制,拦截请求
