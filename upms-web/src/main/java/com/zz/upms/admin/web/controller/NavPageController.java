@@ -2,6 +2,8 @@ package com.zz.upms.admin.web.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,8 +12,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Created by Francis.zz on 2017/4/21.
  */
 @Controller
-public class NavPageController {
+public class NavPageController implements InitializingBean {
     Logger log = LoggerFactory.getLogger(NavPageController.class);
+
+    @Value("${spring.application.name}")
+    private String name;
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println(name);
+    }
 
     @RequestMapping("login")
     public String login() {

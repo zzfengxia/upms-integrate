@@ -62,8 +62,8 @@ public class RedisLock implements AutoCloseable {
         return obj != null ? obj.toString() : null;
     }
 
-    private boolean setNX(final String key, final String value) {
-        Boolean isSuccess = redisService.setNX(key, value);
+    private boolean setNX(final String key, final String value, long expire, TimeUnit timeUnit) {
+        Boolean isSuccess = redisService.setNX(key, value, expire, timeUnit);
         return isSuccess != null ? isSuccess : false;
     }
 
@@ -83,9 +83,8 @@ public class RedisLock implements AutoCloseable {
             long expires = System.currentTimeMillis() + expireMsecs + 1;
             // 锁到期时间
             String expiresStr = String.valueOf(expires);
-            if (this.setNX(lockKey, expiresStr)) {
+            if (this.setNX(lockKey, expiresStr, expireMsecs + 30L, TimeUnit.MILLISECONDS)) {
                 // lock acquired
-                redisService.expire(lockKey, expireMsecs + 30L, TimeUnit.MILLISECONDS);
                 locked = true;
                 return true;
             }

@@ -2,8 +2,6 @@ package com.zz.upms.admin.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import javax.validation.constraints.NotEmpty;
-
 /**
  * ************************************
  * create by Intellij IDEA
@@ -20,10 +18,8 @@ public class NacosProperties {
     
     private String password;
     
-    @NotEmpty
     private String groupId = "DEFAULT_GROUP";
     
-    @NotEmpty
     private String dataId;
     
     private String endpoint;

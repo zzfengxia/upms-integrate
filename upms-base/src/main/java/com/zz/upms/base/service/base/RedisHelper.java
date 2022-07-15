@@ -105,10 +105,19 @@ public class RedisHelper {
         return reverse ? operations.reverseRangeWithScores(key, 0, -1) : operations.rangeWithScores(key, 0, -1);
     }
 
-    public Boolean setNX(String key, String value) {
+    /**
+     * 使用该方法实现分布式锁，必须确保加锁与设置有效期操作的原子性
+     *
+     * @param key
+     * @param value
+     * @param expire
+     * @param timeUnit
+     * @return
+     */
+    public Boolean setNX(String key, String value, long expire, TimeUnit timeUnit) {
         ValueOperations<String, String> operations = redisTemplate.opsForValue();
 
-        return operations.setIfAbsent(key, value);
+        return operations.setIfAbsent(key, value, expire, timeUnit);
     }
 
     public String getSet(String key, String value) {

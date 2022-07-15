@@ -64,7 +64,7 @@ logging:
     com.baomidou.example.mapper: debug
     org.apache.ibatis.*: debug
   # 配置logback profile
-  config: classpath:logback-spring.xml
+  config: classpath:log4j2-spring.xml
 
 my:
  host: ${REGISTER_HOST:172.0.0.1}

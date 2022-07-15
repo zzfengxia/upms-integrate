@@ -6,8 +6,6 @@ import com.zz.upms.base.entity.IDEntity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * Created by Francis.zz on 2017/6/5.
  * 数据字典
@@ -21,10 +19,8 @@ public class Dict extends IDEntity {
     // 字典名称
     private String dictName;
     // 字典类型，缓存的 key
-    @NotNull(message = "字典类型不能为空")
 	private String dictType;
 	// hash key
-    @NotNull(message = "字典key不能为空")
     private String dictKey;
     // 字典值 hash value
     private String dictVal;

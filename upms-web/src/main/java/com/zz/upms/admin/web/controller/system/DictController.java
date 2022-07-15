@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -68,7 +67,7 @@ public class DictController extends BaseController {
     }
 
     @RequestMapping("/save/create")
-    public Response<?> create(@Valid @RequestBody Dict dict) {
+    public Response<?> create(@RequestBody Dict dict) {
         // 查询是否已存在该字典项
         Dict old = dictService.checkDict(dict.getDictType(), dict.getDictKey());
         if(old != null) {
