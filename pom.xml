@@ -10,10 +10,11 @@
         <module>upms-base</module>
         <module>upms-web</module>
         <module>upms-generator</module>
-        <module>jmeter</module>
+        <!--<module>jmeter</module>-->
         <module>upms-rabbitmq</module>
         <module>spring-aop</module>
         <module>spring-beans</module>
+        <module>upms-netty</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -143,12 +144,13 @@
                 <version>${nacos.version}</version>
             </dependency>
 
-            <dependency>
+            <!-- 导不下来，可能需要收到安装导maven -->
+            <!--<dependency>
                 <groupId>org.apache.jmeter</groupId>
                 <artifactId>ApacheJMeter_java</artifactId>
                 <version>5.2.1</version>
                 <scope>provided</scope>
-            </dependency>
+            </dependency>-->
 
             <dependency>
                 <groupId>joda-time</groupId>
@@ -231,6 +233,13 @@
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-spring-boot</artifactId>
                 <version>${log4j2.version}</version>
+            </dependency>
+
+            <!-- netty包 -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>4.1.91.Final</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

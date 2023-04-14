@@ -11,7 +11,7 @@
 
     <artifactId>jmeter</artifactId>
 
-    <repositories>
+    <!--<repositories>
         <repository>
             <id>public</id>
             <name>Team Maven Repository</name>
@@ -23,7 +23,7 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
-    </repositories>
+    </repositories>-->
 
     <dependencies>
         <dependency>
@@ -40,18 +40,18 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>com.richhouse</groupId>
             <artifactId>hsm</artifactId>
             <version>1.5.7</version>
         </dependency>
 
-        <!-- gp包 -->
+        &lt;!&ndash; gp包 &ndash;&gt;
         <dependency>
             <groupId>com.richhouse</groupId>
             <artifactId>gp</artifactId>
             <version>1.9.7_3</version>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>

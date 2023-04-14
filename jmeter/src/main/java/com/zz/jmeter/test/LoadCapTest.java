@@ -1,3 +1,4 @@
+/*
 package com.zz.jmeter.test;
 
 import com.google.common.collect.Sets;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+*/
 /**
  * ************************************
  * create by Intellij IDEA
@@ -27,7 +29,8 @@ import java.util.Set;
  * @author Francis.zz
  * @date 2022-05-16 15:26
  * ************************************
- */
+ *//*
+
 public class LoadCapTest extends AbstractJavaSamplerClient implements Serializable {
     private static Gson gson = new Gson();
     private static Set<String> randomPool = Sets.newConcurrentHashSet();
@@ -150,3 +153,4 @@ public class LoadCapTest extends AbstractJavaSamplerClient implements Serializab
         return  cplc.replace("2041090737650462", randomUid);
     }
 }
+*/
