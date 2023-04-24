@@ -6,10 +6,10 @@ spring:
     name: mq-test
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://172.16.80.106:3306/upms?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
-    username: vfc_sptsm_qa
+    url: jdbc:mysql://localhost:3306/mysql?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
     # 生成的加密后的密码
-    password: ftETtJ/EDOIB4MpNwX8+M0ehP9g4XSzo9puATWjsAUzeZszdqW0Em5PruVhwb4ZNocUbduR2vN+IjKMnlBPeqg==
+    password: 123456
     # 使用druid连接池
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
@@ -31,7 +31,7 @@ spring:
         commons-log:
           enabled: false
         config: # 该配置要启用才能加密数据库密码
-          enabled: true
+          enabled: false
       stat-view-servlet:
         enabled: false # 关闭监控
       web-stat-filter:
@@ -39,7 +39,7 @@ spring:
         session-stat-enable: false
   redis:
     password: jfyxow!22##
-    host: 172.16.80.106
+    host: localhost
     port: 6379
   rabbitmq:
     host: 172.16.80.117
