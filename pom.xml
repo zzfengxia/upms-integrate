@@ -15,6 +15,7 @@
         <module>spring-aop</module>
         <module>spring-beans</module>
         <module>upms-netty</module>
+        <module>upms-pay</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -108,14 +109,14 @@
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>25.1-jre</version>
+                <version>30.0-jre</version>
             </dependency>
 
             <!-- alibaba fastjson -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
-                <version>1.2.78</version>
+                <version>1.2.83</version>
             </dependency>
 
             <!-- 验证码插件 -->
