@@ -15,7 +15,6 @@
         <module>spring-aop</module>
         <module>spring-beans</module>
         <module>upms-netty</module>
-        <module>upms-pay</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -248,6 +247,13 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>easyexcel</artifactId>
                 <version>3.2.1</version>
+            </dependency>
+
+            <!-- CGLib -->
+            <dependency>
+                <groupId>cglib</groupId>
+                <artifactId>cglib</artifactId>
+                <version>3.3.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
