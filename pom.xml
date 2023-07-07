@@ -9,11 +9,9 @@
     <modules>
         <module>upms-base</module>
         <module>upms-web</module>
-        <module>upms-generator</module>
+        <!--<module>upms-generator</module>-->
         <!--<module>jmeter</module>-->
         <module>upms-rabbitmq</module>
-        <module>spring-aop</module>
-        <module>spring-beans</module>
         <module>upms-netty</module>
     </modules>
     <packaging>pom</packaging>
@@ -39,6 +37,7 @@
         <nacos.version>1.3.2</nacos.version>
         <maven-assembly-plugin.version>3.3.0</maven-assembly-plugin.version>
         <log4j2.version>2.17.2</log4j2.version>
+        <forest.version>1.5.32</forest.version>
     </properties>
 
     <dependencies>
@@ -255,6 +254,13 @@
                 <artifactId>cglib</artifactId>
                 <version>3.3.0</version>
             </dependency>
+
+            <!-- 声明式HTTP客户端框架 https://github.com/dromara/forest -->
+            <dependency>
+                <groupId>com.dtflys.forest</groupId>
+                <artifactId>forest-spring-boot-starter</artifactId>
+                <version>${forest.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -274,7 +280,7 @@
 
     <build>
         <!-- pom父模块声明插件版本等信息，需要插件的子pom文件直接引入 -->
-        <pluginManagement>
+        <!--<pluginManagement>
             <plugins>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
@@ -286,7 +292,7 @@
                         <compilerId>groovy-eclipse-compiler</compilerId>
                         <verbose>true</verbose>
                         <compilerArguments>
-                            <!-- consult Lombok docs to confirm agent class name for your version -->
+                            &lt;!&ndash; consult Lombok docs to confirm agent class name for your version &ndash;&gt;
                             <javaAgentClass>lombok.launch.Agent</javaAgentClass>
                         </compilerArguments>
                         <fork>true</fork>
@@ -297,7 +303,7 @@
                             <artifactId>groovy-eclipse-compiler</artifactId>
                             <version>${groovy.eclipse.compiler.version}</version>
                         </dependency>
-                        <!-- for 2.8.0-01 and later you must have an explicit dependency on groovy-eclipse-batch -->
+                        &lt;!&ndash; for 2.8.0-01 and later you must have an explicit dependency on groovy-eclipse-batch &ndash;&gt;
                         <dependency>
                             <groupId>org.codehaus.groovy</groupId>
                             <artifactId>groovy-eclipse-batch</artifactId>
@@ -316,6 +322,6 @@
                     </dependencies>
                 </plugin>
             </plugins>
-        </pluginManagement>
+        </pluginManagement>-->
     </build>
 </project>
