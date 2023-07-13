@@ -136,9 +136,8 @@ public class ConcurrentConsumerTest {
     
     private static int doApidemo() {
         int curOffset = offset.incrementAndGet();
-        //String reqUrl = pressureUrl + "/getApi?issueId=t_vfc_guangxi&msg=123&t=" + curOffset;
         Map<String, String> params = new HashMap<>();
-        params.put("issueId", "t_vfc_guangxi");
+        params.put("issueId", "123");
         params.put("msg", "1234");
         params.put("t", curOffset+"");
         try {

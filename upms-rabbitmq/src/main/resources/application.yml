@@ -46,7 +46,7 @@ spring:
     port: 5672
     # addresses:ip1:port1,ip2:port2,ip3:port3  #连接rabbitmq集群，host和port就不用配置了
     username: sptsm
-    password: vfc2020_prod2020@@
+    password: 1234
     virtual-host: sptsm-dev
     listener:
       type: simple

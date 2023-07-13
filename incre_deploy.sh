@@ -10,7 +10,7 @@ export JAVA_HOME=/usr/java/jdk1.8.0_172/
 export JRE_HOME=${JAVA_HOME}/jre
 
 ###manual_properties###
-export deploy_home=/f/app/deploy/vfc_task
+export deploy_home=/f/app/deploy/aa_task
 #export ACTIVE_PROFILE=local
 LOG_PATH=/app/biz_logs/sptsm-task
 MIN_JDK_VERSION=1.8

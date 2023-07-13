@@ -79,7 +79,7 @@ public class PressureTest {
     
     private static int doApidemo() {
         int curOffset = offset.incrementAndGet();
-        String reqUrl = pressureUrl + "/getApi?issueId=t_vfc_guangxi&msg=123&t=" + curOffset;
+        String reqUrl = pressureUrl + "/getApi?issueId=t_sp&msg=123&t=" + curOffset;
         CustomApacheHttpClient client = new CustomApacheHttpClient(5000);
         try {
             String resJson = client.doGet(reqUrl, "utf-8");

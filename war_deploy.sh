@@ -9,7 +9,7 @@ log_time=$(date +[%Y-%m-%d]%H:%M:%S)
 ###manual_properties###
 MIN_JDK_VERSION=1.8
 tomcat_basehome=/app/tomcat_sptsm
-deploy_home=/app/deploy/vfc_sptsm
+deploy_home=/app/deploy/aa_sptsm
 shell_environment=/bin/bash
 war_source_dir=${deploy_home}/sptsm_source
 deploy_location=${deploy_home}/sptsm
